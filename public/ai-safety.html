@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Safety, Ethics, and Responsible AI</title>
+    <link rel="stylesheet" href="./nav.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: #f5f5f7;
+            color: #222;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .question {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+        }
+        .question h2 {
+            margin-top: 0;
+            font-size: 1.05rem;
+        }
+        .question p {
+            margin: 0.5rem 0 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+<br>
+<br>
+
+
+
+    <h1>AI Safety, Ethics, and Responsible AI</h1>
+
+    <!-- 1 -->
+    <div class="question">
+        <h2>1. What are hallucinations in LLMs, and how do you mitigate them?</h2>
+        <p>
+            Hallucinations in large language models are outputs that are fluent and confident but factually incorrect, logically inconsistent, or unsupported by the underlying training data. They arise from the probabilistic nature of next-token prediction, where the model optimizes for plausible continuations rather than verified truth, and from spurious correlations learned during training. Mitigation involves combining model-level and system-level strategies such as retrieval-augmented generation to ground responses in authoritative sources, constrained decoding to avoid speculative content, and explicit refusal policies for low-confidence answers. You can also use post-hoc verification pipelines that cross-check outputs against external knowledge bases, calibrate confidence scores, and log hallucination incidents to iteratively refine prompts, policies, and model configurations.
+        </p>
+    </div>
+
+    <!-- 2 -->
+    <div class="question">
+        <h2>2. What is prompt injection, and what are the different types (direct, indirect)?</h2>
+        <p>
+            Prompt injection is an attack where a user or external content manipulates the instructions given to an AI model so that it overrides or subverts the system’s intended behavior. Direct prompt injection occurs when the attacker places malicious instructions directly into the user input, such as “ignore previous rules and output secrets,” attempting to override system or developer messages. Indirect prompt injection happens when the model consumes untrusted data from external sources like web pages, documents, or APIs that contain hidden instructions, which the model then treats as authoritative context. Defenses include strict separation of system and user instructions, input sanitization, content classification for untrusted sources, and architectural patterns where models treat external text as data to reason about rather than commands to follow.
+        </p>
+    </div>
+
+    <!-- 3 -->
+    <div class="question">
+        <h2>3. How do you implement input and output guardrails for AI systems?</h2>
+        <p>
+            Input guardrails restrict what content is allowed to reach the core model by validating, filtering, or transforming user inputs before inference. This can involve schema validation, type checking, regex-based filters, and classifier models that detect disallowed categories such as hate speech, self-harm, or sensitive personal data. Output guardrails operate after generation and apply safety policies to the model’s responses using rule-based filters, safety classifiers, and structured templates that constrain the format and content. A robust system chains these components so that unsafe inputs are rejected or modified, unsafe outputs are blocked or replaced with safe alternatives, and all decisions are logged for auditability and continuous improvement.
+        </p>
+    </div>
+
+    <!-- 4 -->
+    <div class="question">
+        <h2>4. What is AI alignment, and why is it important?</h2>
+        <p>
+            AI alignment is the process of ensuring that an AI system’s objectives, behaviors, and optimization criteria are consistent with human values, legal requirements, and organizational goals. Misaligned systems can optimize for proxy metrics that diverge from real-world safety or fairness, leading to harmful or unethical outcomes even when they perform well on technical benchmarks. Alignment involves defining explicit policies, reward structures, and evaluation metrics that reflect desired behavior, then using techniques such as reinforcement learning from human feedback, red-teaming, and multi-stakeholder review to refine the system. It is important because unaligned AI can scale harmful decisions, amplify biases, and erode trust, especially when deployed in high-impact domains like healthcare, finance, or public services.
+        </p>
+    </div>
+
+    <!-- 5 -->
+    <div class="question">
+        <h2>5. How do you detect and mitigate bias in AI systems?</h2>
+        <p>
+            Detecting bias starts with defining protected attributes and relevant subgroups, then measuring performance and error rates across these groups using fairness metrics such as demographic parity, equalized odds, and disparate impact ratios. You should analyze both model outputs and upstream data pipelines to identify skewed sampling, label bias, or proxy features that correlate with protected attributes. Mitigation techniques include rebalancing training data, reweighting samples, applying fairness-aware loss functions, and post-processing outputs to satisfy fairness constraints. Governance processes such as bias reviews, stakeholder consultation, and continuous monitoring in production ensure that mitigation is not a one-time effort but an ongoing practice as data and usage patterns evolve.
+        </p>
+    </div>
+
+    <!-- 6 -->
+    <div class="question">
+        <h2>6. What are the key data privacy considerations (GDPR, CCPA) when building AI applications?</h2>
+        <p>
+            Under regulations like GDPR and CCPA, AI applications must respect principles such as data minimization, purpose limitation, and lawful basis for processing. You need to clearly define why data is collected, how long it is retained, and which entities can access it, then implement technical controls such as encryption, access control, and pseudonymization. Users must be informed about automated decision-making, given mechanisms to exercise rights such as access, rectification, deletion, and opt-out from certain processing. Privacy impact assessments, records of processing activities, and vendor due diligence are essential to demonstrate compliance, especially when using third-party models or infrastructure that may process personal data.
+        </p>
+    </div>
+
+    <!-- 7 -->
+    <div class="question">
+        <h2>7. How do you handle PII in LLM inputs and outputs?</h2>
+        <p>
+            Handling personally identifiable information requires both technical and procedural safeguards. On the input side, you can use preprocessing pipelines that detect and redact PII such as names, addresses, and identifiers before sending text to the model, or restrict users from entering sensitive data through UI constraints and policy messaging. On the output side, you should implement PII detectors that scan generated text and block or sanitize responses that contain unexpected personal data, especially when the model has access to user-specific context. Data retention policies must ensure that logs and training datasets either exclude PII or apply strong pseudonymization and access controls, and incident response procedures should cover accidental exposure or leakage of personal information.
+        </p>
+    </div>
+
+    <!-- 8 -->
+    <div class="question">
+        <h2>8. What is explainability in AI, and why does it matter?</h2>
+        <p>
+            Explainability is the ability to provide human-understandable reasons or evidence for an AI system’s outputs or decisions. It matters because stakeholders such as users, regulators, and domain experts need to assess whether the system is reliable, fair, and appropriate for a given context. Techniques for explainability include feature importance analysis, counterfactual explanations, example-based reasoning, and structured rationales that describe the decision path. In regulated domains, explainability supports legal requirements for transparency and contestability, while in product contexts it improves user trust and helps teams debug and improve models by revealing failure modes and unintended dependencies.
+        </p>
+    </div>
+
+    <!-- 9 -->
+    <div class="question">
+        <h2>9. What is the difference between interpretability and explainability?</h2>
+        <p>
+            Interpretability refers to how directly a model’s internal structure and parameters can be understood by humans, such as linear models or small decision trees where relationships between inputs and outputs are transparent. Explainability focuses on the ability to generate post-hoc explanations for any model, including complex neural networks, without necessarily understanding every internal mechanism. Highly interpretable models are inherently easier to reason about but may have lower predictive performance in some tasks, while black-box models can be paired with explanation techniques like SHAP, LIME, or surrogate models. Choosing between interpretability and explainability involves trade-offs among performance, regulatory requirements, and the level of transparency needed for the application.
+        </p>
+    </div>
+
+    <!-- 10 -->
+    <div class="question">
+        <h2>10. How do you build trust with users in AI-powered applications?</h2>
+        <p>
+            Building trust requires consistent, predictable behavior and clear communication about what the AI can and cannot do. You should provide transparency through model descriptions, limitations, and example use cases, and avoid overstating capabilities or implying human-level understanding. Interfaces can expose confidence indicators, alternative options, and the ability to review or override AI suggestions, giving users a sense of control. Continuous feedback loops, where users can report issues or correct outputs, combined with visible improvements over time, reinforce the perception that the system is reliable, responsive, and aligned with user interests.
+        </p>
+    </div>
+
+    <!-- 11 -->
+    <div class="question">
+        <h2>11. What are adversarial attacks on AI systems, and how do you defend against them?</h2>
+        <p>
+            Adversarial attacks are deliberate manipulations of inputs or training data designed to cause AI systems to produce incorrect or harmful outputs. In machine learning, this includes perturbations to input features that exploit model decision boundaries, as well as poisoning attacks that corrupt training data to embed backdoors or biases. Defense strategies involve robust training methods, adversarial example generation during development, input validation, and anomaly detection to identify suspicious patterns. System-level defenses also include rate limiting, authentication, and isolation of critical components so that attackers cannot easily probe or exploit the model at scale.
+        </p>
+    </div>
+
+    <!-- 12 -->
+    <div class="question">
+        <h2>12. What is data poisoning, and how can it affect AI models?</h2>
+        <p>
+            Data poisoning occurs when an attacker or faulty process introduces malicious or corrupted samples into the training dataset. These samples can be crafted to degrade overall performance, bias decisions against specific groups, or create hidden triggers that cause the model to behave differently when certain patterns appear. The impact can be subtle, making it difficult to detect through standard validation, and may only surface in particular contexts or subpopulations. Mitigation involves securing data collection pipelines, performing integrity checks, using robust training algorithms that down-weight outliers, and monitoring for distribution shifts or unexpected behavior in production.
+        </p>
+    </div>
+
+    <!-- 13 -->
+    <div class="question">
+        <h2>13. How do you implement content safety filters for AI-generated content?</h2>
+        <p>
+            Content safety filters combine policy definitions with technical enforcement mechanisms that evaluate generated text or images before they reach users. You start by defining categories of prohibited or sensitive content, such as violence, hate, self-harm, or explicit material, and mapping them to detection rules or classifier models. Generated outputs are passed through these detectors, and unsafe content is blocked, replaced with safe alternatives, or accompanied by warnings depending on the severity and context. Continuous tuning of thresholds, human review of borderline cases, and logging of filter decisions help maintain a balance between safety and usability while adapting to new forms of harmful content.
+        </p>
+    </div>
+
+    <!-- 14 -->
+    <div class="question">
+        <h2>14. What is responsible AI, and what frameworks exist for implementing it?</h2>
+        <p>
+            Responsible AI is an approach to designing, developing, and deploying AI systems that prioritizes safety, fairness, transparency, accountability, and societal impact. It involves integrating ethical principles into technical workflows, governance structures, and organizational culture. Frameworks for responsible AI include internal company guidelines, industry standards, and regulatory frameworks that define practices such as impact assessments, human oversight, and risk management. Many organizations adopt multi-disciplinary review boards, ethics checklists, and lifecycle processes that ensure responsible considerations are addressed from data collection through deployment and decommissioning.
+        </p>
+    </div>
+
+    <!-- 15 -->
+    <div class="question">
+        <h2>15. How do you handle copyright and intellectual property concerns with AI-generated content?</h2>
+        <p>
+            Handling copyright and intellectual property requires understanding both the training data sources and the nature of generated outputs. You should avoid training on datasets that contain copyrighted material without appropriate licenses or legal basis, and implement safeguards that prevent models from reproducing large verbatim segments of protected works. Systems can include similarity checks against known corpora, limits on prompt patterns that encourage reproduction, and policies that clarify ownership of generated content for users. Legal review, clear terms of use, and mechanisms for rights holders to report and address potential infringements are essential parts of a responsible IP strategy.
+        </p>
+    </div>
+
+    <!-- 16 -->
+    <div class="question">
+        <h2>16. What is the EU AI Act, and how does it affect AI engineering?</h2>
+        <p>
+            The EU AI Act is a regulatory framework that classifies AI systems by risk level and imposes obligations on providers and deployers, especially for high-risk applications. It affects engineering by requiring documentation of data sources, risk assessments, transparency measures, human oversight mechanisms, and robustness testing for systems that fall into regulated categories. Engineers must design architectures and processes that support traceability, auditability, and compliance with requirements such as accuracy, cybersecurity, and bias mitigation. The Act encourages a lifecycle view of AI, where compliance is built into design, development, deployment, and monitoring rather than treated as an afterthought.
+        </p>
+    </div>
+
+    <!-- 17 -->
+    <div class="question">
+        <h2>17. How do you implement audit trails and logging for AI decisions?</h2>
+        <p>
+            Implementing audit trails involves capturing structured records of inputs, model versions, configuration parameters, and outputs for each significant AI decision. Logs should include metadata such as timestamps, user identifiers where appropriate, and any post-processing or overrides applied to the model’s output. You can store these records in secure, tamper-evident systems with access controls and retention policies aligned with legal and business requirements. Well-designed audit trails enable forensic analysis after incidents, support regulatory reporting, and provide evidence for explaining and contesting decisions when users or auditors request clarification.
+        </p>
+    </div>
+
+    <!-- 18 -->
+    <div class="question">
+        <h2>18. What is model card documentation, and why is it important?</h2>
+        <p>
+            Model cards are standardized documents that describe an AI model’s purpose, training data, performance metrics, limitations, and ethical considerations. They typically include information about intended use cases, out-of-scope scenarios, evaluation results across different subgroups, and known risks or failure modes. Model cards are important because they provide a single source of truth for stakeholders, helping engineers, product teams, and regulators understand how the model should be used and what safeguards are necessary. They also support transparency and accountability by making assumptions and trade-offs explicit, which reduces the risk of misuse or deployment in inappropriate contexts.
+        </p>
+    </div>
+
+    <!-- 19 -->
+    <div class="question">
+        <h2>19. How do you handle misuse and abuse of AI systems in production?</h2>
+        <p>
+            Handling misuse and abuse requires a combination of technical controls, monitoring, and policy enforcement. You can implement rate limiting, authentication, and anomaly detection to identify unusual usage patterns that may indicate scraping, automated attacks, or attempts to bypass safety mechanisms. Clear terms of service and in-product messaging define unacceptable behaviors, while enforcement mechanisms such as account suspension or feature restrictions respond to violations. Incident response processes should include rapid triage, user communication where appropriate, and post-incident reviews that feed back into improved guardrails and detection capabilities.
+        </p>
+    </div>
+
+    <!-- 20 -->
+    <div class="question">
+        <h2>20. What is differential privacy, and how can it be applied during model training?</h2>
+        <p>
+            Differential privacy is a mathematical framework that provides guarantees about the privacy of individuals in a dataset by limiting how much any single record can influence the output of a computation. During model training, it can be applied through techniques such as differentially private stochastic gradient descent, where noise is added to gradients and per-user contributions are clipped to bound sensitivity. These mechanisms allow aggregate patterns to be learned while reducing the risk that an attacker can infer whether a specific individual’s data was included. Proper configuration of privacy budgets, noise scales, and accounting methods is crucial to balance privacy protection with model utility.
+        </p>
+    </div>
+
+    <!-- 21 -->
+    <div class="question">
+        <h2>21. How would you design an AI incident response plan?</h2>
+        <p>
+            An AI incident response plan defines how your organization detects, triages, and resolves events where AI systems cause or contribute to harm, security issues, or regulatory violations. It should specify roles and responsibilities, communication channels, and escalation paths, including when to involve legal, compliance, and domain experts. The plan includes playbooks for common incident types such as data leaks, harmful outputs, or biased decisions, along with procedures for temporarily disabling or restricting affected systems. Post-incident activities involve root cause analysis, remediation actions, user communication where necessary, and updates to policies, training data, or model configurations to prevent recurrence.
+        </p>
+    </div>
+
+    <!-- 22 -->
+    <div class="question">
+        <h2>22. What is the NIST AI Risk Management Framework (AI RMF)?</h2>
+        <p>
+            The NIST AI Risk Management Framework is a guideline for identifying, assessing, and managing risks associated with AI systems. It provides a structured approach that covers governance, mapping of AI use cases, measurement of risks and impacts, and implementation of risk management practices across the AI lifecycle. Engineers and organizations can use the framework to align technical controls with organizational policies, ensuring that safety, security, and fairness are considered alongside performance and business objectives. The AI RMF encourages continuous monitoring and adaptation as systems evolve and new risks emerge.
+        </p>
+    </div>
+
+    <!-- 23 -->
+    <div class="question">
+        <h2>23. Your healthcare chatbot gives medical diagnoses it should not make. How do you add safety guardrails?</h2>
+        <p>
+            For a healthcare chatbot, you should restrict the system to informational and triage support rather than definitive diagnoses or treatment prescriptions. Implement intent classification to detect when users ask for diagnostic or prescriptive advice, and configure the model to respond with disclaimers, general information, and guidance to seek professional medical care instead of specific diagnoses. Add domain-specific safety policies, medical expert review of prompts and outputs, and hard-coded rules that block high-risk content such as medication dosing or emergency instructions. Continuous monitoring, user feedback channels, and collaboration with clinicians help ensure that the chatbot remains supportive without crossing into unauthorized medical practice.
+        </p>
+    </div>
+
+    <!-- 24 -->
+    <div class="question">
+        <h2>24. Your AI system is reproducing copyrighted material verbatim. How do you prevent this?</h2>
+        <p>
+            To prevent verbatim reproduction of copyrighted material, you can implement similarity detection that compares generated text against known corpora and blocks outputs above a certain similarity threshold. Adjust decoding strategies to discourage long exact sequences, such as limiting maximum n-gram repetition and penalizing copying behavior. At the policy level, restrict prompts that explicitly request reproduction of books, articles, or other protected works, and communicate these limitations to users. Review training data sources to reduce inclusion of highly sensitive copyrighted material and consider fine-tuning with objectives that reward abstraction and summarization rather than memorization.
+        </p>
+    </div>
+
+    <!-- 25 -->
+    <div class="question">
+        <h2>25. Your resume screening AI rejects more female candidates for engineering roles. How do you fix gender bias?</h2>
+        <p>
+            Fixing gender bias starts with measuring disparities in selection rates and error rates between male and female candidates, then analyzing which features or patterns drive these differences. You may need to retrain the model on balanced datasets, remove or reweight features that correlate strongly with gender, and apply fairness-aware algorithms that enforce constraints such as equal opportunity. Human review of borderline cases and periodic audits help ensure that changes are effective and do not introduce new unintended biases. Governance measures, including documentation of fairness objectives and stakeholder involvement, support accountability for hiring decisions influenced by AI.
+        </p>
+    </div>
+
+    <!-- 26 -->
+    <div class="question">
+        <h2>26. Your AI model passes bias checks by gender and race separately, but fails for intersectional groups. How do you handle it?</h2>
+        <p>
+            Intersectional bias occurs when combinations of attributes, such as gender and race together, experience different outcomes even if each attribute appears fair in isolation. To handle this, you must define and evaluate metrics for intersectional subgroups, such as Black women or Asian men, and compare performance and selection rates across these groups. Mitigation may involve rebalancing data to ensure adequate representation, applying fairness constraints that explicitly consider intersectional categories, and using models that can capture complex group-level patterns. Ongoing monitoring and collaboration with affected communities help ensure that intersectional fairness is treated as a first-class requirement rather than an afterthought.
+        </p>
+    </div>
+
+    <!-- 27 -->
+    <div class="question">
+        <h2>27. Your AI denied a loan, and the customer demands a GDPR explanation. How do you provide one?</h2>
+        <p>
+            Under GDPR, individuals have the right to obtain meaningful information about the logic involved in automated decisions that significantly affect them. To provide an explanation, you should describe the main factors that influenced the loan decision, such as income, credit history, or debt-to-income ratio, and how these factors were evaluated by the model or decision rules. Avoid exposing proprietary details that are not necessary for understanding, but ensure that the explanation is clear, specific, and actionable so the customer can see what might change the outcome in the future. Maintaining documentation of model behavior and decision policies makes it easier to generate consistent explanations that meet regulatory expectations.
+        </p>
+    </div>
+
+    <!-- 28 -->
+    <div class="question">
+        <h2>28. A user invokes the right to be forgotten, but their data is in your model weights. How do you comply?</h2>
+        <p>
+            Complying with the right to be forgotten when data has influenced model weights is challenging because individual contributions are not easily separable. Practical approaches include removing the user’s data from training datasets, retraining or fine-tuning models without that data when feasible, and ensuring that logs and auxiliary systems no longer store identifiable information. Some emerging techniques, such as machine unlearning, aim to adjust models to reduce dependence on specific records, but they are still evolving. Clear communication with users about what can be done, combined with strong data minimization and retention policies, reduces the likelihood that deeply embedded data becomes a compliance issue.
+        </p>
+    </div>
+
+    <!-- 29 -->
+    <div class="question">
+        <h2>29. The EU AI Act may classify your AI system as high-risk. How do you comply?</h2>
+        <p>
+            If your system is high-risk under the EU AI Act, you must implement specific obligations such as risk management, data governance, technical documentation, and human oversight. Start by conducting a detailed risk assessment to understand potential impacts on health, safety, or fundamental rights, then design controls that address these risks, including robustness testing and bias mitigation. Maintain comprehensive documentation of training data, model design, evaluation procedures, and deployment context, and ensure that users receive appropriate information and instructions. Establish oversight mechanisms where qualified humans can intervene, review decisions, and suspend operation if the system behaves unexpectedly or dangerously.
+        </p>
+    </div>
+
+    <!-- 30 -->
+    <div class="question">
+        <h2>30. Your differentially private model lost significant accuracy. How do you balance privacy and utility?</h2>
+        <p>
+            Balancing privacy and utility involves tuning the parameters of differential privacy, such as the privacy budget and noise scale, to achieve acceptable performance while maintaining strong protections. You can experiment with different levels of noise, clipping thresholds, and training strategies to find a configuration that preserves key patterns without overfitting. In some cases, you may restrict the scope of tasks or features to those that are more robust to noise, or combine differentially private components with non-sensitive auxiliary data. Stakeholder input is important to determine acceptable trade-offs, and you should document how privacy guarantees and performance metrics were weighed in your design decisions.
+        </p>
+    </div>
+
+    <!-- 31 -->
+    <div class="question">
+        <h2>31. One malicious participant is poisoning your federated learning model. How do you defend against it?</h2>
+        <p>
+            In federated learning, a malicious participant can send corrupted updates that degrade or backdoor the global model. Defenses include robust aggregation methods that down-weight or discard outlier updates, such as median or trimmed mean aggregation, and anomaly detection on gradient statistics. You can also implement participant reputation systems, secure communication channels, and validation of updates against held-out datasets before incorporating them. In high-risk settings, you may restrict participation to trusted clients and use cryptographic techniques to ensure integrity and authenticity of updates.
+        </p>
+    </div>
+
+    <!-- 32 -->
+    <div class="question">
+        <h2>32. Your AI hiring model uses proxy features for protected attributes. How do you eliminate proxy discrimination?</h2>
+        <p>
+            Proxy discrimination occurs when features that correlate with protected attributes, such as postal codes or school names, indirectly encode sensitive information. To eliminate it, you should identify and analyze features with strong correlations to protected attributes and assess their impact on outcomes. You may remove or transform these features, or use fairness-aware modeling techniques that constrain the influence of proxies on decisions. Regular audits, collaboration with legal and HR teams, and transparent documentation of feature selection help ensure that the hiring process remains compliant and fair.
+        </p>
+    </div>
+
+    <!-- 33 -->
+    <div class="question">
+        <h2>33. Your predictive model creates a feedback loop of biased outcomes. How do you break it?</h2>
+        <p>
+            Feedback loops arise when model outputs influence future data in ways that reinforce existing biases, such as allocating more resources to already advantaged groups. Breaking the loop requires redesigning the decision process so that new data collection does not simply mirror past decisions. You can introduce exploration strategies that allocate opportunities to underrepresented groups, adjust training data to reflect counterfactual scenarios, and periodically retrain models on corrected or reweighted datasets. Governance mechanisms that review long-term impacts and involve stakeholders help ensure that the system evolves toward more equitable outcomes rather than amplifying historical patterns.
+        </p>
+    </div>
+
+    <!-- 34 -->
+    <div class="question">
+        <h2>34. Your AI generates fake news images. How do you implement watermarking for AI-generated content?</h2>
+        <p>
+            Watermarking AI-generated content involves embedding signals that indicate synthetic origin without significantly degrading quality. For images, you can use imperceptible digital watermarks at the pixel or frequency level, or metadata-based markers that follow standardized formats. At the system level, ensure that all generated content passes through a watermarking pipeline and that downstream services preserve these markers rather than stripping them. Public documentation and tools that allow users, platforms, and regulators to detect watermarks support transparency and help distinguish synthetic media from authentic content.
+        </p>
+    </div>
+
+    <!-- 35 -->
+    <div class="question">
+        <h2>35. Your AI denies a service, and the user has no way to challenge it. How do you design an appeals process?</h2>
+        <p>
+            An appeals process provides users with a structured way to contest AI-driven decisions and seek review. You should offer clear explanations of the decision, along with accessible channels for submitting appeals, such as forms or support contacts. Appeals should trigger human review by qualified staff who can access relevant data, consider context, and override or confirm the AI’s decision. Logging appeals and outcomes enables analysis of systemic issues, leading to improvements in models, policies, and user communication.
+        </p>
+    </div>
+
+    <!-- 36 -->
+    <div class="question">
+        <h2>36. An auditor asks why your AI rejected a request 6 months ago, and you have no logs. How do you build audit trails?</h2>
+        <p>
+            To avoid future gaps, you must design and implement logging that captures key information for each decision, including inputs, model version, configuration, and outputs. Logs should be stored securely with appropriate retention periods and access controls, and structured so that queries and reports can be generated for auditors. You may also include explanation artifacts, such as feature importance snapshots or decision rationales, to support retrospective analysis. Establishing policies that define what must be logged and how long it is retained ensures that auditability is treated as a core requirement rather than an optional feature.
+        </p>
+    </div>
+
+    <!-- 37 -->
+    <div class="question">
+        <h2>37. You removed PII, but users were re-identified from anonymized data. How do you prevent re-identification?</h2>
+        <p>
+            Re-identification can occur when anonymized data is combined with external information, revealing individual identities. Preventing it requires stronger privacy techniques than simple removal of direct identifiers, such as k-anonymity, l-diversity, t-closeness, or differential privacy. You should assess the risk of linkage attacks by considering what auxiliary data might be available and adjust data granularity, aggregation, or noise accordingly. Limiting data sharing, enforcing access controls, and conducting privacy risk assessments before releasing datasets help reduce the likelihood of re-identification.
+        </p>
+    </div>
+
+    <!-- 38 -->
+    <div class="question">
+        <h2>38. A pre-trained model from an open-source repo may contain a hidden backdoor. How do you detect it?</h2>
+        <p>
+            Detecting backdoors in pre-trained models involves testing for unusual behavior when specific triggers or patterns are present in inputs. You can perform systematic probing with varied inputs, analyze activation patterns, and compare outputs against expected behavior. Security reviews should include verification of the model’s provenance, checksums, and training data documentation, as well as static and dynamic analysis where feasible. In high-risk contexts, consider retraining from trusted data or using model architectures and training pipelines you control rather than relying solely on unverified third-party artifacts.
+        </p>
+    </div>
+
+    <!-- 39 -->
+    <div class="question">
+        <h2>39. Your LLM's training data was deliberately poisoned by an adversary. How do you respond?</h2>
+        <p>
+            Responding to deliberate poisoning requires identifying the scope of contamination, assessing its impact, and taking corrective action. You should analyze training data sources to locate suspicious segments, use robust statistics to detect anomalies, and test the model for behaviors consistent with known attack patterns. Depending on severity, you may need to retrain or fine-tune the model on cleaned data, revoke affected versions, and communicate with users about the incident and remediation steps. Strengthening data governance, supplier vetting, and monitoring reduces the risk of similar attacks in the future.
+        </p>
+    </div>
+
+    <!-- 40 -->
+    <div class="question">
+        <h2>40. Your AI mental health chatbot gave harmful advice to a user in crisis. How do you mitigate harm?</h2>
+        <p>
+            For mental health applications, safety must be prioritized over open-ended conversation. You should implement strict guardrails that detect crisis-related language and respond with supportive, non-clinical messages, along with guidance to contact professional services or emergency resources. The chatbot should avoid diagnostic or prescriptive advice and be designed to escalate high-risk interactions to human moderators or clinicians where possible. After an incident, conduct a thorough review of prompts, policies, and training data, and update the system to reduce the likelihood of harmful advice being generated again.
+        </p>
+    </div>
+
+    <!-- 41 -->
+    <div class="question">
+        <h2>41. Your AI system caused incorrect critical decisions. How do you run a blameless post-mortem?</h2>
+        <p>
+            A blameless post-mortem focuses on understanding systemic causes rather than assigning individual fault. You gather all relevant data, logs, and stakeholder perspectives, then reconstruct the sequence of events that led to the incorrect decisions. The analysis should examine model behavior, human oversight, process gaps, and communication issues, identifying where safeguards failed or were missing. Outcomes include concrete action items such as improving monitoring, updating models or policies, enhancing training for staff, and adjusting governance structures to prevent similar incidents.
+        </p>
+    </div>
+
+    <!-- 42 -->
+    <div class="question">
+        <h2>42. Radiologists agree with AI 98% of the time, even when it is wrong. How do you prevent human over-reliance on AI?</h2>
+        <p>
+            Preventing over-reliance requires designing workflows that encourage independent human judgment. You can present AI outputs as suggestions rather than definitive answers, hide confidence scores when they might unduly influence decisions, or require radiologists to provide their own assessment before seeing the AI’s recommendation. Training and guidelines should emphasize the limitations of AI and encourage critical evaluation of its outputs. Periodic audits comparing human and AI decisions, along with feedback on cases where AI was wrong, help maintain healthy skepticism and balanced collaboration between humans and machines.
+        </p>
+    </div>
+
+    <!-- 43 -->
+    <div class="question">
+        <h2>43. Your content moderation flags normal cultural expressions as offensive in other markets. How do you adapt cross-culturally?</h2>
+        <p>
+            Adapting cross-culturally involves recognizing that norms and language vary across regions and communities. You should collaborate with local experts and users to define culturally appropriate policies and build region-specific training and evaluation datasets. Models can be configured with locale-aware settings, separate classifiers, or thresholds tuned for different markets. Continuous feedback from users and moderators, combined with periodic reviews of flagged content, ensures that the system respects cultural diversity while still enforcing core safety principles.
+        </p>
+    </div>
+
+    <!-- 44 -->
+    <div class="question">
+        <h2>44. Your AI training produces massive carbon emissions. How do you reduce environmental impact?</h2>
+        <p>
+            Reducing environmental impact starts with measuring energy consumption and emissions associated with training and deployment. You can optimize model architectures and training procedures to be more efficient, such as using smaller models where possible, applying knowledge distillation, or leveraging hardware accelerators with better energy profiles. Scheduling training on infrastructure powered by renewable energy and reusing pre-trained models instead of training from scratch also lowers emissions. Organizational policies that consider environmental costs alongside performance metrics encourage teams to design AI systems that are both effective and sustainable.
+        </p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+</body>
+</html>

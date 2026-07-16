@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./site.ico" type="image/x-icon">
+    <title>AI Interview Questions and Answers</title>
+    <link rel="stylesheet" href="./globals.css">
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:#fff;
+    background:
+        radial-gradient(circle at top left,#3b82f620 0%,transparent 40%),
+        radial-gradient(circle at bottom right,#8b5cf620 0%,transparent 40%),
+        linear-gradient(135deg,#09090b,#111827,#030712);
+    background-attachment:fixed;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#3b82f6;
+    border-radius:20px;
+}
+
+/* NAVBAR */
+
+.navbar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px 40px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    background:rgba(15,23,42,.55);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:white;
+    text-decoration:none;
+    font-size:26px;
+    font-weight:700;
+}
+
+.logo img{
+    width:52px;
+    height:52px;
+    object-fit:cover;
+    border-radius:50%;
+    border:2px solid #3b82f6;
+    box-shadow:0 0 20px #3b82f6;
+}
+
+/* HEADER */
+
+header{
+    text-align:center;
+    padding:70px 20px;
+}
+
+header h1{
+    font-size:clamp(42px,7vw,72px);
+    font-weight:800;
+
+    background:linear-gradient(
+        90deg,
+        #3b82f6,
+        #8b5cf6,
+        #06b6d4,
+        #3b82f6
+    );
+
+    background-size:300%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:gradient 8s linear infinite;
+}
+
+@keyframes gradient{
+
+0%{
+background-position:0%;
+}
+
+100%{
+background-position:300%;
+}
+
+}
+
+header p{
+    margin-top:20px;
+    color:#94a3b8;
+    font-size:18px;
+}
+
+/* CARD */
+
+.topics-container{
+
+    width:90%;
+    max-width:850px;
+
+    margin:auto;
+
+    padding:40px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.4);
+
+}
+
+/* LINKS */
+
+.topic{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:70px;
+
+    border-radius:18px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    margin:10px auto;
+
+    transition:.35s;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.topic::before{
+
+content:"";
+
+position:absolute;
+
+left:-100%;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.25),
+transparent);
+
+transition:.7s;
+
+}
+
+.topic:hover::before{
+
+left:100%;
+
+}
+
+.topic:hover{
+
+transform:translateY(-6px) scale(1.03);
+
+box-shadow:
+0 0 30px rgba(59,130,246,.55);
+
+}
+
+/* COLORS */
+
+.t1{background:linear-gradient(135deg,#2563eb,#3b82f6);}
+.t2{background:linear-gradient(135deg,#7c3aed,#a855f7);}
+.t3{background:linear-gradient(135deg,#2563eb,#06b6d4);}
+.t4{background:linear-gradient(135deg,#059669,#14b8a6);}
+.t5{background:linear-gradient(135deg,#16a34a,#22c55e);}
+.t6{background:linear-gradient(135deg,#ea580c,#fb923c);}
+.t7{background:linear-gradient(135deg,#9333ea,#ec4899);}
+.t8{background:linear-gradient(135deg,#475569,#64748b);}
+.t9{background:linear-gradient(135deg,#db2777,#f43f5e);}
+.t10{background:linear-gradient(135deg,#4f46e5,#7c3aed);}
+.t11{background:linear-gradient(135deg,#0891b2,#3b82f6);}
+.t12{background:linear-gradient(135deg,#0f766e,#06b6d4);}
+.t13{background:linear-gradient(135deg,#7c3aed,#ec4899);}
+
+/* ARROWS */
+
+.arrow{
+
+display:flex;
+
+justify-content:center;
+
+font-size:34px;
+
+margin:10px 0;
+
+color:#3b82f6;
+
+animation:bounce 1.6s infinite;
+
+}
+
+@keyframes bounce{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(8px);
+}
+
+}
+
+/* CONTENT */
+
+.content{
+
+width:90%;
+
+max-width:900px;
+
+margin:50px auto;
+
+padding:40px;
+
+background:rgba(255,255,255,.05);
+
+border-radius:25px;
+
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,.08);
+
+box-shadow:0 20px 60px rgba(0,0,0,.4);
+
+}
+
+.content h2{
+
+font-size:34px;
+
+margin-bottom:20px;
+
+color:#60a5fa;
+
+}
+
+.content p{
+
+line-height:1.8;
+
+color:#cbd5e1;
+
+}
+
+.content a{
+
+display:inline-block;
+
+margin-top:15px;
+
+padding:12px 24px;
+
+border-radius:12px;
+
+background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+
+color:white;
+
+text-decoration:none;
+
+font-weight:700;
+
+transition:.3s;
+
+}
+
+.content a:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 0 25px #3b82f6;
+
+}
+
+/* FOOTER */
+
+footer{
+
+margin-top:70px;
+
+padding:30px;
+
+text-align:center;
+
+color:#94a3b8;
+
+border-top:1px solid rgba(255,255,255,.08);
+
+background:rgba(15,23,42,.5);
+
+backdrop-filter:blur(20px);
+
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+header{
+
+padding:50px 20px;
+
+}
+
+.topics-container{
+
+padding:25px;
+
+}
+
+.topic{
+
+height:60px;
+
+font-size:15px;
+
+}
+
+.content{
+
+padding:25px;
+
+}
+
+}
+
+    </style>
+
+</head>
+
+
+<body>
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>UN-UNEMPLOYED</span>
+    </a>
+
+</nav>
+
+<header>
+    <h1>AI Interview Questions and Answers</h1>
+    <p>Explore key AI topics for technical interviews and general knowledge.</p>
+</header>
+
+
+
+<div class="topics-container">
+
+
+    <a href="./LLM.html" class="topic t1">
+        LLM Fundamentals
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./Prompt_Engineering.html" class="topic t2">
+        Prompt Engineering
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./RAG.html" class="topic t3">
+        Retrieval-Augmented Generation (RAG)
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./ai_agents.html" class="topic t4">
+        AI Agents and Agentic Systems
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./fine-tuning.html" class="topic t5">
+        Fine-Tuning and Model Adaptation
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./vector-database.html" class="topic t6">
+        Vector Databases and Embeddings
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./ai_system-design.html" class="topic t7">
+        AI System Design
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./LLMops.html" class="topic t8">
+        LLMOps and Production AI
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./evaluation-and-testing.html" class="topic t9">
+        Evaluation and Testing
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./ai-safety.html" class="topic t10">
+        AI Safety, Ethics, and Responsible AI
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./multimodal-ai.html" class="topic t11">
+        Multimodal AI
+    </a>
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./ai_infastructure.html" class="topic t12">
+        AI Infrastructure and Scalability
+    </a>
+
+
+    <span class="arrow">↓</span>
+
+
+    <a href="./behavior-and-scenario.html" class="topic t13">
+      Behavioral and Scenario-Based Questions
+    </a>
+
+
+</div>
+
+
+
+<div class="content">
+
+    <h2>AI Interview Preparation</h2>
+
+    <p>
+        Select a topic above to explore AI interview questions,
+        concepts, explanations, and answers.
+    </p>
+    <br>
+    <p>
+        I made this for myself to prepare for AI interviews, and I hope it helps you too. The content is based on a github repository I found, and I have added my own explanations and answers to the questions. If you find any errors or have suggestions for improvement, please let me know. 
+    </p> 
+    <br>
+    <br>
+    <br>
+    
+    <a href="https://github.com/amitshekhariitbhu/ai-engineering-interview-questions">GitHub Repository source</a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a   href="https://github.com/jo42699">my GitHub profile</a>
+</div>
+
+
+
+<footer>
+    @<span id="year"></span> un-unemployment for ai people
+</footer>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

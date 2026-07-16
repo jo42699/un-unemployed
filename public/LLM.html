@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LLM Fundamentals – Complete Guide (Expanded)</title>
+<link rel="stylesheet" href="./nav.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    color: #222;
+  }
+
+
+  .container {
+    
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    color: #1a73e8;
+    margin-top: 40px;
+  }
+
+  .question {
+    margin-bottom: 25px;
+    padding: 15px;
+    border-left: 4px solid #1a73e8;
+    background: #f0f4ff;
+    border-radius: 6px;
+  }
+
+  .question h3 {
+    margin: 0 0 10px 0;
+  }
+
+  a {
+    color: #1a73e8;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="container">
+
+<h2>LLM Fundamentals</h2>
+
+<div class="question">
+  <h3>1. What are foundation models, and how have they changed AI engineering?</h3>
+  <p>
+    Foundation models are huge pretrained neural networks that can be adapted to many tasks. They changed AI engineering by making it possible to build powerful systems without training from scratch.
+    Beyond that, they act as general-purpose “bases” that encode language, vision, and sometimes multimodal knowledge, learned from massive datasets. Instead of designing and training a new model for every task, engineers now fine‑tune, prompt, or augment a single foundation model for classification, generation, retrieval, and reasoning. This shift moves AI work from low‑level model training to higher‑level system design, orchestration, and alignment.
+  </p>
+</div>
+
+<div class="question">
+  <h3>2. What is a Large Language Model (LLM), and how does it work?</h3>
+  <p>
+    An LLM predicts the next token in a sequence. Through massive training, it learns grammar, facts, reasoning patterns, and world knowledge.
+    Concretely, text is first tokenized into subword units, then mapped to embeddings. These embeddings pass through many transformer layers that apply self‑attention and feed‑forward transformations. At each step, the model outputs logits over the vocabulary, which are converted to probabilities and sampled or greedily selected to produce the next token. Repeating this process yields coherent text, code, or structured outputs.
+  </p>
+</div>
+
+<div class="question">
+  <h3>3. Inside ChatGPT: What Happens After You Hit Enter?</h3>
+  <p>
+    Your text is tokenized, embedded, processed through transformer layers, and decoded into output tokens. KV cache speeds up later tokens.
+    After you press enter, the prompt is converted into tokens and fed through the model. The model computes attention over all previous tokens to decide what to focus on. For each new token generated, the keys and values from attention are stored in the KV cache so the model doesn’t recompute the entire sequence. This makes long conversations and streaming responses much faster and more efficient.
+  </p>
+</div>
+
+<div class="question">
+  <h3>4. What is the Transformer architecture and how does it work?</h3>
+  <p>
+    The Transformer uses self-attention to understand relationships between tokens. It processes sequences in parallel, making it efficient.
+    Instead of reading tokens one by one like an RNN, the Transformer looks at all tokens at once and computes attention scores that indicate how much each token should influence the others. These scores are used to create weighted combinations of token representations, which are then passed through feed‑forward layers. Stacking many such layers allows the model to capture complex dependencies and long‑range context.
+  </p>
+</div>
+
+<div class="question">
+  <h3>5. What are the key components of the Transformer architecture?</h3>
+  <p>
+    Self-attention, multi-head attention, feed-forward layers, residual connections, normalization, and positional encoding.
+    Self‑attention computes relationships between tokens; multi‑head attention lets the model learn different types of relationships in parallel. Feed‑forward networks add nonlinearity and depth. Residual connections help gradients flow and stabilize training, while normalization (LayerNorm or RMSNorm) keeps activations well‑scaled. Positional encoding injects information about token order, which the architecture otherwise lacks.
+  </p>
+</div>
+
+<div class="question">
+  <h3>6. What is tokenization in LLMs?</h3>
+  <p>
+    Tokenization splits text into smaller units (tokens) that the model can understand.
+    These tokens are often subwords or character sequences rather than full words, which helps handle rare words, misspellings, and multilingual text. Good tokenization balances vocabulary size and sequence length: too many tokens make sequences long and expensive; too few make the vocabulary huge and harder to train.
+  </p>
+</div>
+
+<div class="question">
+  <h3>7. Explain BPE (Byte Pair Encoding).</h3>
+  <p>
+    BPE merges frequent pairs of characters or subwords to create efficient tokens.
+    Starting from individual characters, BPE repeatedly finds the most common adjacent pair and merges it into a new token. Over many iterations, this builds a vocabulary of subwords that efficiently represent common patterns while still being able to compose rare words from smaller pieces. This reduces out‑of‑vocabulary issues and improves compression.
+  </p>
+</div>
+
+<div class="question">
+  <h3>8. Explain WordPiece and SentencePiece.</h3>
+  <p>
+    WordPiece uses likelihood-based merges; SentencePiece trains tokenization directly on raw text without whitespace assumptions.
+    WordPiece selects merges that maximize the likelihood of the training corpus under a language model, leading to a probabilistically motivated subword vocabulary. SentencePiece treats the entire input stream as a sequence of Unicode characters and learns a segmentation model, which makes it robust to languages without clear word boundaries and to noisy text.
+  </p>
+</div>
+
+<div class="question">
+  <h3>9. What is positional encoding, and why is it needed?</h3>
+  <p>
+    Transformers process tokens in parallel, so positional encoding injects order information.
+    Since self‑attention alone is permutation‑invariant, the model would treat “dog bites man” and “man bites dog” as the same without positional signals. Positional encodings—either sinusoidal, learned, or rotary (RoPE)—add structured information about each token’s position so the model can reason about sequence order and relative distances.
+  </p>
+</div>
+
+<div class="question">
+  <h3>10. What are embeddings?</h3>
+  <p>
+    Embeddings map tokens into dense vectors that capture semantic meaning.
+    Each token is represented as a point in a high‑dimensional space where similar tokens are close together. These vectors are learned during training and serve as the input to the transformer layers. Good embeddings allow the model to generalize across synonyms, related concepts, and even cross‑lingual mappings.
+  </p>
+</div>
+
+<div class="question">
+  <h3>11. Explain Query (Q), Key (K), and Value (V) in attention.</h3>
+  <p>
+    Q compares to K to compute attention weights; V is the information retrieved using those weights.
+    For each token, the model computes a query vector and compares it to key vectors from all tokens to get similarity scores. After scaling and applying softmax, these scores become attention weights that are used to form a weighted sum of the value vectors. This weighted sum is the attended representation that captures relevant context for that token.
+  </p>
+</div>
+
+<div class="question">
+  <h3>12. What is self-attention?</h3>
+  <p>
+    Self-attention lets each token attend to every other token, learning relationships.
+    In a single sequence, every position can look at all other positions and decide which ones matter most. This allows the model to capture long‑range dependencies, coreference (which “he” refers to), and subtle patterns like syntax and discourse structure, all without recurrent loops.
+  </p>
+</div>
+
+<div class="question">
+  <h3>13. What is cross-attention?</h3>
+  <p>
+    Cross-attention allows one sequence (decoder) to attend to another (encoder).
+    In encoder‑decoder architectures, the encoder processes an input (e.g., a sentence in one language), and the decoder generates an output (e.g., translation). Cross‑attention lets the decoder query the encoder’s representations, aligning generated tokens with relevant parts of the input, which is crucial for tasks like translation and instruction following.
+  </p>
+</div>
+
+<div class="question">
+  <h3>14. Why scale dot-product attention by √dₖ?</h3>
+  <p>
+    Scaling prevents extremely large values that destabilize softmax.
+    When the dimensionality of keys grows, raw dot products can become very large, pushing softmax into regions where gradients vanish or explode. Dividing by the square root of the key dimension keeps the variance of attention scores roughly constant, stabilizing training and improving convergence.
+  </p>
+</div>
+
+<div class="question">
+  <h3>15. What is causal masking?</h3>
+  <p>
+    Causal masking prevents the model from seeing future tokens during generation.
+    In decoder‑only LLMs, each position is only allowed to attend to previous positions. A triangular mask is applied to the attention matrix so that tokens cannot “peek” at future tokens. This enforces autoregressive behavior and ensures the model can be used for left‑to‑right generation.
+  </p>
+</div>
+
+<div class="question">
+  <h3>16. What is multi-head attention?</h3>
+  <p>
+    Multiple heads allow the model to learn different relationships simultaneously.
+    Each head has its own Q, K, and V projections and focuses on different aspects of the sequence—syntax, long‑range dependencies, local patterns, etc. The outputs of all heads are concatenated and linearly transformed, giving the model a richer, multi‑view representation of the context.
+  </p>
+</div>
+
+<div class="question">
+  <h3>17. What are Feed-Forward Networks in LLMs?</h3>
+  <p>
+    FFNs transform each token independently, adding nonlinearity and depth.
+    After attention, each token’s representation passes through a small MLP (often with a hidden dimension larger than the model dimension) and a nonlinearity like GELU or ReLU. This lets the model perform complex feature transformations and increases its expressive power beyond linear attention operations.
+  </p>
+</div>
+
+<div class="question">
+  <h3>18. What is the context window?</h3>
+  <p>
+    The maximum number of tokens an LLM can consider at once.
+    All tokens within this window participate in attention, meaning the model can directly condition on them. If a conversation or document exceeds this limit, older tokens must be truncated, summarized, or retrieved via external mechanisms like RAG.
+  </p>
+</div>
+
+<div class="question">
+  <h3>19. Why is the context window limited?</h3>
+  <p>
+    Self-attention scales quadratically, making long sequences expensive.
+    For a sequence of length N, attention requires computing an N×N matrix of scores, which grows quickly in memory and compute cost. Hardware constraints and latency requirements force practical limits on context length, even though newer techniques (like sparse attention and RoPE) push these limits higher.
+  </p>
+</div>
+
+<div class="question">
+  <h3>20. What is temperature?</h3>
+  <p>
+    Temperature controls randomness: low = deterministic, high = creative.
+    It rescales logits before softmax: lower temperatures sharpen the distribution, making the model pick high‑probability tokens more often; higher temperatures flatten the distribution, increasing diversity and risk of incoherence. Tuning temperature is a simple way to trade off precision vs creativity.
+  </p>
+</div>
+
+<div class="question">
+  <h3>21. Why is the first token slower?</h3>
+  <p>
+    The model must process the entire prompt before generating the first token.
+    For the initial step, all layers must run over the full input sequence, build attention states, and populate the KV cache. Once that is done, subsequent tokens reuse cached keys and values, so each new token only requires incremental computation, making streaming generation faster.
+  </p>
+</div>
+
+<div class="question">
+  <h3>22. Explain Top‑p and Top‑k sampling.</h3>
+  <p>
+    Top‑k picks from the k most likely tokens; Top‑p picks from tokens whose cumulative probability ≤ p.
+    Top‑k limits the candidate set to a fixed size, while Top‑p (nucleus sampling) adapts the set size based on the probability mass. Top‑p often yields more natural text because it keeps only the “core” of the distribution, avoiding both extremely unlikely tokens and overly rigid choices.
+  </p>
+</div>
+
+<div class="question">
+  <h3>23. What are logits?</h3>
+  <p>
+    Logits are raw model outputs before softmax, representing unnormalized probabilities.
+    They can be positive or negative and are often manipulated (e.g., with temperature, repetition penalties, or biasing) before being turned into probabilities. Inspecting logits can reveal which tokens the model is considering and how confident it is.
+  </p>
+</div>
+
+<div class="question">
+  <h3>24. What are skip connections?</h3>
+  <p>
+    Skip connections add the input back to the output of a layer, improving gradient flow.
+    In Transformers, residual connections wrap attention and feed‑forward blocks, allowing the model to learn corrections on top of the input rather than entirely new representations. This helps train very deep networks without vanishing gradients and improves stability.
+  </p>
+</div>
+
+<div class="question">
+  <h3>25. Open-source vs closed-source LLMs?</h3>
+  <p>
+    Open-source = customizable, transparent. Closed-source = polished, proprietary. Choose based on control vs convenience.
+    Open‑source models allow fine‑tuning, self‑hosting, and inspection of weights and training data assumptions, which is ideal for research and specialized domains. Closed‑source models typically offer better tooling, reliability, and guardrails, but limit customization and may have opaque behaviors or policies.
+  </p>
+</div>
+
+<div class="question">
+  <h3>26. Encoder-only vs decoder-only vs encoder-decoder?</h3>
+  <p>
+    Encoder-only: understanding tasks. Decoder-only: generation. Encoder-decoder: translation and instruction-following.
+    Encoder‑only models (like BERT) excel at classification, retrieval, and embedding tasks. Decoder‑only models (like GPT) are optimized for autoregressive generation. Encoder‑decoder models (like T5) combine both, making them powerful for tasks that require conditioning on an input and producing structured outputs.
+  </p>
+</div>
+
+<div class="question">
+  <h3>27. What is KV cache?</h3>
+  <p>
+    KV cache stores past attention keys/values to speed up generation.
+    During autoregressive decoding, the model reuses stored keys and values for previous tokens instead of recomputing them. This reduces the complexity per new token from quadratic to roughly linear in sequence length, enabling fast streaming responses.
+  </p>
+</div>
+
+<div class="question">
+  <h3>28. What is model distillation?</h3>
+  <p>
+    Distillation trains a smaller model to mimic a larger one.
+    The teacher model produces soft targets (probability distributions) that the student model learns to match. This transfers knowledge while reducing parameter count, making the student faster and lighter, though sometimes at the cost of reasoning or robustness if not carefully designed.
+  </p>
+</div>
+
+<div class="question">
+  <h3>29. What is Mixture of Experts (MoE)?</h3>
+  <p>
+    MoE routes tokens to specialized expert networks, improving efficiency.
+    A gating network decides which experts should process each token, activating only a subset of parameters per forward pass. This allows models to scale to billions or trillions of parameters while keeping compute per token manageable, and can capture specialized behaviors in different experts.
+  </p>
+</div>
+
+<div class="question">
+  <h3>30. Dense vs sparse models?</h3>
+  <p>
+    Dense models activate all parameters; sparse models activate only relevant experts.
+    Dense architectures use the full network for every token, which is simpler but more computationally expensive. Sparse (e.g., MoE) architectures selectively route tokens, trading architectural complexity for better parameter‑to‑compute efficiency and potentially more specialization.
+  </p>
+</div>
+
+<div class="question">
+  <h3>31. What is Flash Attention?</h3>
+  <p>
+    Flash Attention reduces memory usage by computing attention more efficiently.
+    It fuses attention operations and carefully manages memory reads/writes to avoid storing large intermediate matrices. This enables training and inference with longer sequences and larger models on the same hardware budget.
+  </p>
+</div>
+
+<div class="question">
+  <h3>32. What is Cross-Entropy Loss?</h3>
+  <p>
+    Cross-entropy measures how well predicted probabilities match the true distribution.
+    In LLMs, it compares the predicted probability for the correct next token against 1.0, penalizing low probabilities. Minimizing cross‑entropy encourages the model to assign high probability to correct tokens, improving language modeling performance.
+  </p>
+</div>
+
+<div class="question">
+  <h3>33. What is Grouped-Query Attention (GQA)?</h3>
+  <p>
+    GQA reduces compute by sharing keys/values across multiple query heads.
+    Instead of having separate K/V sets for every attention head, GQA groups heads so they reuse the same K/V projections. This cuts memory and compute while preserving much of the expressiveness of multi‑head attention, making large models more efficient.
+  </p>
+</div>
+
+<div class="question">
+  <h3>34. How does RoPE work?</h3>
+  <p>
+    RoPE rotates embeddings to encode relative positions, improving long-context performance.
+    Rotary Positional Embeddings apply complex rotations to pairs of embedding dimensions based on position indices. This encodes relative distances directly into the attention mechanism, allowing the model to generalize better to longer contexts and extrapolate beyond training lengths.
+  </p>
+</div>
+
+<div class="question">
+  <h3>35. Explain Layer Normalization.</h3>
+  <p>
+    LayerNorm normalizes activations across features, stabilizing training.
+    For each token, it computes the mean and variance of its features and rescales them to have zero mean and unit variance, followed by learned scale and shift parameters. This reduces internal covariate shift and helps deep networks converge reliably.
+  </p>
+</div>
+
+<div class="question">
+  <h3>36. Explain RMSNorm.</h3>
+  <p>
+    RMSNorm normalizes using root-mean-square values, simplifying computation.
+    Instead of subtracting the mean, it divides activations by their root‑mean‑square, which can be more numerically stable and slightly cheaper. RMSNorm often appears in modern LLMs as a lighter alternative to LayerNorm.
+  </p>
+</div>
+
+<div class="question">
+  <h3>37. Your LLM keeps ignoring instructions.</h3>
+  <p>
+    Use structured prompts, system messages, and format constraints.
+    Clearly separate roles (system vs user), specify style and constraints, and provide examples of desired behavior. You can also fine‑tune or apply RLHF to reinforce instruction following, and use tools like JSON schemas to enforce output structure.
+  </p>
+</div>
+
+<div class="question">
+  <h3>38. Your LLM hits context window limits.</h3>
+  <p>
+    Use chunking, retrieval-augmented generation (RAG), or compression.
+    Split long documents into manageable segments, index them, and retrieve only relevant chunks at query time. Summarization or hierarchical context (short summary + key passages) can also extend effective context without exceeding the hard token limit.
+  </p>
+</div>
+
+<div class="question">
+  <h3>39. Your LLM won't say "I don't know."</h3>
+  <p>
+    Explicitly instruct uncertainty handling and penalize hallucinations.
+    Add prompts that encourage the model to admit uncertainty, and fine‑tune with examples where “I don’t know” is the correct answer. Reward models in RLHF can be trained to prefer cautious, honest responses over confident but incorrect ones.
+  </p>
+</div>
+
+<div class="question">
+  <h3>40. Your LLM is too verbose.</h3>
+  <p>
+    Set max tokens, use concise style prompts, or adjust temperature.
+    You can also add explicit brevity instructions (“answer in 2–3 sentences”) and penalize long outputs during fine‑tuning. Lower temperatures and more deterministic sampling often reduce rambling.
+  </p>
+</div>
+
+<div class="question">
+  <h3>41. Your LLM leaks proprietary data.</h3>
+  <p>
+    Use filtering, redaction, and alignment techniques.
+    Pre‑process inputs to remove sensitive information, and train or configure the model to avoid echoing confidential content. Policy‑aligned reward models and safety filters can further reduce the risk of data leakage.
+  </p>
+</div>
+
+<div class="question">
+  <h3>42. Your LLM generates outdated code.</h3>
+  <p>
+    Provide up-to-date libraries in the prompt or use retrieval.
+    Connect the model to documentation search or code repositories so it can reference current APIs. Fine‑tuning on recent codebases also helps keep its suggestions aligned with modern practices.
+  </p>
+</div>
+
+<div class="question">
+  <h3>43. Your tokenizer splits domain terms.</h3>
+  <p>
+    Train custom tokenizers or add domain-specific vocabulary.
+    For specialized fields (medicine, law, finance), building a tokenizer on domain corpora reduces fragmentation of key terms and improves performance. You can also reserve special tokens for frequently used jargon or identifiers.
+  </p>
+</div>
+
+<div class="question">
+  <h3>44. Your KV cache grows too large.</h3>
+  <p>
+    Paged attention manages KV cache memory efficiently.
+    By storing KV tensors in paged memory and evicting or compressing older segments, you can handle long sequences without exhausting GPU RAM. Techniques like sliding windows or summarization can further control cache size.
+  </p>
+</div>
+
+<div class="question">
+  <h3>45. Your Transformer runs out of memory.</h3>
+  <p>
+    Use sparse attention, Flash Attention, or chunking.
+    Sparse patterns (like local or block attention) reduce the number of attention computations. Flash Attention optimizes memory usage, and chunking splits long sequences into smaller segments processed sequentially or hierarchically.
+  </p>
+</div>
+
+<div class="question">
+  <h3>46. Your distilled model fails on reasoning.</h3>
+  <p>
+    Use curriculum distillation or hybrid teacher-student training.
+    Start distillation on simpler tasks and gradually introduce harder reasoning examples. You can also mix direct supervision from labels with teacher outputs, or keep a larger teacher in the loop for complex queries while the student handles routine ones.
+  </p>
+</div>
+
+<div class="question">
+  <h3>47. Alignment tax after RLHF?</h3>
+  <p>
+    Balance safety with capability using multi-objective optimization.
+    RLHF can sometimes reduce raw performance on benchmarks because the model prioritizes safe, polite behavior. Careful reward design and multi‑objective training can preserve capabilities while enforcing safety constraints.
+  </p>
+</div>
+
+<div class="question">
+  <h3>48. Reward hacking in RLHF?</h3>
+  <p>
+    Improve reward models and add adversarial training.
+    Models may learn to exploit weaknesses in reward functions (e.g., overly generic but “safe” answers). Training reward models on diverse, adversarial examples and regularly auditing outputs helps reduce this kind of reward hacking.
+  </p>
+</div>
+
+<div class="question">
+  <h3>49. Chatbot loses context after 10 turns.</h3>
+  <p>
+    Use memory modules or retrieval-based conversation history.
+    Instead of feeding the entire chat history, store structured summaries and key facts, and retrieve only relevant pieces for each new turn. Long‑term memory components can track user preferences and important events across sessions.
+  </p>
+</div>
+
+<div class="question">
+  <h3>50. Chatbot fails on topic switches.</h3>
+  <p>
+    Use topic detection and dynamic context selection.
+    Automatically segment conversations into topics and maintain separate context buffers. When the user switches topics, load the appropriate buffer or start a fresh one, reducing confusion and irrelevant carry‑over.
+  </p>
+</div>
+
+<div class="question">
+  <h3>51. QA system answers when no answer exists.</h3>
+  <p>
+    Use confidence scoring and answerability classifiers.
+    Train models to estimate whether the context actually contains an answer and to respond with “no answer” when confidence is low. Thresholding on confidence scores and using calibrated probabilities helps avoid hallucinated answers.
+  </p>
+</div>
+
+<div class="question">
+  <h3>52. Summarization hallucinations.</h3>
+  <p>
+    Use extractive constraints or factuality scoring.
+    Encourage the model to quote or closely paraphrase source text rather than invent details. Factuality metrics and post‑hoc verification (e.g., checking claims against the source) can further reduce hallucinations.
+  </p>
+</div>
+
+<div class="question">
+  <h3>53. Text generation repeats phrases.</h3>
+  <p>
+    Use repetition penalties or dynamic sampling.
+    Penalize tokens that have appeared recently or frequently, and adjust sampling strategies (Top‑p, Top‑k) to avoid getting stuck in loops. Training on diverse, non‑repetitive corpora also helps.
+  </p>
+</div>
+
+<div class="question">
+  <h3>54. Can Transformers understand images?</h3>
+  <p>
+    Yes—Vision Transformers apply self-attention to image patches.
+    Images are split into fixed‑size patches, each patch is embedded like a token, and the transformer processes them with attention. This lets the model learn spatial relationships and global patterns, enabling tasks like classification, detection, and segmentation.
+  </p>
+</div>
+
+<div class="question">
+  <h3>55. Small Language Models (SLMs)</h3>
+  <p>
+    SLMs are compact LLMs optimized for edge devices and efficiency.
+    They trade some capability for lower latency, smaller memory footprint, and easier deployment on phones, browsers, or embedded systems. Techniques like quantization, pruning, and distillation are often used to build SLMs.
+  </p>
+</div>
+
+<div class="question">
+  <h3>56. Large Reasoning Models (LRMs)</h3>
+  <p>
+    LRMs focus on reasoning tasks using specialized training.
+    They may be trained with chain‑of‑thought supervision, tool use, or structured reasoning benchmarks, emphasizing logical consistency and multi‑step problem solving over pure next‑token prediction. This makes them better suited for complex planning and analytical tasks.
+  </p>
+</div>
+
+
+
+<header>
+  <h1>Advanced LLM Topics</h1>
+  <p>Autoregressive Modeling, RL Algorithms, and Emerging Architectures</p>
+</header>
+
+<div class="container">
+
+<h2>Advanced Concepts</h2>
+
+<div class="question">
+  <h3>1. What are Autoregressive Models?</h3>
+  <p>
+    Autoregressive models generate data one step at a time, conditioning each new output on all previous outputs.
+    In language modeling, they predict the next token given the history of tokens, making them naturally suited for text generation, completion, and dialogue. This left‑to‑right factorization of the joint probability distribution allows straightforward sampling and aligns well with causal masking in transformer architectures.
+  </p>
+</div>
+
+<div class="question">
+  <h3>2. Explain the difference between autoregressive and masked language modeling.</h3>
+  <p>
+    Autoregressive modeling predicts the next token given all past tokens, enforcing a strict left‑to‑right generation process.
+    Masked language modeling, by contrast, predicts randomly masked tokens within a sequence using both left and right context, which is ideal for bidirectional understanding but less direct for generation. Autoregressive models are typically used for text generation (e.g., GPT), while masked models (e.g., BERT) excel at representation learning and understanding tasks.
+  </p>
+</div>
+
+<div class="question">
+  <h3>3. Proximal Policy Optimization (PPO)</h3>
+  <p>
+    Proximal Policy Optimization (PPO) is a reinforcement learning algorithm that updates policies while constraining how far each update can move from the previous policy.
+    It uses a clipped objective to prevent overly large policy changes that could destabilize training. In LLMs, PPO is commonly used in RLHF (Reinforcement Learning from Human Feedback) to fine‑tune models so they better align with human preferences while maintaining stability and performance.
+  </p>
+</div>
+
+<div class="question">
+  <h3>4. Direct Preference Optimization (DPO)</h3>
+  <p>
+    Direct Preference Optimization (DPO) is a training method that directly optimizes a model to match human preference rankings without an explicit reward model.
+    Instead of learning a separate reward function and then applying RL, DPO uses paired preference data (preferred vs non‑preferred outputs) to adjust the model’s logits so that preferred responses become more likely. This can simplify RLHF pipelines and reduce instability associated with policy optimization.
+  </p>
+</div>
+
+<div class="question">
+  <h3>5. Group Relative Policy Optimization (GRPO)</h3>
+  <p>
+    Group Relative Policy Optimization (GRPO) extends policy optimization by comparing policies or actions within groups rather than individually.
+    It focuses on relative performance within a batch or group of candidate outputs, encouraging the policy to favor better options while maintaining diversity. For LLMs, GRPO can be used to refine generation strategies based on groupwise preferences or rankings, improving alignment and robustness.
+  </p>
+</div>
+
+<div class="question">
+  <h3>6. Recursive Language Models (RLMs)</h3>
+  <p>
+    Recursive Language Models (RLMs) structure generation and reasoning as recursive calls, where the model can invoke itself to solve subproblems.
+    Instead of producing a flat sequence, an RLM may decompose tasks into smaller steps, call itself with intermediate prompts, and combine results. This enables more complex reasoning, modularity, and the ability to build hierarchical solutions, similar to recursive functions in programming.
+  </p>
+</div>
+
+<div class="question">
+  <h3>7. Continual Learning in LLMs</h3>
+  <p>
+    Continual learning in LLMs refers to updating models over time as new data arrives, without forgetting previously learned knowledge.
+    Techniques include parameter‑efficient fine‑tuning, replay buffers, regularization against old parameters, and modular architectures that isolate new skills. Effective continual learning allows LLMs to stay up‑to‑date and adapt to new domains while mitigating catastrophic forgetting.
+  </p>
+</div>
+
+<div class="question">
+  <h3>8. How do Diffusion Language Models (DLMs) work?</h3>
+  <p>
+    Diffusion Language Models (DLMs) adapt diffusion processes—originally used in image generation—to discrete text generation.
+    They start from a noisy or corrupted representation of text and iteratively denoise it through a learned reverse diffusion process, gradually recovering coherent sequences. This approach can offer different trade‑offs in diversity, controllability, and training dynamics compared to traditional autoregressive LLMs.
+  </p>
+</div>
+
+
+</div>
+</body>
+</html>

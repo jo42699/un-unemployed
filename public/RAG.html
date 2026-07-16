@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RAG Questions</title>
+  <link rel="stylesheet" href="./nav.css">
+<style>
+
+    /* Global Page Styling */
+    body {
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        margin: 40px;
+        line-height: 1.7;
+        background:
+            radial-gradient(circle at top left, #f5f5f5, transparent 35%),
+            radial-gradient(circle at bottom right, #ffffff, transparent 35%),
+            #f8fafc;
+        color: #111827; 
+    }
+
+
+    /* Main Question Card */
+    .question {
+        position: relative;
+       margin-right: 70px;  
+        border: 1px solid rgba(255,255,255,0.6);
+        border-radius: 18px;
+        padding: 22px 26px;
+        margin-bottom: 22px;
+
+        background: rgba(255,255,255,0.75);
+        backdrop-filter: blur(12px);
+
+        box-shadow:
+            0 10px 30px rgba(25, 26, 30, 0.08),
+            inset 0 1px 0 rgba(255,255,255,0.7);
+
+       
+    }
+
+
+
+
+
+
+
+
+    /* Question Title */
+    .question h2 {
+
+        margin: 0 0 10px 0;
+        letter-spacing: -0.3px;
+        font: size 20px;
+        color: #000000;
+    }
+
+
+
+    /* Category Heading */
+    .question h3 {
+
+        margin: 0 0 12px 0;
+
+        font-size: 20px;
+
+        color: #000000;
+
+        font-weight: 600;
+
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+
+
+
+    /* Answer Text */
+    .question p {
+
+        margin: 0;
+
+        font-size: 1rem;
+
+        color: #000000;
+
+        line-height: 1.8;
+
+    }
+
+
+
+
+
+    @keyframes fadeIn {
+
+        from {
+            opacity:0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity:1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+
+    /* Mobile Responsive */
+    @media(max-width:768px){
+
+        body {
+
+            margin:20px;
+
+        }
+
+
+        .question {
+
+            padding:18px;
+
+            border-radius:14px;
+
+        }
+
+
+        .question h3 {
+
+            font-size:1rem;
+
+        }
+
+
+        .question p {
+
+            font-size:0.9rem;
+
+        }
+
+    }
+
+
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+
+    <h1>Retrieval-Augmented Generation (RAG) Questions</h1>
+    <br>
+    <br>
+    <br>
+  <div class="question">
+    <h2>Question 1</h2>
+    <h3>What is Retrieval-Augmented Generation (RAG), and why is it important?</h3>
+    <p>
+      Answer:  AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization.
+      Retrieval-Augmented Generation (RAG) is an architecture where a Transformer-based LLM is paired with a retrieval
+      component that fetches relevant documents from an external knowledge store before generation. The user query is
+      tokenized, embedded, and used to perform vector or hybrid search, and the retrieved context is injected into the
+      model’s prompt so attention can focus on grounded information rather than relying purely on parametric memory.
+      This reduces hallucinations, improves faithfulness, and allows smaller models to reason over large corpora without
+      retraining, since the training weights handle language understanding and reasoning while retrieval supplies
+      up-to-date facts. RAG is important because it decouples knowledge from the model’s training cycle, enabling
+      continuous updates, domain adaptation, and more controllable sampling behavior with explicit citations.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 2</h2>
+    <h3>Explain the architecture of a basic RAG system.</h3>
+    <p>
+      Answer:  AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization.
+      A basic RAG architecture consists of a retriever, a knowledge store, and a generator (LLM) orchestrated by a
+      controller. The retriever uses tokenization and an embedding model to convert queries and documents into vectors,
+      then applies similarity search (e.g., cosine or dot-product) to select top-k chunks. These chunks, along with the
+      original query, are concatenated into a prompt that the Transformer model processes with multi-head attention,
+      allowing it to attend over both the question tokens and the retrieved context. During training or fine-tuning,
+      the system may optimize retrieval quality and generation jointly, while at inference time sampling strategies
+      like temperature, top-k, or nucleus sampling control how the LLM reasons over and verbalizes the retrieved
+      information. The architecture can be extended with re-ranking, query transformation, and agentic planning
+      components for more complex reasoning chains.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 3</h2>
+    <h3>What are the key components of a RAG pipeline?</h3>
+    <p>
+      Answer:  AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization.
+      A RAG pipeline typically includes ingestion, chunking, embedding, indexing, retrieval, context assembly, and
+      generation. Ingestion parses raw documents (PDFs, HTML, tables) into clean text; chunking splits this text into
+      token-length-aware segments that fit within the LLM’s context window. Embedding models transform each chunk into
+      dense vectors that capture semantic meaning, which are stored in a vector database alongside metadata for
+      filtering. At query time, the pipeline tokenizes the user input, embeds it, retrieves candidate chunks, optionally
+      re-ranks them, and assembles a context prompt that the Transformer model consumes with attention. The generator
+      then produces an answer using its learned reasoning capabilities, and post-processing may add citations, perform
+      consistency checks, or apply sampling constraints to reduce hallucinations and improve reliability.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 4</h2>
+    <h3>What are chunking strategies, and how do you choose the right chunk size?</h3>
+    <p>
+      Chunking strategies define how documents are split into smaller units that can be embedded and retrieved
+      efficiently while fitting within the LLM’s context window. Choosing chunk size requires balancing semantic
+      coherence with token limits: too small and attention must span many fragments, increasing retrieval noise; too
+      large and important details may be truncated or exceed the model’s maximum tokens. Practitioners often use
+      token-based chunking (e.g., 256–1024 tokens) guided by the tokenizer of the target Transformer model, ensuring
+      that each chunk aligns with natural boundaries like paragraphs or sections. The right size depends on the domain,
+      typical question length, and reasoning depth required—complex multi-hop reasoning may benefit from slightly larger
+      chunks plus parent-child relationships, while high-latency environments may prefer smaller chunks to speed up
+      embedding and search. Empirical evaluation with retrieval metrics and downstream QA performance is essential to
+      tune chunk size.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 5</h2>
+    <h3>Compare fixed-size chunking, semantic chunking, and recursive chunking.</h3>
+    <p>
+      Fixed-size chunking splits text into uniform token or character windows, making indexing simple and predictable
+      but sometimes cutting across semantic boundaries like sentences or tables. Semantic chunking uses structural cues
+      (headings, paragraphs, list items) and sometimes LLM-based segmentation to create chunks that align with meaning,
+      improving attention over coherent units but producing variable sizes that must still respect context limits.
+      Recursive chunking builds a hierarchy: large parent chunks (sections) are subdivided into smaller child chunks,
+      enabling retrieval at multiple granularities and supporting parent-child RAG where the model sees both overview
+      and detail. From a Transformer perspective, semantic and recursive chunking help attention focus on logically
+      related tokens, improving reasoning and reducing the need for aggressive sampling to recover missing context.
+      Fixed-size chunking is easier to implement and faster but may require more sophisticated re-ranking or query
+      transformation to compensate for its lack of semantic awareness.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 6</h2>
+    <h3>What are embedding models, and how do they convert text to vectors?</h3>
+    <p>
+      Embedding models are neural networks—often Transformer-based—that map tokenized text into dense numerical vectors
+      capturing semantic relationships. They process input tokens through layers of self-attention and feed-forward
+      networks, aggregating contextual information so that similar meanings occupy nearby regions in vector space.
+      Typically, the final hidden states are pooled (e.g., CLS token, mean pooling) to produce a fixed-length embedding
+      for each chunk or query. During training, contrastive or ranking losses encourage the model to place related texts
+      close together and unrelated texts far apart, which makes similarity search effective. In a RAG pipeline, these
+      embeddings are stored in a vector index, and retrieval uses distance metrics to find chunks whose embeddings best
+      match the query, enabling the LLM to reason over semantically relevant context rather than just keyword matches.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 7</h2>
+    <h3>How do you choose an embedding model for your RAG system?</h3>
+    <p>
+      Choosing an embedding model involves considering language coverage, domain specificity, dimensionality, latency,
+      and compatibility with your LLM and tokenizer. General-purpose Transformer embeddings (e.g., multilingual or
+      instruction-tuned models) work well for broad domains, while domain-specific models trained on technical or legal
+      corpora better capture specialized jargon and relationships. Higher-dimensional embeddings can improve retrieval
+      quality but increase index size and search cost; lower-dimensional models are faster but may lose nuance. You
+      should also align tokenization with the generator model when possible to avoid mismatches in how text is split,
+      and evaluate models using retrieval benchmarks, relevance judgments, and downstream QA performance. Finally,
+      consider deployment constraints: GPU vs CPU inference, batch size, and quantization, all of which affect how
+      quickly embeddings can be computed for new documents and queries.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 8</h2>
+    <h3>Explain Agentic RAG.</h3>
+    <p>
+      Answer: Agentic RAG.
+      Agentic RAG extends basic retrieval-augmented generation by giving the LLM an “agent” role that can plan, iterate,
+      and call tools (retrievers, databases, APIs) in multiple steps. Instead of a single retrieval followed by one
+      generation, the agent reasons about the query, decomposes it into sub-tasks, and issues retrieval calls as needed,
+      using attention over intermediate results to refine its understanding. The agent may perform query transformation,
+      multi-hop retrieval, and self-reflection, deciding when to fetch more context or when to stop based on internal
+      signals. Training or prompting encourages the model to follow tool-use patterns, and sampling strategies are tuned
+      to balance exploration (trying new retrievals) with exploitation (using existing context). This leads to more
+      robust reasoning over complex knowledge bases, especially when answers require combining multiple documents or
+      interacting with structured data sources.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 9</h2>
+    <h3>What is hybrid search, and why is it better than pure vector search?</h3>
+    <p>
+      Answer: How does Hybrid Search work?
+      Hybrid search combines dense vector search with traditional lexical or keyword-based retrieval (e.g., BM25),
+      often by scoring and merging results from both modalities. Vector search excels at capturing semantic similarity,
+      even when exact words differ, because embeddings encode meaning via attention over token sequences. However,
+      lexical search can be more precise for rare terms, identifiers, or domain-specific tokens that embeddings may
+      smooth over. Hybrid search leverages both: it may use weighted scoring, reciprocal rank fusion, or re-ranking to
+      integrate signals, improving recall and precision for RAG. This is especially valuable when training data for the
+      embedding model does not fully cover the domain, or when queries mix natural language with structured tokens like
+      error codes or product IDs.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 10</h2>
+    <h3>What is re-ranking, and how does it improve RAG retrieval quality?</h3>
+    <p>
+      Answer: How does a Reranker work?
+      Re-ranking uses a more powerful model—often a cross-encoder Transformer—to rescore a small set of candidate
+      documents retrieved by a faster first-stage retriever. The reranker jointly attends over the query and each
+      candidate chunk, computing a relevance score that captures fine-grained token interactions and reasoning patterns
+      that simple embedding similarity may miss. By applying this second-stage scoring, the pipeline can correct
+      misordered results, push truly relevant chunks to the top, and filter out noise before context is passed to the
+      generator. This improves the quality of the information the LLM sees, which in turn enhances faithfulness and
+      reduces hallucinations, since attention is focused on better evidence. Re-ranking is a trade-off: it adds latency
+      but often yields significant gains in downstream QA accuracy and user satisfaction.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 11</h2>
+    <h3>How do you handle multi-document and multi-hop questions in RAG?</h3>
+    <p>
+      Handling multi-document and multi-hop questions requires retrieval and reasoning strategies that can combine
+      information across several chunks. One approach is to retrieve a broader set of candidates, then use the LLM to
+      perform intermediate reasoning steps, such as summarizing each document and then synthesizing them in a second
+      pass. Agentic RAG can decompose the query into sub-questions, retrieving context for each hop and using attention
+      to track entities and relationships across steps. Parent-child chunking and graph-based indices help connect
+      related chunks so the model can follow chains of facts. Sampling strategies may be adjusted to encourage explicit
+      reasoning (e.g., chain-of-thought) while still grounding each step in retrieved evidence, reducing the risk of
+      hallucinated links between documents.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 12</h2>
+    <h3>What is the "lost in the middle" problem in RAG systems?</h3>
+    <p>
+      The "lost in the middle" problem occurs when relevant information placed in the middle of a long context window
+      receives less attention than tokens at the beginning or end, leading the LLM to overlook crucial facts. Transformer
+      attention patterns and positional encodings can bias the model toward certain regions, especially when prompts
+      include long instructions or multiple documents. In RAG, this manifests when many chunks are concatenated: the
+      model may focus on the first few or the most recent ones, ignoring central evidence. Mitigations include limiting
+      the number of chunks, using re-ranking to prioritize the most relevant ones, structuring prompts with clear
+      headings, and employing techniques like sliding windows or segment-wise reasoning. Some newer architectures and
+      training regimes explicitly address this by learning more uniform attention over long sequences.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 13</h2>
+    <h3>How do you evaluate a RAG system? Explain faithfulness, relevance, and context precision/recall.</h3>
+    <p>
+      Evaluating RAG involves measuring both retrieval quality and generation behavior. Faithfulness assesses whether
+      the LLM’s answer is supported by the retrieved context and does not introduce unsupported claims; this can be
+      checked via human annotation or automated metrics that compare answer spans to source documents. Relevance
+      measures how well retrieved chunks match the user’s intent, often using IR metrics like nDCG or MRR. Context
+      precision is the fraction of retrieved chunks that are actually useful for answering the question, while context
+      recall measures how many of the truly relevant chunks were retrieved. Together, these metrics reveal whether
+      tokenization, embedding, attention over context, and sampling strategies are working harmoniously. Advanced
+      evaluations may also probe reasoning quality, citation correctness, and robustness to adversarial or ambiguous
+      queries.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 14</h2>
+    <h3>Explain Self-RAG. How does the model decide when to retrieve?</h3>
+    <p>
+      Self-RAG is a framework where the LLM itself learns to decide whether and when to call the retriever during
+      generation. Instead of always retrieving before answering, the model uses internal signals—such as uncertainty,
+      detection of knowledge gaps, or specific tokens—to trigger retrieval actions. Training may involve reinforcement
+      learning or supervised signals that reward correct decisions about retrieval timing and context usage. The model
+      can interleave reasoning and retrieval: it starts answering, realizes it lacks sufficient information, issues a
+      retrieval call, then incorporates the new context via attention and continues. Sampling strategies and tool-use
+      prompts guide this behavior, enabling more efficient use of the knowledge base and reducing unnecessary retrieval
+      for simple questions while still grounding complex answers.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 15</h2>
+    <h3>What is GraphRAG, and when would you use it over traditional RAG?</h3>
+    <p>
+      Answer: GraphRAG.
+      GraphRAG organizes knowledge as a graph—nodes representing entities or concepts and edges representing relations—
+      and uses graph-based retrieval and reasoning instead of or alongside flat chunk-based search. Documents are
+      processed to extract entities and relationships, which are stored in a graph database or knowledge graph; queries
+      are mapped to graph traversals or subgraph retrieval. The LLM then attends over structured triples and associated
+      text, enabling more precise multi-hop reasoning and better handling of relational questions. GraphRAG is
+      particularly useful when the domain has rich interconnected data (e.g., biomedical, financial, or enterprise
+      knowledge) where path-based reasoning is critical. It complements traditional RAG by providing a higher-level
+      structure that guides retrieval and reduces the need for the model to infer relationships purely from unstructured
+      text.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 16</h2>
+    <h3>How do you handle structured data (tables, SQL databases) in a RAG pipeline?</h3>
+    <p>
+      Handling structured data in RAG often involves tool-augmented generation and specialized retrieval. Tables can be
+      serialized into text with schemas and row summaries, then chunked and embedded so the LLM can attend over them,
+      but this may lose some structure. A more robust approach is to expose SQL or analytics engines as tools: the LLM
+      generates queries against the database, retrieves results, and then reasons over them in natural language. For
+      tables, cell-level or column-level embeddings can support fine-grained retrieval, and metadata helps filter by
+      schema or time. Training or prompt engineering teaches the model how to interpret schemas, perform joins, and
+      avoid hallucinating values by always grounding numeric answers in retrieved results. This combination of
+      structured retrieval and Transformer-based reasoning yields accurate, explainable answers over tabular data.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 17</h2>
+    <h3>What are the common failure modes of RAG systems, and how do you debug them?</h3>
+    <p>
+      Common failure modes include poor retrieval (irrelevant or missing chunks), hallucinated answers despite correct
+      context, outdated information, and misinterpretation of domain-specific language. Debugging starts with inspecting
+      the retrieved documents: check tokenization, chunking boundaries, embedding quality, and metadata filters to see
+      whether the right information is even reaching the LLM. Next, analyze prompts and attention patterns—long,
+      cluttered prompts or “lost in the middle” issues can cause the model to ignore key evidence. Adjust sampling
+      parameters, add explicit instructions to cite sources, and consider fine-tuning or instruction-tuning the model on
+      domain data. Logging retrieval scores, re-ranker outputs, and generated reasoning traces helps pinpoint whether
+      the problem lies in retrieval, generation, or both, guiding targeted fixes rather than ad-hoc tweaks.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 18</h2>
+    <h3>How do you handle document updates and maintain freshness in a RAG system?</h3>
+    <p>
+      Maintaining freshness requires an ingestion pipeline that can detect changes, re-embed updated content, and update
+      indices without disrupting queries. Documents may carry version metadata and timestamps so retrieval can prefer
+      the latest versions via filters or scoring boosts. Incremental indexing strategies allow only changed chunks to be
+      reprocessed, reducing compute cost; background jobs can batch updates while online queries continue using existing
+      data. The LLM can be prompted to favor recent information and to flag potentially outdated content when multiple
+      versions are present. For time-sensitive domains, combining RAG with live API calls ensures that reasoning is
+      grounded in both static knowledge and real-time data, reducing the risk of stale answers.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 19</h2>
+    <h3>How do you optimize RAG for latency in production?</h3>
+    <p>
+      Optimizing latency involves tuning every stage: embedding, indexing, retrieval, and generation. Pre-computing and
+      caching document embeddings, using efficient vector indices (e.g., HNSW, IVF), and limiting top-k retrieval reduce
+      search time. On the LLM side, choosing appropriate model sizes, applying quantization, and using batch inference
+      or speculative decoding can significantly speed up generation. Prompt length should be controlled by careful
+      chunking and re-ranking so only the most relevant context is passed to the model, minimizing attention computation.
+      Network and system-level optimizations—such as colocating the vector database and LLM, using GPU acceleration, and
+      parallelizing retrieval and re-ranking—further reduce end-to-end latency while preserving reasoning quality.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 20</h2>
+    <h3>What is the role of metadata filtering in RAG systems?</h3>
+    <p>
+      Metadata filtering restricts retrieval to subsets of the knowledge base based on attributes like source, date,
+      user, department, or document type. By applying filters before or during vector search, the system ensures that
+      embeddings are compared only within relevant slices, improving precision and reducing noise. This is crucial in
+      multi-tenant or enterprise settings where access control and domain separation matter: the LLM should only attend
+      to chunks the user is allowed to see. Metadata also supports time-aware reasoning, allowing queries to focus on
+      recent versions or specific periods. Combined with attention over filtered context, metadata filtering helps the
+      model reason more accurately and safely, avoiding cross-domain contamination and irrelevant evidence.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 21</h2>
+    <h3>Compare RAG vs fine-tuning. When would you use each?</h3>
+    <p>
+      Answer:  AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization.
+      Fine-tuning modifies the LLM’s weights to internalize new patterns, styles, or domain knowledge, while RAG keeps
+      the model fixed and supplies external context at inference time. Fine-tuning is ideal when you need the model to
+      consistently follow specific instructions, adopt a brand voice, or learn reasoning templates that are hard to
+      express via prompts alone. RAG is better when knowledge changes frequently, is large, or must be kept separate for
+      privacy or compliance reasons; retrieval lets the model attend to relevant facts without memorizing them. In
+      practice, many systems combine both: a lightly fine-tuned Transformer for improved reasoning and instruction
+      following, augmented with RAG for factual grounding. The choice depends on data availability, update frequency,
+      deployment constraints, and whether you want knowledge encoded in weights or in an external store.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 22</h2>
+    <h3>What is query transformation in RAG (HyDE, query decomposition, step-back prompting)?</h3>
+    <p>
+      Answer: How does HyDE work in RAG?
+      Query transformation modifies the user’s original query to improve retrieval and reasoning. HyDE (Hypothetical
+      Document Embeddings) first asks the LLM to generate a hypothetical answer or document for the query, then embeds
+      that synthetic text and uses it for retrieval, leveraging the model’s semantic understanding to find better
+      matches. Query decomposition breaks complex questions into simpler sub-queries, each of which is retrieved
+      separately; the LLM then combines the results via attention and reasoning. Step-back prompting asks the model to
+      restate the query at a higher level of abstraction, which can align better with how documents are written. These
+      transformations help bridge gaps between user language and corpus language, improving retrieval quality and
+      enabling more robust multi-hop reasoning in RAG pipelines.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 23</h2>
+    <h3>How do you implement citation and source attribution in RAG?</h3>
+    <p>
+      Implementing citation involves tracking which retrieved chunks contributed to the generated answer and exposing
+      that mapping to the user. During retrieval, each chunk carries identifiers (document IDs, URLs, titles); when the
+      LLM is prompted, these IDs can be embedded in the context or referenced in instructions. The model is then asked
+      to cite specific sources inline or in a separate section, using attention over the context to align statements
+      with evidence. Post-processing can also align answer spans with source text via similarity matching, adding
+      citations even if the model does not explicitly mark them. Proper citation improves trust, enables auditing, and
+      helps detect hallucinations when the model makes claims that cannot be traced back to any retrieved document.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 24</h2>
+    <h3>How do you scale a RAG system to millions of documents?</h3>
+    <p>
+      Scaling to millions of documents requires efficient indexing, sharding, and retrieval strategies. Vector databases
+      use approximate nearest neighbor (ANN) algorithms like HNSW or IVF to keep search sub-linear in corpus size, and
+      indices may be partitioned by domain or time to reduce search space. Embedding computation is batched and often
+      offloaded to GPUs, with quantization to reduce memory footprint. Metadata filtering and routing ensure queries
+      only hit relevant shards, while caching popular queries and results reduces repeated work. On the LLM side,
+      careful prompt construction and context limits prevent overload when many chunks are candidates. Monitoring
+      retrieval latency, index health, and recall metrics is essential to maintain both performance and reasoning
+      quality at scale.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 25</h2>
+    <h3>What is parent-child chunking, and how does it improve retrieval?</h3>
+    <p>
+      Parent-child chunking creates a hierarchy where larger parent chunks (e.g., sections or pages) are linked to
+      smaller child chunks (paragraphs, sentences). Retrieval may first identify relevant children via embeddings, then
+      include their parents in the context to provide broader background. This helps the LLM’s attention span both
+      detailed evidence and high-level structure, improving reasoning and reducing the risk of misinterpreting isolated
+      sentences. It also supports multi-hop questions where relationships span multiple children under the same parent.
+      From an indexing perspective, parent-child relationships can be stored as metadata or graph edges, enabling more
+      flexible retrieval strategies that go beyond flat lists of chunks.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 26</h2>
+    <h3>Your RAG system is hallucinating despite having the right context. How do you fix it?</h3>
+    <p>
+      When hallucinations occur even with correct context, the issue often lies in prompt design, model behavior, or
+      sampling. First, make instructions explicit: tell the LLM to answer only based on provided documents, to say “I
+      don’t know” when evidence is missing, and to cite sources for key claims. Reduce temperature and sampling
+      diversity (e.g., lower top-p) so the model stays closer to deterministic reasoning over the context. Check whether
+      the context is too long or noisy, causing attention to diffuse; re-ranking and tighter top-k can focus the model
+      on the most relevant chunks. In some cases, fine-tuning or instruction-tuning on grounded QA data teaches the
+      model to prioritize evidence over speculation. Logging and analyzing hallucinated outputs helps refine these
+      controls iteratively.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 27</h2>
+    <h3>Your RAG chunk overlap causes redundant results. How do you reduce redundancy?</h3>
+    <p>
+      Redundant results often arise when overlapping chunks are all retrieved and passed to the LLM. To reduce this,
+      adjust chunking to minimize unnecessary overlap while still preserving context continuity—use sliding windows with
+      smaller strides or semantic boundaries. During retrieval, apply deduplication logic that merges or filters chunks
+      with highly similar embeddings or identical text spans. Re-ranking can penalize near-duplicate candidates so only
+      the most representative chunk is kept. In the prompt, you can also summarize multiple similar chunks into a single
+      consolidated context, reducing token count and focusing attention. These steps streamline reasoning and improve
+      both latency and answer clarity.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 28</h2>
+    <h3>Your RAG retrieval is too slow with a large knowledge base. How do you speed it up?</h3>
+    <p>
+      To speed up retrieval, use ANN indices optimized for large-scale search, such as HNSW or product quantization, and
+      tune their parameters for your latency/recall trade-off. Shard the index by domain or time and route queries to
+      relevant shards using metadata or learned routing models. Pre-filter candidates with lightweight lexical search or
+      metadata constraints before running expensive vector search. Cache embeddings for frequent queries and precompute
+      results for common patterns. Hardware acceleration (GPUs, fast SSDs) and careful batching of embedding and search
+      operations further reduce latency. All of this ensures that the LLM receives context quickly enough to maintain a
+      responsive user experience while still supporting deep reasoning.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 29</h2>
+    <h3>Your RAG system returns duplicate results. How do you deduplicate?</h3>
+    <p>
+      Deduplication can be handled at retrieval and post-processing stages. At retrieval time, track document IDs and
+      chunk offsets, and discard candidates that refer to the same text span or overlapping regions beyond a threshold.
+      Use similarity metrics on embeddings or hashed text to detect near-duplicates and keep only the highest-scoring
+      instance. After generation, you can also analyze which sources were cited and collapse repeated references into a
+      single citation list. Proper deduplication reduces context size, improves attention focus, and prevents the model
+      from over-weighting repeated evidence, leading to more balanced reasoning and cleaner answers.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 30</h2>
+    <h3>Your RAG system needs per-user access control on internal documents. How do you implement it?</h3>
+    <p>
+      Implementing per-user access control requires integrating authentication and authorization with retrieval. Each
+      document and chunk should carry access-control metadata (e.g., user, group, role, tenant), and queries must be
+      executed within a security context that filters candidates accordingly. The vector database or retrieval service
+      enforces these filters before returning results, ensuring the LLM only attends to permitted context. You may also
+      need row-level security for structured data and audit logs to track which documents were accessed during
+      generation. Prompt design should avoid leaking information across users, and multi-tenant deployments must
+      isolate indices or shards. This combination of metadata filtering and secure orchestration keeps reasoning grounded
+      in authorized knowledge only.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 31</h2>
+    <h3>Your RAG system fails on domain-specific jargon. How do you fix it?</h3>
+    <p>
+      Failures on domain-specific jargon usually stem from embedding models and LLMs that were not trained on the
+      relevant corpus. To fix this, fine-tune or adapt embedding models on domain data so they learn specialized
+      terminology and relationships. You can also fine-tune the LLM with instruction-style examples that explain jargon,
+      map acronyms to definitions, and show correct reasoning patterns. Adding glossaries or terminology tables to the
+      knowledge base and retrieving them alongside other documents helps the model interpret unfamiliar tokens via
+      attention. Query transformation can expand acronyms or rewrite jargon-heavy questions into more general language
+      before retrieval. Together, these steps align tokenization, embeddings, and reasoning with the domain’s vocabulary.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 32</h2>
+    <h3>Your text-only RAG system now needs to handle images and tables. How do you extend it?</h3>
+    <p>
+      Extending RAG to images and tables involves multimodal models and specialized preprocessing. For images, use
+      vision encoders to generate embeddings or captions that can be stored and retrieved alongside text; multimodal
+      Transformers can then attend over both visual and textual tokens. For tables, preserve structure by encoding
+      headers, cell coordinates, and relationships, or expose table-query tools (like SQL engines) that the LLM can
+      call. Chunking must respect visual and tabular boundaries, and metadata should indicate modality so retrieval can
+      select appropriate content. During generation, prompts should guide the model on how to interpret images and
+      tables, grounding reasoning in both modalities. This turns a text-only RAG pipeline into a richer system capable
+      of answering questions that depend on charts, diagrams, and structured data.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 33</h2>
+    <h3>Your RAG knowledge base gets updated frequently and needs versioning. How do you manage it?</h3>
+    <p>
+      Managing versioning requires tracking document histories and exposing them through metadata and retrieval logic.
+      Each document and chunk should have version IDs, timestamps, and possibly change logs; older versions can be kept
+      for audit while retrieval defaults to the latest. Metadata filters allow queries to request specific versions (for
+      regulatory or debugging purposes), and scoring can prioritize newer content. Ingestion pipelines must handle
+      deletions, merges, and splits, updating indices incrementally. The LLM can be prompted to mention version
+      information when relevant, helping users understand whether answers reflect the most current state. This
+      combination of version-aware indexing and reasoning keeps RAG outputs consistent with evolving knowledge.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 34</h2>
+    <h3>Your RAG system fails on multi-hop questions that require combining multiple facts. How do you fix it?</h3>
+    <p>
+      Fixing multi-hop failures involves improving both retrieval connectivity and reasoning. Use query decomposition to
+      break complex questions into simpler sub-queries, retrieving context for each hop separately. GraphRAG or
+      parent-child chunking can encode relationships between entities and documents, making it easier to retrieve
+      connected facts. On the LLM side, encourage chain-of-thought reasoning via prompts or fine-tuning so the model
+      explicitly walks through intermediate steps, attending to different chunks at each stage. Agentic RAG can let the
+      model iteratively retrieve and refine its understanding. Evaluating multi-hop benchmarks and analyzing attention
+      patterns helps identify where reasoning breaks down, guiding targeted improvements.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 35</h2>
+    <h3>Your enterprise RAG system returns contradictory answers from different source documents. How do you resolve conflicts?</h3>
+    <p>
+      Resolving conflicts requires detecting contradictions and applying policies for reconciliation. The LLM can be
+      prompted to compare sources explicitly, highlighting differences and reasoning about which is more authoritative
+      based on metadata like source type, date, and trust level. Retrieval can prioritize high-quality or canonical
+      documents via scoring boosts, reducing the chance that outdated or low-trust sources dominate attention. In some
+      cases, the correct behavior is to present multiple viewpoints and explain the discrepancy rather than choosing one
+      answer. Logging conflicts and feeding them back into curation processes helps improve the knowledge base over
+      time. This combination of metadata-aware retrieval and reflective reasoning keeps enterprise RAG outputs aligned
+      with organizational truth.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 36</h2>
+    <h3>Your RAG system returns outdated answers from an evolving knowledge base. How do you keep it current?</h3>
+    <p>
+      Keeping answers current requires time-aware retrieval and aggressive index maintenance. Ensure that ingestion
+      pipelines promptly process new documents and mark old ones as superseded, updating embeddings and indices
+      incrementally. Use metadata filters and scoring that favor recent content, and prompt the LLM to consider
+      timestamps when reasoning. For highly dynamic domains, combine RAG with live API calls or streaming data sources
+      so the model can ground answers in real-time information. Monitoring queries that frequently hit outdated
+      documents helps identify gaps in the update process. Together, these measures align the Transformer’s reasoning
+      with the freshest available context.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 37</h2>
+    <h3>Your RAG system struggles with PDF documents containing tables and layouts. How do you fix PDF parsing?</h3>
+    <p>
+      Fixing PDF parsing involves using more advanced extraction tools that preserve structure, not just raw text.
+      Layout-aware parsers detect columns, headers, footers, and table boundaries, reconstructing logical reading order
+      and tabular relationships. Once extracted, tables can be serialized with explicit row/column markers or stored in
+      structured formats for downstream retrieval. Chunking should respect these structures, avoiding splits that mix
+      unrelated cells or columns. Embedding models can then capture both textual content and layout cues, and the LLM
+      can be prompted to interpret tables correctly. For complex PDFs, manual curation or semi-automated validation may
+      be necessary to ensure that the knowledge base reflects the document’s true semantics before RAG reasoning is
+      applied.
+    </p>
+  </div>
+
+</body>
+</html>

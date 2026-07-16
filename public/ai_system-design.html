@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI System Design – Expanded Answers</title>
+<link rel="stylesheet" href="./nav.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background: #fafafa;
+        line-height: 1.6;
+    }
+    .question {
+        background: #fff;
+        border: 1px solid #c5c5c5;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        margin-right: 70px;
+    }
+    h2 {
+        margin-top: 0;
+        font-size: 20px;
+    }
+    p {
+        margin: 10px 0 0 0;
+    }
+</style>
+</head>
+<body>
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+
+    <h1>AI System Design </h1>
+<br>
+
+<!-- 1 -->
+<div class="question">
+  <h2>1. Design ChatGPT: Training to Serving (End to End)</h2>
+  <p>
+    Designing a system like ChatGPT requires orchestrating several stages that begin with large scale pretraining
+    and end with low latency inference serving. Pretraining uses massive corpora to teach the model general language
+    understanding, while supervised fine tuning and preference optimization shape the model into a conversational
+    assistant. The serving layer must handle token streaming, batching, caching, and load balancing so the system
+    remains responsive under heavy traffic.
+  </p>
+  <p>
+    End-to-end design starts with <strong>data and model lifecycle</strong>. At the training stage, you need a
+    data pipeline that continuously ingests, cleans, deduplicates, and filters text from multiple sources (web,
+    books, code, chat logs). This feeds into distributed training infrastructure (GPU clusters with tensor and
+    pipeline parallelism) that can handle very large models and long training runs. Checkpointing, experiment
+    tracking, and evaluation on held-out benchmarks are essential to detect regressions early and compare model
+    variants.
+  </p>
+  <p>
+    After pretraining, supervised fine-tuning and preference optimization (e.g., RLHF or DPO) turn the raw model
+    into a safe assistant. This requires a labeling platform for human feedback, safety red-teaming, and policy
+    definition. On the serving side, you design a <strong>inference platform</strong> that supports streaming
+    tokens, dynamic batching, KV-cache reuse, and autoscaling. Requests flow through authentication, safety
+    filters, routing, and a scheduler that groups compatible requests into GPU batches. Monitoring (latency,
+    throughput, error rates, safety violations) and continuous evaluation close the loop so new model versions
+    can be rolled out safely and rolled back if needed.
+  </p>
+</div>
+
+<!-- 2 -->
+<div class="question">
+  <h2>2. Design a RAG System (Chat with Your Documents)</h2>
+  <p>
+    A retrieval augmented generation system combines an embedding model, a vector store, and an LLM to answer
+    questions using external knowledge. The system first converts documents into dense embeddings that capture
+    semantic meaning, then stores them in a vector index optimized for similarity search. At query time, the user
+    question is embedded and matched against the index to retrieve relevant passages. The LLM receives both the
+    query and retrieved context, allowing it to ground its reasoning in factual information and reduce
+    hallucinations.
+  </p>
+  <p>
+    The core of a RAG system is the <strong>document ingestion and indexing pipeline</strong>. Raw documents
+    (PDFs, web pages, emails) are normalized, chunked into semantically coherent segments, and enriched with
+    metadata (source, timestamp, author, section type). Each chunk is embedded using a text encoder and stored in
+    a vector database that supports approximate nearest neighbor search. Good chunking and metadata tagging are
+    crucial so retrieval returns passages that are both relevant and self-contained.
+  </p>
+  <p>
+    At query time, the system embeds the user question, performs similarity search, and may apply reranking based
+    on recency, source reliability, or user-specific preferences. The LLM is then prompted with the question plus
+    retrieved context, along with instructions to quote sources and avoid hallucinations. You can add caching of
+    embeddings and retrieval results, multi-hop retrieval (where the model asks follow-up queries), and
+    per-tenant indexes for multi-tenant scenarios. Evaluation focuses on answer correctness, citation quality,
+    and robustness to conflicting or missing information.
+  </p>
+</div>
+
+<!-- 3 -->
+<div class="question">
+  <h2>3. Design Memory for a Personal AI Assistant</h2>
+  <p>
+    Memory for a personal assistant involves storing structured information about user preferences, past
+    interactions, and long term goals. The system must distinguish between short term conversational context and
+    durable memory that persists across sessions. A memory module typically uses embeddings to represent user
+    statements and a retrieval mechanism to surface relevant memories during future conversations.
+  </p>
+  <p>
+    A good design separates <strong>ephemeral context</strong> (current conversation, recent turns) from
+    <strong>durable memory</strong> (preferences, biography, recurring tasks). Ephemeral context lives in the
+    dialogue state and is passed directly to the model; durable memory is stored in a database or vector store
+    with schemas for facts (e.g., “likes morning workouts”), relationships, and timelines. Each candidate memory
+    is embedded and indexed so the assistant can retrieve relevant items based on the user’s current query.
+  </p>
+  <p>
+    The system also needs policies for <strong>memory lifecycle</strong>: when to create a memory (e.g., explicit
+    user request or repeated patterns), when to update or merge, and when to forget or archive outdated
+    information. Users should be able to inspect and delete memories to maintain trust. During inference, a
+    memory retrieval step runs before the main LLM call, selecting a small set of relevant memories to inject
+    into the prompt. This improves personalization, reduces repetitive questions, and makes the assistant feel
+    like a long-term companion while still respecting privacy and user control.
+  </p>
+</div>
+
+<!-- 4 -->
+<div class="question">
+  <h2>4. Design a Deep Research Agent</h2>
+  <p>
+    A deep research agent performs multi step reasoning across large information spaces. It decomposes a broad
+    question into smaller subproblems, retrieves information from multiple sources, and synthesizes findings into
+    a coherent answer. The agent must maintain an internal scratchpad to track hypotheses, evidence, and
+    intermediate conclusions.
+  </p>
+  <p>
+    Architecturally, you design the agent as a <strong>controller loop</strong> around an LLM. The controller
+    maintains a task state (subquestions, sources consulted, evidence collected) and uses the LLM to propose next
+    actions: search queries, document selection, data transformations, or hypothesis updates. Tool integrations
+    include web search, document retrieval, code execution for data analysis, and possibly structured knowledge
+    bases. The scratchpad is stored as a structured log (JSON or a graph) that records each step, making the
+    reasoning process auditable.
+  </p>
+  <p>
+    To balance exploration and precision, you can implement strategies like breadth-first exploration of
+    subtopics, confidence scoring for evidence, and stopping criteria when marginal gains drop. The final answer
+    is generated by prompting the LLM with the curated scratchpad, asking it to synthesize a clear, cited
+    summary. Evaluation looks at factual accuracy, coverage of relevant sources, and transparency of reasoning.
+    This design turns the agent into a systematic researcher rather than a single-shot answer generator.
+  </p>
+</div>
+
+<!-- 5 -->
+<div class="question">
+  <h2>5. Design a Multi-Agent Customer Support System</h2>
+  <p>
+    A multi agent customer support system assigns specialized agents to different tasks such as triage,
+    troubleshooting, escalation, and summarization. Each agent has its own capabilities and decision boundaries,
+    and a coordinator agent routes user queries to the appropriate specialist. The system must define
+    communication protocols so agents can share context and avoid redundant work.
+  </p>
+  <p>
+    The core idea is to model the system as a <strong>orchestrated workflow</strong>. A front-door triage agent
+    classifies incoming requests (billing, technical issue, account access, complaints) and gathers key details.
+    Based on this classification, the coordinator routes the case to specialized agents: a troubleshooting agent
+    that interacts with knowledge bases and diagnostic tools, an escalation agent that decides when to involve
+    humans, and a summarization agent that produces concise case notes and customer-facing updates.
+  </p>
+  <p>
+    Agents communicate via structured messages (JSON payloads with intent, context, and results) rather than free
+    text, which keeps the workflow deterministic and debuggable. Parallelization is possible: for complex issues,
+    multiple agents can work concurrently on different aspects (e.g., log analysis and policy checks). Monitoring
+    tracks resolution time, handoff counts, and customer satisfaction. This multi-agent design improves
+    reliability and scalability compared to a single generalist model, while still allowing humans to intervene
+    at key points.
+  </p>
+</div>
+
+<!-- 6 -->
+<div class="question">
+    <h2>6. Design an On-Device AI Assistant</h2>
+    <p>
+        An on device assistant requires models optimized for limited compute, memory, and power. Quantization, pruning, and distillation reduce model size while preserving quality. The system must implement efficient token generation pipelines that minimize latency on mobile hardware. Privacy is enhanced because user data stays on the device, but the assistant must still handle updates and synchronization with cloud services. Designing for offline capability requires careful selection of tasks that can run locally without external retrieval.
+    </p>
+</div>
+
+<!-- 7 -->
+<div class="question">
+    <h2>7. Design a Multimodal Search System (Text, Image, Video)</h2>
+    <p>
+        A multimodal search system uses encoders for text, images, and video to create unified embeddings that allow cross modal retrieval. The system must normalize embeddings so similarity scores remain meaningful across modalities. Video search requires extracting key frames or temporal embeddings that capture motion and scene changes. The retrieval engine must support large scale indexing and fast approximate nearest neighbor search. Multimodal search improves user experience by allowing queries like describing an image in text or finding videos related to a concept.
+    </p>
+</div>
+
+<!-- 8 -->
+<div class="question">
+    <h2>8. Design an LLM Inference Platform (vLLM-as-a-Service)</h2>
+    <p>
+        An inference platform uses optimized kernels, continuous batching, and memory efficient attention to maximize throughput. The scheduler groups requests into batches so the GPU processes multiple sequences in parallel. The system must manage key value caches for attention layers to avoid recomputing past tokens. A robust platform also includes autoscaling, model versioning, and monitoring for latency and token generation speed. Designing such a platform requires deep understanding of transformer internals and GPU memory behavior.
+    </p>
+</div>
+
+<!-- 9 -->
+<div class="question">
+    <h2>9. Design an LLM Evaluation Platform</h2>
+    <p>
+        An evaluation platform measures model quality using benchmarks, human feedback, and automated metrics. It must support diverse task types such as reasoning, summarization, coding, and safety evaluation. The system stores evaluation results in a structured format so trends can be analyzed over time. A good platform also includes adversarial testing to uncover failure modes. Continuous evaluation ensures that model updates improve performance without introducing regressions.
+    </p>
+</div>
+
+<!-- 10 -->
+<div class="question">
+    <h2>10. Design a Text-to-Image Generation Service</h2>
+    <p>
+        A text to image service uses diffusion or transformer based models to generate images from natural language prompts. The system must handle prompt parsing, safety filtering, and model inference with high resolution outputs. Serving requires tiling, upscaling, and efficient GPU scheduling because image generation is computationally heavy. The platform also needs a gallery, history tracking, and user controls for style, resolution, and variation. Good design ensures consistent image quality and predictable interpretation of prompts.
+    </p>
+</div>
+
+<!-- 11 -->
+<div class="question">
+    <h2>11. Design a Music Generation Service</h2>
+    <p>
+        Music generation systems use audio transformers or diffusion models trained on symbolic or waveform data. The service must convert text prompts into structured musical representations such as melody, rhythm, and instrumentation. Generating audio requires long sequence modeling and careful handling of temporal coherence. The platform must support streaming output so users can hear results as they are generated. A complete design includes editing tools, style controls, and safety filters for copyrighted melodies.
+    </p>
+</div>
+
+<!-- 12 -->
+<div class="question">
+    <h2>12. Design a Video Generation Service</h2>
+    <p>
+        Video generation requires models capable of producing coherent sequences of frames that maintain consistent objects, lighting, and motion. The system must handle prompt interpretation, scene planning, and temporal diffusion. Serving video generation is challenging because it requires large GPU memory and long inference times. The platform must stitch frames, apply stabilization, and encode the final output into standard formats. A well designed system also includes controls for duration, camera movement, and visual style.
+    </p>
+</div>
+
+<!-- 13 -->
+<div class="question">
+  <h2>13. Design an AI Coding Agent</h2>
+  <p>
+    “An AI coding agent must combine code generation, static analysis, and execution feedback.”  
+    This system is fundamentally a multi‑step reasoning loop wrapped around an LLM. The agent must be able to
+    understand project context, propose code changes, execute tests, interpret errors, and refine its output.
+    Unlike single‑shot code generation, a coding agent behaves more like a junior developer who iterates until
+    the solution works.
+  </p>
+  <p>
+    Architecturally, the agent includes a <strong>planning module</strong> that decomposes tasks into steps
+    (e.g., “read file”, “modify function”, “run tests”). A <strong>tool layer</strong> provides access to the
+    filesystem, compilers, linters, dependency graphs, and test runners. The agent maintains a <strong>state
+    log</strong> of attempted changes, errors encountered, and hypotheses about what to fix next. Safety
+    guardrails prevent destructive operations such as deleting critical files or executing unsafe code.
+  </p>
+  <p>
+    The refinement loop continues until tests pass or the agent reaches a confidence threshold. Evaluation
+    focuses on correctness, reproducibility, and the agent’s ability to handle multi‑file, multi‑step tasks.
+  </p>
+</div>
+
+<!-- 14 -->
+<div class="question">
+  <h2>14. Design a Code Generation and Review System</h2>
+  <p>
+    “A code generation and review system uses an LLM to propose code changes and evaluate existing code for
+    correctness, style, and security.”  
+    This system acts as both an automated reviewer and a code assistant. It must integrate tightly with version
+    control systems so it can read diffs, annotate pull requests, and generate patches.
+  </p>
+  <p>
+    The review pipeline includes <strong>static analysis</strong>, <strong>security scanning</strong>,
+    <strong>style enforcement</strong>, and <strong>context retrieval</strong> (project structure, coding
+    standards, dependency versions). The LLM uses this context to produce actionable comments and suggested
+    fixes. For generation tasks, the system must ensure the model understands the surrounding codebase rather
+    than generating isolated snippets.
+  </p>
+  <p>
+    Automated testing validates generated code before submission. The system must also track model performance
+    across repositories to detect regressions or unsafe patterns.
+  </p>
+</div>
+
+<!-- 15 -->
+<div class="question">
+  <h2>15. Design a Content Moderation System Using AI</h2>
+  <p>
+    “Content moderation systems use classifiers and LLMs to detect harmful, unsafe, or policy violating content.”  
+    Moderation requires a multi‑stage pipeline that can handle text, images, audio, and video in real time.
+    Because false positives have major user‑experience consequences, the system must be both strict and fair.
+  </p>
+  <p>
+    The pipeline typically includes <strong>pre‑filters</strong> (keyword or rule‑based), <strong>ML
+    classifiers</strong> (toxicity, violence, hate speech), and <strong>LLM reasoning layers</strong> for
+    nuanced cases. High‑risk outputs are routed to human reviewers. The system must maintain detailed logs for
+    auditing, appeals, and regulatory compliance.
+  </p>
+  <p>
+    Continuous retraining and red‑teaming ensure the system adapts to new forms of abuse. Evaluation focuses on
+    precision, recall, fairness, and latency.
+  </p>
+</div>
+
+<!-- 16 -->
+<div class="question">
+  <h2>16. Design a Real-Time AI Recommendation System</h2>
+  <p>
+    “Real time recommendation systems use embeddings, user behavior signals, and ranking models to deliver
+    personalized suggestions.”  
+    These systems must operate under strict latency budgets—often under 50 ms—while processing millions of
+    events per second.
+  </p>
+  <p>
+    The architecture includes <strong>real‑time feature pipelines</strong> (clicks, views, purchases),
+    <strong>embedding stores</strong>, and <strong>ranking models</strong> that combine relevance, diversity,
+    and personalization. A fast retrieval layer (ANN search) fetches candidate items, and a ranking model scores
+    them using user profiles and contextual signals.
+  </p>
+  <p>
+    A/B testing infrastructure is essential for evaluating new models. The system must also prevent echo
+    chambers by enforcing diversity constraints.
+  </p>
+</div>
+
+<!-- 17 -->
+<div class="question">
+  <h2>17. Design an AI-Powered Email Assistant</h2>
+  <p>
+    “An AI email assistant must understand user intent, summarize long threads, and generate context aware
+    replies.”  
+    The assistant integrates with email APIs to read messages, classify them, and propose actions such as reply,
+    archive, or schedule.
+  </p>
+  <p>
+    The system includes <strong>thread summarization</strong>, <strong>intent detection</strong>, <strong>memory
+    retrieval</strong> (user preferences, ongoing conversations), and <strong>draft generation</strong>. Safety
+    layers ensure the assistant does not send unintended or harmful messages, and users must approve high‑risk
+    actions.
+  </p>
+  <p>
+    Over time, the assistant learns user tone, writing style, and preferred workflows, improving personalization
+    and reducing cognitive load.
+  </p>
+</div>
+
+<!-- 18 -->
+<div class="question">
+  <h2>18. Design a Medical Diagnosis Assistant Using AI</h2>
+  <p>
+    “A medical diagnosis assistant uses specialized models trained on clinical data to support healthcare
+    professionals.”  
+    This system must be extremely cautious: it supports clinicians but never replaces them.
+  </p>
+  <p>
+    The assistant retrieves patient history, symptoms, lab results, and imaging data. It generates differential
+    diagnoses, suggests tests, and highlights risk factors. Safety mechanisms include uncertainty reporting,
+    disclaimers, and mandatory human verification.
+  </p>
+  <p>
+    The platform must comply with privacy regulations (HIPAA, GDPR), enforce strict access controls, and log all
+    interactions for auditing. Evaluation focuses on clinical accuracy, bias mitigation, and safety.
+  </p>
+</div>
+
+<!-- 19 -->
+<div class="question">
+  <h2>19. Design a Fraud Detection System Powered by LLMs</h2>
+  <p>
+    “Fraud detection systems analyze transactions, user behavior, and communication patterns to identify
+    anomalies.”  
+    LLMs add value by interpreting unstructured data such as emails, chats, or support tickets to detect
+    suspicious intent.
+  </p>
+  <p>
+    The system combines <strong>rule‑based filters</strong>, <strong>anomaly detection models</strong>, and
+    <strong>LLM reasoning</strong>. Real‑time scoring pipelines evaluate transactions within milliseconds.
+    Alerts are routed to investigators, who provide feedback that improves the model over time.
+  </p>
+  <p>
+    Evaluation focuses on false‑positive reduction, latency, and adaptability to new fraud patterns.
+  </p>
+</div>
+
+<!-- 20 -->
+<div class="question">
+  <h2>20. Design an AI-Powered Data Extraction Pipeline from Unstructured Documents</h2>
+  <p>
+    “Data extraction pipelines use OCR, layout analysis, and LLMs to convert unstructured documents into
+    structured fields.”  
+    This system must handle PDFs, scans, handwritten text, and multi‑column layouts.
+  </p>
+  <p>
+    The pipeline includes <strong>OCR</strong>, <strong>layout detection</strong> (bounding boxes, tables),
+    <strong>LLM extraction</strong>, and <strong>validation rules</strong>. Spatial information improves
+    accuracy, especially for invoices, forms, and financial documents.
+  </p>
+  <p>
+    Extracted fields are validated using heuristics or external databases. The system must support audit trails,
+    error correction workflows, and high accuracy thresholds to reduce manual review.
+  </p>
+</div>
+
+<!-- 21 -->
+<div class="question">
+    <h2>21. Design a Personalized Learning Assistant</h2>
+    <p>
+        A personalized learning assistant tracks user progress, identifies knowledge gaps, and generates tailored study plans. The system uses embeddings to model user understanding across topics. It must adapt difficulty based on performance and provide explanations suited to the learner's style. Memory modules store long term learning history so the assistant can plan future lessons. A well designed assistant improves retention and keeps learners motivated.
+    </p>
+</div>
+
+<!-- 22 -->
+<div class="question">
+    <h2>22. Design an AI System for Automated Code Migration</h2>
+    <p>
+        Automated code migration systems translate codebases from one language or framework to another. The system must analyze project structure, dependencies, and architectural patterns. LLMs generate target language code, while static analysis tools verify correctness and compatibility. The platform must support iterative refinement because migration often requires multiple passes. Good design ensures the system preserves functionality and minimizes manual intervention.
+    </p>
+</div>
+
+<!-- 23 -->
+<div class="question">
+    <h2>23. Design an AI-Powered Legal Document Review System</h2>
+    <p>
+        Legal review systems use LLMs to analyze contracts, policies, and regulatory documents. The system must extract clauses, identify risks, and highlight inconsistencies. It must support citation tracking and cross referencing across multiple documents. Safety layers ensure the model avoids hallucinating legal interpretations. A robust design includes human oversight because legal decisions require expert judgment.
+    </p>
+</div>
+
+<!-- 24 -->
+<div class="question">
+    <h2>24. Design a Conversational AI System with Memory Across Sessions</h2>
+    <p>
+        A conversational system with long term memory stores user preferences, past conversations, and personal details. The memory module retrieves relevant information during future interactions to maintain continuity. The system must implement policies for updating and forgetting memories so they remain accurate. Embedding based retrieval ensures the assistant can surface memories even when phrasing differs. Good design makes the assistant feel consistent and aware of long term context.
+    </p>
+</div>
+
+<!-- 25 -->
+<div class="question">
+    <h2>25. How do you design for latency vs quality trade-offs in AI systems?</h2>
+    <p>
+        Designing for latency versus quality requires balancing model size, decoding strategy, and retrieval complexity. Larger models produce higher quality outputs but increase inference time. Systems often use techniques like caching, batching, and quantization to reduce latency without sacrificing too much quality. Some applications use tiered models where a smaller model handles simple queries and a larger model handles complex ones. Good design ensures users receive fast responses while maintaining acceptable accuracy.
+    </p>
+</div>
+
+<!-- 26 -->
+<div class="question">
+    <h2>26. How do you implement caching strategies for LLM applications?</h2>
+    <p>
+        Caching strategies store repeated prompts, embeddings, or retrieval results to reduce redundant computation. Systems often cache key value attention states for long conversations so the model does not recompute past tokens. RAG systems cache document embeddings and search results to accelerate retrieval. Effective caching requires eviction policies and monitoring to ensure cache entries remain relevant. Good caching design improves throughput and reduces cost.
+    </p>
+</div>
+
+<!-- 27 -->
+<div class="question">
+    <h2>27. How do you design rate limiting and cost management for AI APIs?</h2>
+    <p>
+        Rate limiting ensures fair usage and prevents system overload by controlling how many requests each user can send. Cost management requires tracking token usage, model selection, and request patterns. Systems often implement quotas, usage dashboards, and alerts to help users manage consumption. A good design also includes fallback models to reduce cost when high quality is not required. These strategies ensure predictable billing and stable system performance.
+    </p>
+</div>
+
+<!-- 28 -->
+<div class="question">
+    <h2>28. How do you handle failover and fallback strategies for AI systems?</h2>
+    <p>
+        Failover strategies redirect traffic to backup models or regions when primary systems fail. Fallback strategies use smaller or simpler models when the main model is unavailable. The system must detect failures quickly using health checks and monitoring. A robust design ensures users still receive responses even during outages. These strategies improve reliability and maintain user trust.
+    </p>
+</div>
+
+<!-- 29 -->
+<div class="question">
+    <h2>29. How do you design an AI system for high availability and fault tolerance?</h2>
+    <p>
+        High availability requires redundant infrastructure, distributed serving, and automatic recovery mechanisms. Fault tolerance ensures the system continues operating even when components fail. The platform must replicate data across regions and use load balancers to distribute traffic. Monitoring and alerting help engineers respond to issues quickly. Good design minimizes downtime and ensures consistent service.
+    </p>
+</div>
+
+<!-- 30 -->
+<div class="question">
+    <h2>30. How do you design an AI system that gracefully degrades when the model is unavailable?</h2>
+    <p>
+        Graceful degradation ensures the system provides partial functionality when the main model cannot respond. The system may return cached answers, use smaller models, or provide rule based responses. It must detect outages and switch modes automatically. Designing fallback behavior prevents complete service disruption and maintains user experience. This approach is essential for mission critical applications.
+    </p>
+</div>
+
+<!-- 31 -->
+<div class="question">
+    <h2>31. What are the key considerations for multi-region deployment of AI systems?</h2>
+    <p>
+        Multi region deployment requires distributing models and data across geographic locations to reduce latency and improve reliability. The system must handle synchronization, versioning, and consistency across regions. Traffic routing ensures users connect to the nearest region. A robust design also includes disaster recovery plans and monitoring for regional performance. Multi region deployment improves global user experience and resilience.
+    </p>
+</div>
+
+<!-- 32 -->
+<div class="question">
+    <h2>32. Design an AI-Powered Search Engine for an E-Commerce Platform</h2>
+    <p>
+        An e commerce search engine uses embeddings, product metadata, and ranking models to deliver highly relevant results. The system must support semantic search so users can find products even when queries do not match exact keywords. Product catalogs often contain millions of items, so the search engine requires fast indexing and approximate nearest neighbor retrieval. Ranking models incorporate signals such as click through rate, price, availability, and personalization. A complete design also includes spell correction, query rewriting, and faceted filtering to improve user experience.
+    </p>
+</div>
+
+<!-- 33 -->
+<div class="question">
+    <h2>33. Design an AI Gateway or Proxy for Managing LLM Access Across an Organization</h2>
+    <p>
+        An AI gateway acts as a centralized control layer that manages authentication, routing, logging, and policy enforcement for all LLM traffic. The system must support multiple model providers and versions so teams can choose the best model for their use case. Rate limiting, cost tracking, and usage analytics help organizations manage consumption and prevent misuse. The gateway also enforces safety policies by filtering prompts and responses. A well designed gateway simplifies integration and ensures consistent governance across all applications.
+    </p>
+</div>
+
+<!-- 34 -->
+<div class="question">
+    <h2>34. How do you design a RAG system that handles conflicting information across sources?</h2>
+    <p>
+        Handling conflicting information requires ranking retrieved documents based on reliability, recency, and source credibility. The system must detect contradictions by comparing semantic meaning across retrieved passages. Some designs use multiple retrieval passes to gather broader context before generating an answer. The LLM must be instructed to cite sources and explain disagreements rather than merging them into a single narrative. Good design ensures the system remains transparent and avoids presenting uncertain information as fact.
+    </p>
+</div>
+
+<!-- 35 -->
+<div class="question">
+    <h2>35. How do you approach capacity planning for an AI system?</h2>
+    <p>
+        Capacity planning requires estimating peak traffic, average load, and expected growth over time. The system must account for GPU availability, model size, and inference latency. Engineers often run load tests to measure throughput and identify bottlenecks. Autoscaling policies ensure the system can expand during high demand and contract during low usage. Good planning prevents outages and ensures cost efficient operation.
+    </p>
+</div>
+
+<!-- 36 -->
+<div class="question">
+    <h2>36. Design a Multi-Tenant AI Chatbot Platform with Custom Chatbots for Each Business</h2>
+    <p>
+        A multi tenant chatbot platform hosts separate conversational agents for different businesses while sharing underlying infrastructure. The system must isolate data so each tenant's information remains private and secure. Customization layers allow businesses to define tone, domain knowledge, and workflows. The platform must support fine tuning or RAG so each chatbot can specialize in its industry. A robust design includes monitoring, analytics, and configuration tools that allow tenants to manage their bots without engineering support.
+    </p>
+</div>
+
+<!-- 37 -->
+<div class="question">
+    <h2>37. Design an AI Meeting Summarizer System for Thousands of Meetings Daily</h2>
+    <p>
+        A meeting summarizer processes audio or transcripts to generate concise summaries and action items. The system must scale horizontally to handle thousands of concurrent recordings. Speech recognition models convert audio to text, and LLMs extract key points, decisions, and follow ups. Metadata such as participants and timestamps improves summary accuracy. A complete design includes storage, search, and notification features so summaries integrate seamlessly into workflows.
+    </p>
+</div>
+
+<!-- 38 -->
+<div class="question">
+    <h2>38. Design an AI Notification System That Prioritizes Instead of Broadcasting</h2>
+    <p>
+        A prioritized notification system uses machine learning to determine which alerts are important and which can be delayed or suppressed. The system models user behavior, urgency, and historical interactions to compute priority scores. LLMs can interpret unstructured messages to understand their significance. The platform must support scheduling, batching, and escalation rules. Good design reduces noise and ensures users receive only meaningful notifications.
+    </p>
+</div>
+
+<!-- 39 -->
+<div class="question">
+    <h2>39. Design an AI-Powered Anomaly Detection System for Cloud Infrastructure</h2>
+    <p>
+        Anomaly detection systems analyze logs, metrics, and events to identify unusual behavior in cloud environments. Models learn normal patterns and flag deviations that may indicate failures or security issues. LLMs can interpret complex logs and correlate signals across multiple services. The system must support real time streaming pipelines and alerting mechanisms. A robust design includes feedback loops so engineers can refine detection rules and reduce false alarms.
+    </p>
+</div>
+
+<!-- 40 -->
+<div class="question">
+  <h2>40. Design an AI-Powered Document Processing Pipeline for Financial Institutions</h2>
+  <p>
+    “Financial document processing requires high accuracy because errors can affect compliance and reporting.”  
+    Financial institutions deal with statements, contracts, KYC forms, loan documents, and regulatory filings,
+    all of which require extremely precise extraction. Even small mistakes can lead to compliance violations,
+    audit failures, or financial loss.
+  </p>
+  <p>
+    The pipeline begins with <strong>OCR and layout analysis</strong> to convert PDFs, scans, and multi‑column
+    documents into structured representations. Layout models detect tables, signatures, stamps, footnotes, and
+    hierarchical sections. LLMs then perform semantic extraction, mapping text spans to fields such as account
+    numbers, balances, interest rates, or legal clauses.
+  </p>
+  <p>
+    A <strong>validation layer</strong> checks extracted values against rules (e.g., checksum validation,
+    expected ranges, cross-field consistency). Sensitive data must be encrypted and stored securely with audit
+    trails. The system integrates with downstream workflows such as compliance checks, risk scoring, and
+    reporting dashboards.
+  </p>
+</div>
+
+<!-- 41 -->
+<div class="question">
+  <h2>41. Design an AI Dynamic Pricing Engine</h2>
+  <p>
+    “Dynamic pricing engines analyze demand, inventory, competition, and user behavior to adjust prices in real
+    time.”  
+    The goal is to maximize revenue, conversion, or margin while avoiding unfair or extreme price fluctuations.
+  </p>
+  <p>
+    The engine collects signals such as inventory levels, competitor prices, user browsing patterns, seasonality,
+    and historical demand curves. A <strong>prediction model</strong> estimates the optimal price for each item
+    at each moment. LLMs can interpret market trends, summarize competitor movements, or explain pricing
+    decisions to business stakeholders.
+  </p>
+  <p>
+    A <strong>policy layer</strong> enforces constraints (e.g., minimum margin, maximum daily change, fairness
+    rules). The system integrates with checkout and inventory systems to apply prices instantly. Monitoring
+    detects anomalies such as runaway price increases or drops caused by faulty signals.
+  </p>
+</div>
+
+<!-- 42 -->
+<div class="question">
+  <h2>42. Design an AI Resume Screening System That Handles 100K Applications per Week</h2>
+  <p>
+    “Resume screening systems use embeddings and classifiers to evaluate candidate qualifications at scale.”  
+    Handling 100K+ resumes weekly requires distributed processing, efficient batching, and robust fairness
+    controls.
+  </p>
+  <p>
+    The pipeline begins with <strong>resume parsing</strong> to extract structured fields (skills, experience,
+    education). Embedding models convert candidate profiles and job descriptions into dense vectors for semantic
+    matching. LLMs interpret ambiguous descriptions, infer missing details, and evaluate relevance.
+  </p>
+  <p>
+    A ranking model scores candidates based on skill match, seniority, recency of experience, and role-specific
+    criteria. Fairness modules detect bias across gender, ethnicity, age, or geography. The system must support
+    audit logs, recruiter dashboards, and human-in-the-loop review for borderline cases.
+  </p>
+</div>
+
+<!-- 43 -->
+<div class="question">
+  <h2>43. Design an AI Voice Assistant Architecture</h2>
+  <p>
+    “A voice assistant architecture combines speech recognition, intent classification, dialogue management, and
+    text to speech synthesis.”  
+    The system must process audio streams with low latency to maintain natural interaction.
+  </p>
+  <p>
+    The pipeline begins with <strong>ASR (Automatic Speech Recognition)</strong> to convert audio into text.
+    Intent classification identifies user goals (e.g., set a reminder, play music, search the web). A dialogue
+    manager maintains context across turns and decides how to respond.
+  </p>
+  <p>
+    The LLM generates responses based on intent and context. A <strong>TTS (Text-to-Speech)</strong> module
+    converts responses into natural-sounding audio. The assistant integrates with external tools such as
+    calendars, smart home devices, and search APIs. Latency optimization is critical: audio buffering,
+    streaming ASR, and incremental TTS ensure smooth conversation flow.
+  </p>
+</div>
+
+<!-- 44 -->
+<div class="question">
+  <h2>44. Design a Multi-Agent Workflow System Where Agents Collaborate on Complex Tasks</h2>
+  <p>
+    “A multi agent workflow system assigns specialized agents to different subtasks and coordinates their
+    interactions.”  
+    Complex tasks require decomposition, coordination, and structured communication between agents.
+  </p>
+  <p>
+    The system includes a <strong>central orchestrator</strong> that breaks tasks into subtasks and assigns them
+    to specialized agents (e.g., research agent, coding agent, summarization agent). Agents communicate using
+    structured messages containing context, results, and next-step proposals.
+  </p>
+  <p>
+    LLMs enable agents to reason about dependencies, detect conflicts, and adapt plans dynamically. Parallel
+    execution allows multiple agents to work simultaneously. The orchestrator merges outputs, resolves
+    inconsistencies, and produces a final result. Monitoring tracks agent performance, bottlenecks, and error
+    patterns.
+  </p>
+</div>
+
+<!-- 45 -->
+<div class="question">
+  <h2>45. Design a Real-Time AI Transcription System for Concurrent Audio Streams</h2>
+  <p>
+    “Real time transcription systems process multiple audio streams simultaneously using distributed speech
+    recognition models.”  
+    High concurrency requires efficient GPU scheduling and load balancing.
+  </p>
+  <p>
+    The system receives streaming audio from many sources (meetings, calls, broadcasts). A distributed ASR layer
+    processes audio chunks in parallel, producing partial transcripts with timestamps. Buffering and
+    synchronization ensure segments are aligned correctly.
+  </p>
+  <p>
+    LLMs refine raw transcripts by correcting grammar, adding punctuation, and identifying speakers. The system
+    must support diarization, language detection, and domain-specific vocabulary. Outputs are stored with
+    metadata for search, summarization, and downstream analytics.
+  </p>
+</div>
+
+<!-- 46 -->
+<div class="question">
+  <h2>46. Design an AI-Powered Live Streaming Analysis System</h2>
+  <p>
+    “Live streaming systems require real-time processing of audio, video, and chat to extract insights.”  
+    Although the original text was truncated, the design principles remain clear: the system must analyze
+    multiple modalities simultaneously under strict latency constraints.
+  </p>
+  <p>
+    The architecture includes <strong>video frame analysis</strong> (object detection, scene changes),
+    <strong>audio transcription</strong>, and <strong>chat sentiment analysis</strong>. LLMs synthesize signals
+    to produce insights such as trending topics, viewer reactions, or safety alerts.
+  </p>
+  <p>
+    A real-time pipeline processes frames and messages within milliseconds. GPU scheduling, batching, and
+    priority queues ensure smooth performance. The system can trigger alerts (e.g., inappropriate content,
+    sudden spikes in negative sentiment) and generate summaries for creators or moderators.
+  </p>
+</div>
+
+
+</body>
+</html>

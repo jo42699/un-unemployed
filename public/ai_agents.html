@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Agents and Agentic Systems Questions</title>
+  <link rel="stylesheet" href="./nav.css">
+</head>
+
+<style> 
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 40px;
+  background-color: #f5f7fb;
+  color: #1f2933;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 24px;
+  color: #111827;
+}
+
+.question {
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-right: 60px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.question h2 {
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+  color: #0f172a;
+}
+
+.question p {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.question:nth-child(odd) {
+  border-left: 4px solid #3b82f6;
+}
+
+.question:nth-child(even) {
+  border-left: 4px solid #6366f1;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .question {
+    padding: 16px 18px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .question h2 {
+    font-size: 1rem;
+  }
+}
+
+
+</style>
+
+<body>
+
+  <nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+<br>
+
+
+
+
+
+
+  <h1>AI Agents and Agentic Systems</h1>
+
+  <div class="question">
+    <h2>Question 1: What is an AI agent, and how does it differ from a simple LLM call?</h2>
+    <p>
+      Answer: AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization and AI Agent Explained.
+      An AI agent is a system that uses an LLM as a core reasoning engine but wraps it in a loop of perception, planning, action, and feedback. Unlike a simple one-off LLM call that just maps a prompt to a completion, an agent maintains state across turns, uses memory, and can call tools or APIs to affect the external world. Technically, the agent loop repeatedly feeds structured context—such as prior messages, tool results, and goals—into the Transformer model, which processes tokens through attention layers to produce the next action or tool invocation. The agent’s behavior emerges from the LLM’s learned policy over token sequences, combined with orchestration code that interprets outputs (e.g., function-call tokens) and routes them to tools, then re-injects the results back into the context for further reasoning and sampling.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 2: AI Agent Memory</h2>
+    <p>
+      Answer: AI Agent Memory.
+      AI agent memory refers to the mechanisms by which an agent persists information across interactions so it can condition future reasoning on past events. At the token level, short-term memory is represented by the current context window fed into the Transformer, which includes recent messages, tool outputs, and intermediate thoughts. Long-term memory is typically implemented via external storage—such as vector databases or key–value stores—where text is embedded into high-dimensional vectors and retrieved using semantic search to augment the prompt. Episodic memory captures structured “episodes” of interaction, like tasks, failures, and successes, which can be summarized and reinserted into the context to guide future decisions. Effective memory design balances token budget, retrieval quality, and relevance, ensuring that attention layers focus on the most important tokens while training or fine-tuning can adapt the model to use memory patterns more reliably.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 3: Harness Engineering in AI</h2>
+    <p>
+      Answer: Harness Engineering in AI.
+      Harness engineering in AI is about building the surrounding infrastructure that reliably drives LLMs and agents: prompts, evaluation harnesses, logging, and orchestration. At the technical level, a harness defines how tokenized inputs are constructed—system prompts, user messages, tool schemas—and how outputs are parsed, validated, and potentially re-sampled using different decoding strategies (e.g., temperature, top-k, or nucleus sampling). It also includes instrumentation for tracking token usage, latency, and error modes, which can be analyzed to refine prompts or training data. By treating the LLM as a component inside a well-engineered harness, teams can systematically test reasoning behaviors, compare models, and enforce guardrails, turning raw Transformer capabilities into dependable agentic workflows.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 4: Explain the ReAct (Reasoning + Acting) agent architecture.</h2>
+    <p>
+      Answer: ReAct Agent.
+      The ReAct architecture combines chain-of-thought reasoning with explicit actions such as tool calls or environment interactions. In practice, the LLM is prompted to alternate between “Thought:” and “Action:” tokens, where the thought segment uses attention over the current context to plan, and the action segment emits a structured command (e.g., a function call) that the harness executes. The results of the action are then fed back as new tokens, allowing the Transformer to update its internal representation and continue reasoning. This pattern leverages the model’s training on natural language reasoning while giving it a way to ground its decisions in external data, reducing hallucinations and improving task completion. Sampling strategies can be tuned so that reasoning steps are verbose enough for transparency but still efficient in token usage.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 5: What is the Plan-and-Execute agent pattern?</h2>
+    <p>
+      Answer: Plan-and-Execute Agent.
+      The Plan-and-Execute pattern separates high-level planning from low-level execution. First, the LLM is prompted to generate a structured plan—a sequence of steps or sub-tasks—using its Transformer-based reasoning over the goal and available tools. This plan is then executed step-by-step, often by the same or another agent, with each step potentially invoking tools, APIs, or code. Execution results are fed back into the context, and the agent may re-plan if discrepancies or failures occur. This separation improves reliability because the planning phase can be inspected, constrained, or even optimized with additional models, while execution can be parallelized or monitored for token consumption and error handling. It also allows different sampling strategies for planning (more exploratory) versus execution (more deterministic).
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 6: What is tool use (function calling) in LLMs, and how does it enable agents?</h2>
+    <p>
+      Answer:  AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization.
+      Tool use, often called function calling, is the ability of an LLM to emit structured outputs that represent calls to external functions, APIs, or services. The model is given a schema describing tools—names, parameters, and types—and during generation it produces special tokens or JSON-like structures that the harness interprets as tool invocations. This bridges the gap between pure text generation and actionable behavior, allowing the agent to fetch data, perform computations, or interact with systems beyond its training corpus. Internally, the Transformer attends to both the natural language context and the tool schema tokens, learning patterns that map user intents to appropriate tools and parameter values. Once the tool result is returned, it is tokenized and reinserted into the context, enabling the model to integrate fresh information into its reasoning loop.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 7: How do you design and define tools for an AI agent?</h2>
+    <p>
+      Answer:AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization.
+      Designing tools for an AI agent involves specifying clear, machine-readable interfaces that the LLM can understand and reliably call. Each tool should have a descriptive name, a natural-language description, and a parameter schema with types and constraints, often expressed in JSON Schema or similar formats. These definitions are injected into the prompt so the Transformer’s attention layers can learn associations between user intents and tool capabilities. Good tool design minimizes ambiguity, avoids overlapping responsibilities, and returns structured outputs that are easy to parse and reinsert into the context. During evaluation, you can analyze how often the model selects each tool, whether parameters are correctly extracted, and adjust prompts or fine-tune on tool-calling examples to improve accuracy and reduce hallucinated capabilities.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 8: What is the difference between single-agent and multi-agent systems?</h2>
+    <p>
+      Answer: Multi-Agent Systems.
+      A single-agent system uses one LLM-driven agent to handle all tasks, whereas a multi-agent system coordinates several specialized agents that may communicate and collaborate. In multi-agent setups, each agent can have its own prompt, tools, and memory, effectively creating different “roles” or expertise domains. Messages between agents are themselves tokenized and processed by Transformers, enabling emergent behaviors like debate, critique, or negotiation. Orchestration logic manages routing—deciding which agent should handle which sub-task—and aggregates their outputs into a final answer or action. Multi-agent systems can improve reasoning depth and robustness but require careful control of token budgets, communication protocols, and conflict resolution when agents produce divergent results.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 9: What is Model Context Protocol (MCP), and how does it standardize tool integration?</h2>
+    <p>
+      Answer: AI Engineering Explained: LLM, RAG, MCP, Agent, Fine-Tuning, Quantization.
+      Model Context Protocol (MCP) is a specification for how models, tools, and external systems exchange context in a standardized way. It defines how tool schemas, environment state, and user inputs are represented so that different LLMs and runtimes can interoperate without bespoke glue code. Technically, MCP structures the tokenizable context into well-defined sections—system metadata, tool definitions, messages, and results—so attention mechanisms can reliably focus on relevant parts. By standardizing tool integration, MCP reduces the risk of mis-specified functions, inconsistent parameter formats, and brittle prompt engineering. It also enables richer agentic behaviors, such as cross-model tool sharing and consistent logging of tool calls for evaluation and safety auditing.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 10: What are AI SubAgents?</h2>
+    <p>
+      Answer: AI SubAgents.
+      AI SubAgents are specialized agents nested within a larger agentic system, each responsible for a particular capability or domain. For example, a main orchestration agent might delegate code generation to a coding subagent, data retrieval to a RAG subagent, and safety checks to a guardrail subagent. Each subagent has its own prompt, tools, and sometimes its own memory store, allowing the Transformer to focus attention on domain-specific tokens and schemas. The orchestration layer routes tasks and aggregates subagent outputs, often using additional reasoning steps to reconcile differences. SubAgents help manage complexity, reduce prompt length for each role, and allow targeted fine-tuning or model selection (e.g., using a smaller model for simple retrieval and a larger one for complex reasoning).
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 11: What are the different types of agent memory (short-term, long-term, episodic)?</h2>
+    <p>
+      Answer: AI Agent Memory.
+      Short-term memory is the active context window—the sequence of tokens currently fed into the Transformer—which includes recent dialogue, tool outputs, and intermediate reasoning. Long-term memory is stored externally, often in databases or vector stores, and retrieved via embeddings and similarity search to augment the prompt with relevant past information. Episodic memory captures structured records of interactions or tasks, including goals, decisions, and outcomes, which can be summarized and periodically injected back into the context to guide future behavior. Each memory type has different constraints: short-term is limited by the model’s maximum tokens, long-term by retrieval quality and storage, and episodic by how well episodes are encoded and summarized. Effective agent design carefully chooses what to store, how to index it, and when to reintroduce it so attention focuses on the most useful tokens for reasoning.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 12: How do you handle agent failures and implement error recovery?</h2>
+    <p>
+      Answer:
+      Handling agent failures involves detecting when the LLM or tools produce invalid, incomplete, or harmful outputs and then triggering recovery strategies. At the orchestration level, you can validate tool outputs against schemas, check for missing fields, or monitor for repeated loops in the agent’s reasoning tokens. When failures occur, the harness can re-prompt the model with additional context, such as error messages or constraints, or switch to a fallback tool or subagent. Error recovery may also involve logging the failure into episodic memory so future reasoning can avoid similar mistakes, and adjusting sampling parameters to reduce randomness in critical operations. Over time, fine-tuning on failure cases and adding explicit “self-check” steps—where the model critiques its own outputs—can significantly improve robustness.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 13: What is an agent loop, and how does it decide when to stop?</h2>
+    <p>
+      Answer: AI Agent Loop.
+      An agent loop is the repeated cycle in which an agent observes context, reasons using the LLM, takes actions (such as tool calls), and updates its state. Each iteration involves tokenizing the current state—messages, memory, tool results—and feeding it through the Transformer to generate the next step. The loop continues until a stopping condition is met, which can be explicit (e.g., the model emits a “FINAL_ANSWER” token or a specific action) or implicit (e.g., a maximum number of steps, token budget, or time limit). Orchestration code inspects the generated tokens to detect these conditions, and may also enforce safety stops if the agent appears stuck in repetitive reasoning or tool calls. Designing good stop criteria is crucial to avoid infinite loops, runaway token consumption, and user confusion.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 14: Context Engineering</h2>
+    <p>
+      Answer: Context Engineering.
+      Context engineering is the practice of carefully constructing the input to an LLM or agent so that the Transformer’s attention focuses on the most relevant tokens. This includes prompt design, message ordering, tool schema placement, and memory selection. Technically, because attention scales with the number of tokens, including too much irrelevant context can dilute signal and increase cost, while too little context can cause hallucinations or poor reasoning. Context engineering often uses retrieval pipelines to select high-signal documents, summarization to compress long histories, and structured templates to ensure consistent formatting. By iteratively evaluating outputs and adjusting context, teams can significantly improve reasoning quality, tool use accuracy, and overall agent performance without changing the underlying model weights.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 15: How AI Agents Communicate?</h2>
+    <p>
+      Answer: How AI Agents Communicate.
+      AI agents communicate by exchanging structured messages that are ultimately tokenized and processed by LLMs. In multi-agent systems, one agent’s output becomes another agent’s input, often with metadata indicating roles, intents, or priorities. These messages can include natural language, tool call results, or specialized control tokens that guide coordination. The Transformer’s attention mechanism allows each agent to reason over both its own state and messages from others, enabling behaviors like critique, delegation, and consensus-building. Communication protocols define how messages are routed, how conflicts are resolved, and how token budgets are managed so that inter-agent dialogue remains efficient and focused on solving the user’s task.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 16: How do you evaluate and test AI agents?</h2>
+    <p>
+      Answer: AI Agent Evaluation.
+      Evaluating AI agents involves measuring their performance on tasks, robustness to edge cases, and adherence to safety and cost constraints. Technically, you can build evaluation harnesses that run agents on curated test suites, capturing metrics like success rate, token usage, latency, and tool-call accuracy. For reasoning quality, you might use human labels, automatic scoring models, or structured checks (e.g., verifying that outputs satisfy constraints or match ground truth). Logging all prompts, intermediate thoughts, and tool calls enables detailed analysis of failure modes, such as incorrect parameter extraction or unnecessary tool usage. Over time, you can refine prompts, adjust sampling parameters, or fine-tune models based on evaluation data, turning agent development into an iterative engineering process rather than ad hoc experimentation.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 17: What are the security risks of agentic systems, and how do you mitigate them?</h2>
+    <p>
+      Answer:
+      Agentic systems introduce security risks because they can autonomously call tools, access data, and perform actions that affect real systems. Threats include prompt injection, where malicious inputs cause the agent to bypass guardrails; data exfiltration, where sensitive information is leaked via outputs; and unsafe tool usage, such as executing arbitrary code or modifying production resources. Mitigation involves strict tool design with least-privilege access, sandboxed execution environments, and policy layers that validate or veto actions before they are executed. You can also use input and output filters, safety classifiers, and human-in-the-loop checkpoints for high-risk operations. Logging and auditing all tool calls and decisions helps detect abuse and refine defenses over time.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 18: What is the difference between reactive and proactive agents?</h2>
+    <p>
+      Answer:
+      Reactive agents respond only when prompted or when events occur, focusing on immediate inputs and producing outputs without long-term planning. Proactive agents, by contrast, initiate actions based on goals, schedules, or predictions, sometimes running background loops that monitor state and decide when to act. At the LLM level, reactive behavior is typically a single prompt–completion cycle, while proactive behavior involves persistent state, periodic context updates, and reasoning about future steps. Proactive agents may use planning patterns, memory, and external triggers to decide when to re-enter the agent loop, which requires careful management of token budgets and safety constraints. Both styles can be combined, with agents reacting to user input while proactively maintaining or optimizing system state.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 19: How do you manage token consumption and cost in long-running agent workflows?</h2>
+    <p>
+      Answer:
+      Managing token consumption involves controlling how much context is fed into the model and how verbose the outputs are. Techniques include summarizing long histories into compact representations, using retrieval to select only the most relevant documents, and pruning unnecessary intermediate thoughts. You can also adjust decoding parameters—like temperature and max tokens—to limit output length, and design prompts that encourage concise reasoning while still being clear. At the orchestration level, you can track per-task token usage and enforce budgets, stopping or re-planning when limits are reached. Over time, analyzing logs helps identify wasteful patterns, such as repeated tool calls or redundant explanations, which can be addressed through prompt refinement or architectural changes.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 20: What is the human-in-the-loop pattern for agents, and when is it needed?</h2>
+    <p>
+      Answer:
+      The human-in-the-loop pattern inserts human review or approval into critical points of an agent’s workflow. For example, before executing a high-risk tool call—like modifying infrastructure or sending external communications—the agent can present a proposed action and reasoning for a human to validate. Technically, this involves pausing the agent loop, exposing intermediate outputs, and resuming once feedback is provided, often with that feedback tokenized and added to the context. Human-in-the-loop is essential when stakes are high, data is sensitive, or policies are complex and evolving. It also provides valuable training and evaluation data, as human corrections can be used to refine prompts, adjust guardrails, or fine-tune models for better alignment with organizational goals.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 21: How do you implement guardrails for AI agents to prevent harmful actions?</h2>
+    <p>
+      Answer:
+      Guardrails are constraints and checks that prevent agents from performing harmful or unauthorized actions. Implementation typically combines static policies—such as disallowing certain tools or parameters—with dynamic checks using classifiers or rule-based validators. Before executing a tool call, the orchestration layer can inspect the requested action, compare it against policy, and either approve, modify, or block it. At the LLM level, prompts can explicitly instruct the model to avoid certain behaviors and to self-check outputs for safety. Additional layers, such as content filters and anomaly detection, can monitor outputs and tool usage patterns for signs of misuse. Effective guardrails are transparent, auditable, and regularly updated as new risks are discovered.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 22: What is agent reflection, and how does it improve agent performance?</h2>
+    <p>
+      Answer: Reflection Agent.
+      Agent reflection is the process by which an agent reviews its own reasoning and actions to identify errors, inefficiencies, or better strategies. A reflection agent may be a separate LLM or a mode of the same model, prompted to critique previous outputs and suggest improvements. Technically, reflection involves feeding past transcripts, tool calls, and results back into the Transformer with instructions to analyze and summarize lessons. These reflections can be stored in episodic memory and used to adjust future prompts, plans, or tool choices. By systematically reflecting on failures and successes, agents can reduce repeated mistakes, optimize token usage, and develop more robust reasoning patterns without changing the underlying training data.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 23: What is the difference between code-generating agents and tool-calling agents?</h2>
+    <p>
+      Answer:
+      Code-generating agents primarily produce source code as their output, relying on the LLM’s training on programming languages and patterns. Tool-calling agents, on the other hand, emit structured commands that invoke external tools or APIs, which may themselves execute code or perform operations. In both cases, the Transformer processes tokens and uses attention to reason about requirements, but the output format and execution path differ. Code-generating agents often require sandboxed environments to run and test generated code safely, while tool-calling agents depend on well-defined schemas and orchestration logic. Combining both patterns allows an agent to generate code, call a test runner tool, and interpret results, forming a powerful loop for automated development and debugging.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 24: How do you handle multi-modal inputs and outputs in agentic systems?</h2>
+    <p>
+      Answer:
+      Multi-modal agentic systems process and generate not just text, but also images, audio, or structured data. This typically involves models or pipelines that can encode non-text inputs into embeddings compatible with the LLM’s context, or separate models that the agent calls as tools. For example, an image can be processed by a vision model whose textual description or features are then injected as tokens into the Transformer’s prompt. Outputs can include references to generated images, audio, or other media, orchestrated by tools that handle rendering or playback. The agent’s reasoning loop must account for modality-specific constraints, such as size limits or latency, and use attention to integrate multi-modal signals into coherent decisions and explanations.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 25: How do you implement state management in complex agent workflows?</h2>
+    <p>
+      Answer: How does LangGraph work?
+      State management in complex agent workflows involves tracking the evolving data, decisions, and context across multiple steps and possibly multiple agents. Frameworks like LangGraph model workflows as graphs of nodes (agents or tools) and edges (data flows), with explicit state objects passed between nodes. The LLM’s token-based context represents a snapshot of state at each step, while external state stores maintain structured information that may be too large or long-lived for the context window. By separating logical state from textual prompts, you can persist progress, resume workflows, and branch or merge paths based on conditions. Attention mechanisms then operate over a curated subset of state encoded as tokens, ensuring that reasoning remains focused while the underlying system maintains full fidelity of the workflow.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 26: How do you build a customer support agent with escalation logic?</h2>
+    <p>
+      Answer:
+      Building a customer support agent with escalation logic starts with defining intents, tools, and policies for what the agent can handle autonomously. The LLM is prompted to classify user queries, retrieve relevant knowledge base articles via RAG, and generate responses while respecting tone and policy constraints. Escalation logic is implemented in the orchestration layer: when certain conditions are met—such as high-risk topics, repeated failures, or explicit user requests—the agent routes the conversation to a human operator or a specialized subagent. This routing decision can itself be made by the LLM, which outputs an “ESCALATE” action token, or by rule-based checks on the conversation state. State management ensures that all prior context is available to the human, and logging provides data to refine both the agent’s capabilities and escalation thresholds.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 27: What is agent orchestration, and how do you implement it?</h2>
+    <p>
+      Answer: AI Orchestration.
+      Agent orchestration is the coordination of multiple agents, tools, and workflows to achieve complex tasks. Implementation typically uses a controller component that decides which agent or tool to invoke next based on the current state, goals, and policies. The controller may itself be an LLM, prompted to select actions, or a rule-based system that interprets agent outputs and routes them. Orchestration frameworks define nodes, edges, and execution semantics, handling retries, error recovery, and parallelization where possible. At the token level, orchestration determines which parts of state are injected into each agent’s context, ensuring that attention focuses on relevant information while keeping token usage under control. Good orchestration design makes agentic systems modular, testable, and scalable.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 28: How do you build a code execution agent safely using sandboxed environments?</h2>
+    <p>
+      Answer:
+      A safe code execution agent generates code but runs it inside tightly controlled sandboxed environments. The LLM is prompted to produce code in specific languages and formats, which the orchestration layer then sends to a sandbox that enforces resource limits, network restrictions, and file-system isolation. Execution results—stdout, stderr, and any structured outputs—are captured, tokenized, and fed back into the context so the agent can debug or refine its code. Safety requires strict policies on what code can do, monitoring for suspicious patterns, and possibly static analysis before execution. By combining sandboxing with guardrails and human-in-the-loop review for high-risk operations, you can leverage the Transformer’s code-generation capabilities without exposing production systems to arbitrary code.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 29: Your AI agent is stuck in an infinite loop. How do you detect and break the cycle?</h2>
+    <p>
+      Answer: Fix an infinite loop in an AI agent.
+      Detecting infinite loops involves monitoring the agent’s sequence of actions and reasoning steps for repeated patterns or exceeding predefined limits. Orchestration code can track the number of iterations, the similarity of successive prompts or tool calls, and token usage per task. When thresholds are crossed, the system can flag a potential loop and either stop the agent, escalate to a human, or re-prompt with explicit instructions to summarize and finalize. At the LLM level, you can add meta-prompts that encourage self-reflection when progress stalls, asking the model to assess whether it is repeating itself and to produce a final answer. Logging loop incidents into episodic memory helps refine prompts and stop conditions to reduce recurrence.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 30: Your AI agent gets conflicting answers from different tools. How does it reconcile them?</h2>
+    <p>
+      Answer:
+      When tools return conflicting answers, the agent must perform meta-reasoning to reconcile discrepancies. The LLM can be prompted to compare tool outputs, assess their reliability based on metadata (such as timestamps, sources, or confidence scores), and explain the differences. Orchestration logic may assign trust levels to tools and prefer certain sources for specific domains. The agent can also call additional tools to cross-check information or request human input when conflicts remain unresolved. At the token level, attention mechanisms allow the model to weigh different pieces of evidence and generate a synthesized answer that acknowledges uncertainty, improving transparency and robustness.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 31: Your AI agent burns too many tokens per task. How do you reduce token consumption?</h2>
+    <p>
+      Answer: How would you reduce the token consumption?
+      Reducing token consumption starts with analyzing where tokens are being spent: long prompts, verbose chain-of-thought, large retrieved documents, or repeated tool calls. You can introduce summarization steps to compress histories, limit the number and size of retrieved documents, and encourage concise reasoning via prompt instructions. Adjusting decoding parameters—such as lowering max tokens and temperature—can further constrain output length. At the architectural level, you might split workflows into smaller sub-tasks handled by specialized agents with shorter contexts, or cache intermediate results to avoid recomputation. Continuous monitoring of per-task token usage and enforcing budgets helps keep costs predictable while maintaining sufficient context for accurate reasoning.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 32: Your AI agent keeps exceeding its budget per task. How do you enforce budget limits?</h2>
+    <p>
+      Answer:
+      Enforcing budget limits involves integrating token accounting into the agent’s orchestration layer. For each task, you track tokens used for prompts and completions, and compare them against a predefined budget. When usage approaches the limit, the agent can be re-prompted to produce a concise final answer, skip non-essential steps, or summarize remaining work. If the budget is exceeded, the system can halt the workflow, log the incident, and optionally escalate to a human. You can also design prompts and retrieval strategies that are inherently budget-aware, selecting only the most relevant context and avoiding unnecessary multi-step reasoning. Over time, analyzing budget violations helps refine workflows and prompts to stay within cost constraints.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 33: Your AI agent hallucinates tool capabilities and passes wrong inputs. How do you fix it?</h2>
+    <p>
+      Answer:
+      Fixing tool hallucinations requires tightening the interface between the LLM and tools. First, ensure that tool schemas are explicit, with clear parameter types and descriptions, and inject them consistently into the prompt. You can add validation layers that check generated tool calls against the schema, rejecting or correcting malformed inputs before execution. Prompting the model to “only use listed tools” and to restate tool parameters in natural language before calling them can reduce hallucinations. Fine-tuning on examples of correct tool usage and negative examples of hallucinated tools further improves behavior. Additionally, you can use a secondary “tool-checker” agent to review proposed calls and flag suspicious ones before they reach the execution layer.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 34: Your AI agent deleted a production database. How do you prevent irreversible actions?</h2>
+    <p>
+      Answer:
+      Preventing irreversible actions requires strict separation between agent outputs and high-impact operations. Tools that can perform destructive actions—like deleting databases or modifying critical infrastructure—should be heavily restricted, require multi-step confirmation, and ideally be disabled for autonomous agents. Human-in-the-loop approval is essential: the agent can propose changes, but a human must review and authorize them. You can also implement “dry-run” modes where the agent simulates actions and shows diffs without applying them. At the policy level, least-privilege access and strong authentication ensure that even if an agent misbehaves, its ability to cause damage is limited. Logging and auditing all high-risk actions provide traceability and support continuous improvement of safety controls.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 35: Your AI agent has many tools, but keeps picking the wrong one. How do you improve tool selection?</h2>
+    <p>
+      Answer:
+      Improving tool selection involves clarifying tool descriptions, reducing overlap, and guiding the LLM with better prompts. Each tool should have a distinct, well-scoped purpose and examples of when it should be used, which are included in the context so attention can associate intents with tools. You can add a “tool selection” step where the model first explains which tool it plans to use and why, allowing the harness or a secondary agent to validate the choice. Fine-tuning on labeled examples of correct tool usage and misusage helps the model learn better mappings. Additionally, you can implement heuristic or rule-based overrides for certain intents, ensuring that critical operations always use the most appropriate tool.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 36: Your AI agent takes too long to complete a task. How do you speed it up?</h2>
+    <p>
+      Answer:
+      Speeding up an agent involves reducing latency in both LLM calls and tool operations. On the model side, you can use smaller or more optimized models for simpler steps, adjust max tokens to shorten outputs, and parallelize independent reasoning or retrieval tasks. On the tool side, you can cache frequent results, optimize APIs, and avoid unnecessary calls by reusing previous outputs. Workflow design also matters: minimizing back-and-forth loops, simplifying plans, and using direct retrieval instead of multi-hop reasoning can significantly cut time. Monitoring end-to-end latency and breaking it down by component helps identify bottlenecks, which can then be addressed with architectural changes or infrastructure improvements.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 37: Your LLM selects the right tool but extracts the wrong parameters. How do you fix parameter extraction?</h2>
+    <p>
+      Answer:
+      Fixing parameter extraction requires making parameter schemas explicit and adding validation and correction steps. You can prompt the LLM to first identify relevant fields in natural language, then map them to structured parameters, reducing ambiguity. Schema-aware prompts that show examples of correct parameterization help the Transformer learn the right patterns. The orchestration layer can validate parameters against types and ranges, and if they fail, re-prompt the model with error messages and guidance. Fine-tuning on datasets where the correct parameters are labeled, and including negative examples of mis-extraction, further improves reliability. In complex cases, a dedicated “parameter extraction” subagent can specialize in this task, feeding validated parameters back into the main agent loop.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 38: How do Computer-Use Agents work?</h2>
+    <p>
+      Answer: How do Computer-Use Agents work?
+      Computer-use agents interact with graphical user interfaces or operating systems on behalf of the user, often via tools that simulate mouse clicks, keyboard input, or API calls. The LLM is prompted with a description of the current screen or application state—sometimes generated by a vision model—and asked to decide the next action. These actions are encoded as structured commands and executed by a controller that manipulates the computer environment. The agent loop continues as the environment updates, with new observations fed back into the context. Attention mechanisms allow the model to reason about UI elements, workflows, and user goals, while guardrails and sandboxing ensure that actions remain safe and reversible where possible.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 39: How does LangChain work?</h2>
+    <p>
+      Answer: How does LangChain work?
+      LangChain is a framework for building LLM-powered applications by composing prompts, tools, and workflows into chains. It provides abstractions for models, memory, tools, and agents, allowing developers to define sequences where outputs from one step become inputs to the next. Under the hood, LangChain manages tokenization, context construction, and tool invocation, integrating with various LLM providers and vector stores. Chains can implement patterns like ReAct, Plan-and-Execute, or custom agent loops, with configuration options for sampling, retries, and logging. By structuring interactions as reusable components, LangChain helps developers build complex agentic systems while keeping orchestration logic maintainable and testable.
+    </p>
+  </div>
+
+  <div class="question">
+    <h2>Question 40: How does LangGraph work?</h2>
+    <p>
+      Answer: How does LangGraph work?
+      LangGraph extends the idea of chains into graph-based workflows, where nodes represent agents, tools, or functions, and edges represent data or control flow. It allows developers to define complex, branching, and looping workflows with explicit state objects passed between nodes. The LLM’s context at each node is constructed from the relevant parts of state, enabling focused reasoning while the graph maintains global structure. LangGraph supports features like conditional routing, retries, and parallel execution, making it suitable for large, multi-agent systems. By modeling workflows as graphs, it provides a clear visualization and control over how token-based reasoning interacts with external tools and long-lived state, improving both scalability and debuggability.
+    </p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fine-Tuning and Model Adaptation: Questions and Answers</title>
+<link rel="stylesheet" href="./nav.css">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+        color: #222;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .question {
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        margin-right: 50px;
+    }
+
+    .question h2 {
+        margin-top: 0;
+        font-size: 20px;
+        color: #333;
+    }
+
+    .question p {
+        font-size: 15px;
+        line-height: 1.55;
+        margin-top: 10px;
+    }
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+<h1>Fine-Tuning and Model Adaptation: Questions and Answers</h1>
+
+<!-- 1 -->
+<div class="question">
+    <h2>1. What is fine-tuning, and when should you fine-tune an LLM?</h2>
+    <p>
+        Fine-tuning is the process of continuing training on a pretrained language model using a smaller dataset that reflects a specific domain or task. The model begins with general linguistic and reasoning abilities learned during large scale pretraining, and fine-tuning adjusts internal representations so the model becomes more specialized. You should fine-tune when prompt engineering cannot reliably produce the behavior you need, when domain vocabulary is highly technical, or when consistent formatting and policy adherence are required. Fine-tuning also reduces reliance on long prompts because the model internalizes the desired behavior directly in its parameters.
+    </p>
+</div>
+
+<!-- 2 -->
+<div class="question">
+    <h2>2. Explain the difference between full fine-tuning and parameter-efficient fine-tuning (PEFT).</h2>
+    <p>
+        Full fine-tuning updates all or most of the model's parameters, which can be billions of weights. This gives maximum flexibility but requires large compute resources and increases the risk of catastrophic forgetting. Parameter-efficient fine-tuning keeps the base model frozen and trains only a small number of additional parameters that modify the forward pass. PEFT methods reduce memory usage, allow training on modest hardware, and make it easy to store multiple adapters for different tasks. The tradeoff is that PEFT has slightly less expressive power, but in practice it is often sufficient for domain adaptation.
+    </p>
+</div>
+
+<!-- 3 -->
+<div class="question">
+    <h2>3. What is LoRA (Low-Rank Adaptation), and how does it work?</h2>
+    <p>
+        LoRA introduces small low rank matrices into existing linear layers of a transformer. Instead of updating the original weight matrix, LoRA learns an additive update formed by multiplying two low rank matrices. Only these matrices are trained while the base model remains frozen. This reduces the number of trainable parameters and lowers memory requirements for gradients. At inference time, the model behaves as if the full weight matrix had been updated, even though the base checkpoint is unchanged. LoRA enables modular adapters that can be swapped or merged for different tasks.
+    </p>
+</div>
+
+<!-- 4 -->
+<div class="question">
+    <h2>4. What is QLoRA, and how does it enable fine-tuning on consumer hardware?</h2>
+    <p>
+        QLoRA quantizes the base model weights to low precision, often 4 bit, which drastically reduces memory usage. These quantized weights remain frozen during training. LoRA adapters are kept in higher precision and are the only parameters updated. Careful quantization and optimizer choices preserve gradient quality despite the low precision representation. This approach allows fine-tuning large models on consumer GPUs by shifting most of the memory burden to compact quantized weights and restricting training to small adapter modules.
+    </p>
+</div>
+
+<!-- 5 -->
+<div class="question">
+    <h2>5. Explain Prefix Tuning and Prompt Tuning. How are they different from LoRA?</h2>
+    <p>
+        Prefix tuning learns a sequence of virtual tokens that are injected into transformer layers as additional context. Prompt tuning learns continuous prompt embeddings that steer the model toward desired behavior. Both methods modify the input representation rather than the internal weight matrices. LoRA, by contrast, modifies the linear transformations inside the model through low rank updates. Prefix and prompt tuning are extremely parameter efficient and work well for instruction following tasks, while LoRA provides deeper changes to internal computations and is more expressive for complex domain adaptation.
+    </p>
+</div>
+
+<!-- 6 -->
+<div class="question">
+    <h2>6. What is adapter-based fine-tuning?</h2>
+    <p>
+        Adapter-based fine-tuning inserts small neural modules into transformer blocks. These modules typically compress and then expand the hidden representation, allowing them to learn task specific transformations. Only the adapter parameters are trained while the base model remains frozen. This makes it easy to maintain multiple adapters for different tasks and load them dynamically. Adapter-based fine-tuning offers a balance between efficiency and expressive power and can be combined with other PEFT techniques.
+    </p>
+</div>
+
+<!-- 7 -->
+<div class="question">
+    <h2>7. What is RLHF, and how is it used to align LLMs?</h2>
+    <p>
+        RLHF uses human preference data to shape model behavior through reinforcement learning. First, supervised fine-tuning teaches the model to follow instructions. Then, a reward model is trained to predict human preferences over pairs of outputs. Finally, reinforcement learning optimizes the model to maximize the reward model's score while staying close to the original policy. This process aligns the model with human expectations for helpfulness, safety, and honesty.
+    </p>
+</div>
+
+<!-- 8 -->
+<div class="question">
+    <h2>8. What is instruction tuning, and why is it important for chat models?</h2>
+    <p>
+        Instruction tuning trains a model on datasets containing instructions paired with desired responses. This teaches the model to interpret commands, questions, and tasks expressed in natural language. For chat models, instruction tuning is essential because it enables consistent behavior, improved reasoning, and adherence to conversational norms. It also increases robustness to varied phrasing and reduces the need for complex prompts.
+    </p>
+</div>
+
+<!-- 9 -->
+<div class="question">
+    <h2>9. How do you prepare a dataset for fine-tuning an LLM?</h2>
+    <p>
+        Preparing a dataset begins with defining the target behavior and collecting examples that reflect real user inputs. Data must be cleaned to remove duplicates, personal information, and low quality labels. Formatting should be standardized using a consistent prompt template. Splitting the dataset into training, validation, and test sets ensures reliable evaluation. Additional steps like balancing classes or augmenting rare patterns help improve generalization.
+    </p>
+</div>
+
+<!-- 10 -->
+<div class="question">
+    <h2>10. What is catastrophic forgetting, and how do you prevent it?</h2>
+    <p>
+        Catastrophic forgetting occurs when a model loses general abilities after being fine-tuned on narrow data. Prevention strategies include mixing general data with domain data, applying regularization that discourages large deviations from the base model, and using PEFT methods so the base model remains unchanged. Monitoring performance on general benchmarks during training helps detect forgetting early.
+    </p>
+</div>
+
+<!-- 11 -->
+<div class="question">
+    <h2>11. When should you choose fine-tuning over RAG over prompt engineering?</h2>
+    <p>
+        Prompt engineering is best when the base model already knows the required information. RAG is ideal when knowledge is external, dynamic, or too large to store in model parameters. Fine-tuning is preferred when you need the model to internalize domain specific patterns or behaviors that prompts and retrieval cannot reliably induce. Many systems combine all three approaches for optimal results.
+    </p>
+</div>
+
+<!-- 12 -->
+<div class="question">
+    <h2>12. How do you evaluate a fine-tuned model's performance?</h2>
+    <p>
+        Evaluation uses metrics that match the target task, such as accuracy, BLEU, ROUGE, or pass rates. Automatic metrics are combined with human evaluation for aspects like coherence and safety. Testing on out of distribution inputs helps measure robustness. Comparing the fine-tuned model against the base model ensures that improvements are meaningful and that no critical capabilities have regressed.
+    </p>
+</div>
+
+<!-- 13 -->
+<div class="question">
+    <h2>13. What is synthetic data generation, and how is it used for fine-tuning?</h2>
+    <p>
+        Synthetic data generation uses models to create training examples. A strong teacher model can generate high quality responses or label preference pairs. Synthetic data expands coverage of rare scenarios and reduces annotation cost. It must be filtered carefully to avoid propagating errors from the teacher. Combining synthetic and human curated data often yields the best results.
+    </p>
+</div>
+
+<!-- 14 -->
+<div class="question">
+    <h2>14. What are the key hyperparameters for fine-tuning?</h2>
+    <p>
+        Learning rate controls update speed and stability. Epoch count determines how many passes the model makes over the dataset. Batch size affects gradient quality and hardware usage. LoRA rank determines the expressive capacity of the low rank update. Tuning these hyperparameters requires balancing performance, generalization, and resource constraints using validation metrics.
+    </p>
+</div>
+
+<!-- 15 -->
+<div class="question">
+    <h2>15. How do you fine-tune a model for a specific domain?</h2>
+    <p>
+        Domain fine-tuning requires collecting high quality domain specific text and expert curated labels. Prompts should reflect realistic queries in the domain. PEFT methods help preserve general abilities while adding specialization. Sensitive domains require strict data governance. Evaluation should involve domain experts to ensure correctness and safety.
+    </p>
+</div>
+
+<!-- 16 -->
+<div class="question">
+    <h2>16. What is continual pre-training, and when is it used?</h2>
+    <p>
+        Continual pre-training extends the original unsupervised training on new corpora. It improves the model's foundational knowledge and adapts it to new distributions. This is useful when the base model is outdated or lacks coverage of important domains. Continual pre-training is computationally expensive but yields a stronger base for downstream tasks.
+    </p>
+</div>
+
+<!-- 17 -->
+<div class="question">
+    <h2>17. How do you merge multiple LoRA adapters?</h2>
+    <p>
+        LoRA adapters produce additive updates to weight matrices. Merging involves summing these updates or weighting them based on task importance. Some frameworks support dynamic composition where adapters are activated per request rather than merged permanently. Careful evaluation ensures that merged adapters do not interfere with each other.
+    </p>
+</div>
+
+<!-- 18 -->
+<div class="question">
+    <h2>18. What is the difference between SFT and alignment training?</h2>
+    <p>
+        Supervised fine-tuning teaches the model to follow instructions using labeled examples. Alignment training shapes behavior using preference data and reinforcement learning. SFT improves task competence, while alignment training focuses on safety and helpfulness. Modern pipelines use SFT first and alignment afterward.
+    </p>
+</div>
+
+<!-- 19 -->
+<div class="question">
+    <h2>19. What is RLAIF, and how does it differ from RLHF?</h2>
+    <p>
+        RLAIF uses AI generated feedback instead of human preference labels. A strong teacher model scores or ranks outputs, providing scalable supervision. RLHF relies on human judgments, which are more accurate but expensive. RLAIF is often combined with small amounts of human data to calibrate the AI feedback.
+    </p>
+</div>
+
+<!-- 20 -->
+<div class="question">
+    <h2>20. What is knowledge distillation, and what are the legal considerations?</h2>
+    <p>
+        Knowledge distillation trains a smaller student model to mimic a larger teacher model. The student learns by matching logits or output distributions. Legal considerations arise when the teacher model or its outputs are subject to licensing restrictions or intellectual property rules. You must ensure compliance with usage policies and document data sources clearly.
+    </p>
+</div>
+
+<!-- 21 -->
+<div class="question">
+    <h2>21. Your fine-tuned LLM produces factually wrong outputs. How do you fix it?</h2>
+    <p>
+        You should identify whether errors come from outdated or mislabeled training data. Cleaning or replacing problematic data and retraining can correct internal representations. Adding authoritative sources improves factual grounding. Integrating retrieval systems helps reduce reliance on flawed parametric memory. Evaluation with domain experts verifies improvements.
+    </p>
+</div>
+
+<!-- 22 -->
+<div class="question">
+    <h2>22. Choosing between LoRA and full fine-tuning for a domain assistant.</h2>
+    <p>
+        LoRA is ideal when resources are limited or when you need modular adapters for multiple domains. Full fine-tuning is justified when the domain is extremely specialized and performance requirements are strict. Small scale experiments comparing both approaches help determine which yields better accuracy and robustness. In many cases, LoRA provides strong results with far lower cost.
+    </p>
+</div>
+
+<!-- 23 -->
+<div class="question">
+    <h2>23. Your fine-tuned model memorized training data. How do you fix overfitting?</h2>
+    <p>
+        Reducing epochs, lowering learning rate, or increasing regularization helps prevent memorization. Expanding the dataset with more diverse examples improves generalization. Monitoring validation performance and using early stopping prevents the model from overfitting. Mixing in general purpose data can also reduce memorization.
+    </p>
+</div>
+
+<!-- 24 -->
+<div class="question">
+    <h2>24. Your fine-tuned LLM forgot general capabilities. How do you fix catastrophic forgetting?</h2>
+    <p>
+        Mixing domain data with general data helps maintain broad abilities. Using PEFT methods preserves the base model and reduces forgetting. Regularizing the training objective with a KL penalty discourages large deviations from the original model. Maintaining separate adapters for different domains avoids forcing all behaviors into one set of weights.
+    </p>
+</div>
+
+<!-- 25 -->
+<div class="question">
+    <h2>25. Your RLHF preference data has low annotator agreement. How do you ensure quality?</h2>
+    <p>
+        Low agreement indicates unclear instructions or ambiguous tasks. Improving the annotation rubric and providing clearer examples helps align annotators. Measuring agreement quantitatively tracks progress. Filtering unreliable annotators and weighting labels by reliability improves data quality. In some cases, simplifying the preference task reduces confusion.
+    </p>
+</div>
+
+</body>
+</html>

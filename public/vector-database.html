@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vector Databases and Embeddings</title>
+<link rel="stylesheet" href="./nav.css"> 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background: #fafafa;
+        color: #222;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .question {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        margin-right: 50px;
+        border: 1px solid #ddd;
+    }
+    .question h2 {
+        margin-top: 0;
+        font-size: 20px;
+    }
+    .question p {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+</style>
+</head>
+<body>
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+<br>
+<br>
+
+<h1>Vector Databases and Embeddings</h1>
+
+<!-- 1 -->
+<div class="question">
+    <h2>1. What are embeddings in the context of AI engineering?</h2>
+    <p>
+        Embeddings are numerical vector representations that encode the semantic meaning of text, images, audio, or other data types. They allow machine learning systems to operate on high dimensional concepts using mathematical operations rather than raw symbolic input. Modern embedding models learn these representations by training neural networks to predict contextual relationships, which forces the network to map similar concepts to nearby points in vector space. Embeddings are essential for tasks such as semantic search, clustering, recommendation systems, and retrieval augmented generation because they provide a continuous representation that captures nuance and similarity more effectively than keyword matching.
+    </p>
+</div>
+
+<!-- 2 -->
+<div class="question">
+    <h2>2. How do embedding models convert text to vectors?</h2>
+    <p>
+        Embedding models convert text to vectors by tokenizing the input, mapping tokens to learned numerical representations, and processing them through a neural architecture such as a Transformer. During training, the model learns to position semantically related tokens and sentences close together in vector space by optimizing objectives like masked token prediction or contrastive similarity. The final embedding is typically taken from the pooled output of the model or from specific token representations. This vector captures contextual meaning, syntactic structure, and domain specific relationships that emerge from large scale training.
+    </p>
+</div>
+
+<!-- 3 -->
+<div class="question">
+    <h2>3. What is the difference between sparse and dense embeddings?</h2>
+    <p>
+        Sparse embeddings represent text using high dimensional vectors where most values are zero, often derived from traditional methods like TF IDF or bag of words. Dense embeddings use lower dimensional vectors where all values are learned continuous numbers produced by neural models. Sparse methods rely on explicit term frequency and are interpretable but struggle with semantic similarity. Dense embeddings capture deeper contextual meaning and perform better for semantic search, clustering, and retrieval tasks. Dense vectors require more compute for training but provide significantly higher quality representations for modern AI systems.
+    </p>
+</div>
+
+<!-- 4 -->
+<div class="question">
+    <h2>4. Explain cosine similarity, dot product, and Euclidean distance for vector search.</h2>
+    <p>
+        Cosine similarity measures the angle between two vectors and is useful when magnitude should not influence similarity. Dot product measures how aligned two vectors are and is often used in high performance vector search systems because it is computationally efficient. Euclidean distance measures the straight line distance between vectors and is useful when absolute position in space matters. Vector databases choose between these metrics depending on the retrieval task, embedding model characteristics, and latency constraints. Each metric influences ranking behavior and determines how similarity is interpreted mathematically.
+    </p>
+</div>
+
+<!-- 5 -->
+<div class="question">
+    <h2>5. What is a vector database, and how does it differ from a traditional database?</h2>
+    <p>
+        A vector database stores and indexes high dimensional embeddings instead of structured rows and columns. Traditional databases excel at exact matching and relational queries, while vector databases are optimized for similarity search using metrics like cosine similarity or dot product. They use specialized indexing structures such as HNSW graphs or IVF lists to efficiently retrieve nearest neighbors from millions or billions of vectors. Vector databases also support metadata filtering, multi tenant isolation, and hybrid search, making them essential for retrieval augmented generation and semantic search applications.
+    </p>
+</div>
+
+<!-- 6 -->
+<div class="question">
+    <h2>6. How does Approximate Nearest Neighbor (ANN) search work?</h2>
+    <p>
+        Approximate Nearest Neighbor search accelerates similarity retrieval by exploring only a subset of the vector space rather than scanning every vector. Algorithms like HNSW build navigable small world graphs that allow fast traversal toward high similarity regions. IVF based methods cluster vectors and search only the most relevant clusters. ANN trades exact precision for dramatic improvements in latency and scalability, enabling real time search across millions or billions of embeddings. This makes ANN essential for production systems where speed is more important than perfect accuracy.
+    </p>
+</div>
+
+<!-- 7 -->
+<div class="question">
+    <h2>7. How do you choose the right embedding model for your use case?</h2>
+    <p>
+        Choosing an embedding model depends on domain specificity, latency requirements, and the type of similarity you need to capture. General purpose models work well for broad semantic tasks, while domain specific models trained on legal, medical, or technical corpora provide more accurate representations for specialized vocabulary. Larger models often produce higher quality embeddings but increase compute cost and inference latency. Evaluation should include downstream retrieval performance, robustness to short queries, and compatibility with existing vector dimensions in production systems.
+    </p>
+</div>
+
+<!-- 8 -->
+<div class="question">
+    <h2>8. What is embedding dimensionality, and how does it affect performance and cost?</h2>
+    <p>
+        Embedding dimensionality refers to the number of numerical values in each vector. Higher dimensional vectors can encode more nuanced relationships but require more memory, storage, and compute during indexing and search. Lower dimensional vectors reduce cost and improve latency but may lose fine grained semantic detail. Choosing the right dimensionality involves balancing retrieval quality with operational constraints such as RAM usage, disk footprint, and query throughput. Many production systems use dimensionality reduction or quantization to optimize performance.
+    </p>
+</div>
+
+<!-- 9 -->
+<div class="question">
+    <h2>9. How do you handle embedding drift when the embedding model is updated?</h2>
+    <p>
+        Embedding drift occurs when a new embedding model produces vectors that differ significantly from the previous model, causing search quality to degrade. Handling drift requires strategies such as dual indexing, where both old and new embeddings are stored temporarily. Systems may also re embed the entire corpus to maintain consistency, though this can be expensive. Monitoring similarity distributions and retrieval accuracy helps detect drift early. Careful rollout strategies ensure that updates do not disrupt production search behavior.
+    </p>
+</div>
+
+<!-- 10 -->
+<div class="question">
+    <h2>10. What are multi-modal embeddings, and how are they generated?</h2>
+    <p>
+        Multi modal embeddings represent different data types such as text, images, and audio within a shared vector space. They are generated by training models that align representations from multiple modalities using contrastive objectives. For example, image encoders and text encoders are trained so that captions and images map to nearby vectors. This alignment enables cross modal search, where a text query can retrieve relevant images or vice versa. Multi modal embeddings are essential for systems that integrate diverse content types.
+    </p>
+</div>
+
+<!-- 11 -->
+<div class="question">
+    <h2>11. How do you index and query multi-tenant data in a vector database?</h2>
+    <p>
+        Multi tenant indexing requires isolating embeddings by user or organization while maintaining efficient search. Vector databases support tenant identifiers and metadata filters that restrict queries to specific partitions. Some systems use separate indexes per tenant, while others use shared indexes with strict filtering rules. Query performance depends on how metadata is stored and how efficiently the database can prune irrelevant vectors. Proper design ensures security, isolation, and predictable latency across tenants.
+    </p>
+</div>
+
+<!-- 12 -->
+<div class="question">
+    <h2>12. What is quantization of embeddings, and how does it reduce storage costs?</h2>
+    <p>
+        Quantization reduces storage by compressing floating point vectors into lower precision formats such as int8 or even binary representations. This significantly decreases memory usage and improves cache efficiency during search. Quantized vectors allow larger indexes to fit in RAM, which improves latency for ANN algorithms. Although quantization introduces small numerical errors, modern techniques preserve similarity relationships well enough for high quality retrieval. It is widely used in large scale vector databases to reduce operational cost.
+    </p>
+</div>
+
+<!-- 13 -->
+<div class="question">
+    <h2>13. How do you benchmark and evaluate embedding model quality?</h2>
+    <p>
+        Benchmarking embedding quality involves evaluating retrieval accuracy, clustering coherence, and semantic similarity performance on representative datasets. Metrics such as recall at k, mean reciprocal rank, and normalized discounted cumulative gain measure how well the model retrieves relevant items. Evaluation should include both short and long queries, domain specific terminology, and edge cases. Real world testing with production workloads provides the most reliable signal because synthetic benchmarks may not reflect actual user behavior.
+    </p>
+</div>
+
+<!-- 14 -->
+<div class="question">
+    <h2>14. What is the role of metadata in vector databases?</h2>
+    <p>
+        Metadata provides structured attributes that complement embeddings during search. It enables filtering by fields such as user ID, document type, timestamp, or access permissions. Combining metadata filtering with vector similarity ensures that results are both semantically relevant and contextually appropriate. Metadata also improves performance by reducing the search space before similarity computation. It is essential for multi tenant systems, hybrid search, and fine grained access control.
+    </p>
+</div>
+
+<!-- 15 -->
+<div class="question">
+    <h2>15. How do you handle large-scale vector search with billions of vectors?</h2>
+    <p>
+        Large scale vector search requires distributed indexing, sharding, and optimized ANN algorithms. Systems often partition vectors across multiple nodes and use hierarchical indexes to reduce search depth. Memory optimization techniques such as quantization and compressed graph structures allow billions of vectors to fit within cluster RAM. Load balancing and parallel search ensure predictable latency even under heavy traffic. Scaling to billions of vectors demands careful engineering across storage, compute, and network layers.
+    </p>
+</div>
+
+<!-- 16 -->
+<div class="question">
+    <h2>16. What is hybrid search (combining keyword search with vector search)?</h2>
+    <p>
+        Hybrid search integrates traditional keyword retrieval with semantic vector search to improve relevance. Keyword search provides precision for exact terms, while vector search captures contextual meaning. Systems combine both signals using weighted ranking or staged filtering. Hybrid search is especially effective for queries containing rare terms, domain specific jargon, or ambiguous phrasing. It provides a balanced retrieval strategy that leverages the strengths of both sparse and dense representations.
+    </p>
+</div>
+
+<!-- 17 -->
+<div class="question">
+    <h2>17. How do you fine-tune an embedding model for a specific domain?</h2>
+    <p>
+        Fine tuning an embedding model involves training it on domain specific text using objectives that reinforce semantic relationships relevant to that field. Contrastive learning is often used to pull related items closer and push unrelated items apart. Domain adaptation improves retrieval accuracy for specialized vocabulary and reduces reliance on prompt engineering. Fine tuned embeddings align more closely with the structure of the target domain, improving search quality and downstream performance.
+    </p>
+</div>
+
+<!-- 18 -->
+<div class="question">
+    <h2>18. Your vector database for RAG is consuming too much memory. How do you reduce it?</h2>
+    <p>
+        Reducing memory usage requires techniques such as quantization, dimensionality reduction, and pruning unused vectors. Storing embeddings in lower precision formats significantly decreases RAM footprint. Removing redundant or low value documents reduces index size. Using compressed ANN structures like HNSW with optimized parameters further reduces memory consumption. Monitoring memory usage and adjusting index configuration ensures that the system remains efficient at scale.
+    </p>
+</div>
+
+<!-- 19 -->
+<div class="question">
+    <h2>19. Your vector database cannot scale to millions of embeddings. How do you fix the bottleneck?</h2>
+    <p>
+        Scaling to millions of embeddings requires switching from brute force search to ANN based indexing. Sharding the index across multiple nodes distributes load and improves throughput. Using optimized storage formats and memory efficient graph structures reduces overhead. Profiling ingestion and query latency helps identify bottlenecks in preprocessing, indexing, or retrieval. Proper scaling ensures that the system can handle growth without degrading performance.
+    </p>
+</div>
+
+<!-- 20 -->
+<div class="question">
+    <h2>20. Your new embedding model has different dimensions from the existing vectors in production. How do you handle the mismatch?</h2>
+    <p>
+        Dimensional mismatch requires re embedding the corpus or maintaining dual indexes during migration. Some systems use projection layers to map new embeddings into the old dimensional space, though this may reduce quality. A phased rollout allows testing the new model without disrupting production search. Ensuring consistency across all stored vectors is essential because mixing dimensions breaks similarity metrics and ANN indexing structures.
+    </p>
+</div>
+
+<!-- 21 -->
+<div class="question">
+    <h2>21. Your vector search returns irrelevant results despite high similarity scores. How do you fix it?</h2>
+    <p>
+        Irrelevant results often indicate issues with embedding quality, similarity metrics, or index configuration. Re evaluating the embedding model may reveal weaknesses in domain representation. Adjusting similarity metrics or switching from dot product to cosine similarity can improve ranking behavior. Metadata filtering helps constrain search to relevant subsets. Monitoring retrieval patterns and analyzing failure cases guides improvements to both embeddings and indexing.
+    </p>
+</div>
+
+<!-- 22 -->
+<div class="question">
+    <h2>22. You deployed a new embedding model, and search quality crashed overnight. How do you handle embedding drift?</h2>
+    <p>
+        Sudden quality degradation indicates that the new model produces embeddings that differ significantly from the previous version. Handling drift requires comparing similarity distributions, evaluating retrieval accuracy, and possibly rolling back to the previous model. Dual indexing allows gradual migration while maintaining stability. Re embedding the corpus ensures consistency but may require significant compute. Careful monitoring and staged deployment prevent future drift related failures.
+    </p>
+</div>
+
+<!-- 23 -->
+<div class="question">
+    <h2>23. Your semantic search fails for short queries. How do you improve it?</h2>
+    <p>
+        Short queries often lack context, making embeddings less informative. Query expansion techniques add related terms or generate synthetic context to improve retrieval. Using models trained specifically for short text improves representation quality. Hybrid search combines keyword precision with semantic similarity to handle sparse queries. Monitoring performance on short queries helps refine model selection and retrieval strategy.
+    </p>
+</div>
+
+</body>
+</html>

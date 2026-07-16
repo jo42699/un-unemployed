@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LLM Evaluation and Testing Questions</title>
+    <link rel="stylesheet" href="./nav.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f7f7f7;
+            color: #222;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            color: #333;
+        }
+
+        .question {
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            margin-right: 70px;
+        }
+
+        .question h2 {
+            font-size: 1.1rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .question p {
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+<br>
+<br>
+
+
+
+    <h1>Evaluation and Testing for LLMs and AI Agents</h1>
+
+    <!-- 1 -->
+    <div class="question">
+        <h2>1. What is fine-tuning, and when should you fine-tune an LLM?</h2>
+        <p>
+            Fine-tuning is the process of continuing training on a pretrained language model using a smaller dataset that reflects a specific domain or task. The model starts from general linguistic and reasoning capabilities learned during large scale pretraining, and fine-tuning adjusts its internal representations so that it better captures domain specific terminology, patterns, and constraints. This usually involves supervised learning on labeled examples such as instructions and responses, or preference based optimization where the model is guided toward outputs that align with human judgments. You should fine-tune when prompt engineering alone cannot reliably produce the behavior you need, when the domain vocabulary is highly technical or niche, or when strict formatting, safety, and policy adherence must be baked into the model rather than enforced externally. Fine-tuning also reduces reliance on long, brittle prompts because the desired behavior is encoded directly in the parameters, which improves latency, robustness, and consistency across diverse inputs.
+        </p>
+    </div>
+
+    <div class="section-title">Core Evaluation Concepts</div>
+
+    <!-- 2 -->
+    <div class="question">
+        <h2>2. What is evaluation-driven development for AI applications?</h2>
+        <p>
+            Evaluation-driven development is a methodology where you design, build, and iterate on AI applications around a well defined evaluation pipeline rather than treating evaluation as a final, one time step. You begin by specifying target behaviors, failure modes, and success criteria, then construct datasets and metrics that capture these requirements in a measurable way. Every change to prompts, model versions, or system architecture is validated against this evaluation suite so that regressions are detected early and improvements are quantified rather than judged informally. This approach encourages tight feedback loops, where developers run evaluations after each meaningful change and use the results to guide further experimentation. It also promotes alignment between product goals and technical work because the evaluation artifacts become a living specification of what “good” looks like for the application.
+        </p>
+    </div>
+
+    <!-- 3 -->
+    <div class="question">
+        <h2>3. How do you evaluate LLM outputs? What metrics do you use?</h2>
+        <p>
+            Evaluating LLM outputs involves combining automatic metrics, structured human review, and task specific checks to capture both surface quality and deeper correctness. For generative tasks such as summarization or translation, you can use overlap based metrics like BLEU and ROUGE, embedding based metrics like BERTScore, and model based judges that score relevance, coherence, and faithfulness. For code generation or math reasoning, you often rely on exact match, unit tests, or program execution to determine whether the output satisfies the specification. Safety and policy adherence require separate evaluation dimensions, including toxicity scores, jailbreak detection, and manual audits of edge cases. In practice, you define a metric set that reflects your application goals, then aggregate results across a curated dataset to obtain a holistic view of performance rather than relying on a single number.
+        </p>
+    </div>
+
+    <!-- 4 -->
+    <div class="question">
+        <h2>4. Explain BLEU, ROUGE, and BERTScore. When would you use each?</h2>
+        <p>
+            BLEU is an n-gram precision based metric originally designed for machine translation that measures how many n-grams in the candidate output appear in one or more reference texts, with a brevity penalty to discourage overly short outputs. It works well when there is a relatively narrow set of acceptable phrasings and the task emphasizes literal correspondence to a reference, such as translation benchmarks. ROUGE is a family of recall oriented metrics that count overlapping n-grams, longest common subsequences, or skip bigrams between candidate and reference, which makes it more suitable for summarization where capturing key content is more important than exact wording. BERTScore uses contextual embeddings from a pretrained transformer to compute similarity between tokens in candidate and reference, allowing it to recognize semantically similar paraphrases even when surface forms differ significantly. You would choose BLEU or ROUGE for traditional NLP benchmarks with fixed references, and prefer BERTScore when semantic equivalence matters more than exact lexical overlap, especially in open ended generation tasks.
+        </p>
+    </div>
+
+    <!-- 5 -->
+    <div class="question">
+        <h2>5. What is G-Eval, and how does it use LLMs for evaluation?</h2>
+        <p>
+            G-Eval is an evaluation approach where a large language model is used as an automatic judge that scores or ranks outputs according to a rubric expressed in natural language. Instead of relying solely on token overlap metrics, you prompt the evaluator model with the task description, the input, the candidate output, and optionally a reference, then ask it to assign a score or label for dimensions such as correctness, coherence, style, or safety. The evaluator can also provide explanations for its scores, which helps diagnose failure modes and guide improvements. To make G-Eval reliable, you design structured prompts, calibrate scoring scales, and often aggregate multiple evaluations through sampling or ensembling to reduce variance. This technique is powerful for complex tasks where traditional metrics are weak, but it requires careful validation against human judgments to ensure that the evaluator model’s biases do not distort the results.
+        </p>
+    </div>
+
+    <!-- 6 -->
+    <div class="question">
+        <h2>6. What is LLM-as-a-judge evaluation, and what are its limitations?</h2>
+        <p>
+            LLM-as-a-judge evaluation is the practice of using a language model to automatically assess the quality of other model outputs, typically by scoring them on criteria such as relevance, accuracy, style, or safety. You construct prompts that describe the evaluation task and ask the judge model to compare candidates, assign ratings, or choose the best response among several options. This can dramatically speed up experimentation because you can evaluate large datasets without human annotators for every iteration. However, the approach has important limitations. The judge model may share biases with the system under test, leading to overestimation of performance or blind spots in safety. It can hallucinate or misinterpret domain specific content, especially in technical or low resource languages. Its scores may be sensitive to prompt wording and sampling parameters, which introduces instability. For high stakes applications, LLM-as-a-judge should be treated as a complement to human evaluation and rigorous metrics, not a replacement.
+        </p>
+    </div>
+
+    <!-- 7 -->
+    <div class="question">
+        <h2>7. How do you conduct human evaluation for AI systems?</h2>
+        <p>
+            Human evaluation involves recruiting qualified annotators, defining clear guidelines, and designing tasks that elicit reliable judgments about model behavior. You start by specifying evaluation dimensions such as correctness, usefulness, fluency, safety, and adherence to instructions, then translate these into rating scales or comparative judgments. Annotators are trained on examples and edge cases so they understand the criteria and can apply them consistently. To reduce bias, you randomize the order of outputs, anonymize model identities, and often use pairwise comparisons rather than absolute scores. You also measure inter annotator agreement to ensure that the evaluation is stable and adjust guidelines if disagreement is high. Finally, you aggregate results across annotators and items, analyze patterns of failure, and feed these insights back into model and prompt design.
+        </p>
+    </div>
+
+    <!-- 8 -->
+    <div class="question">
+        <h2>8. What is red teaming, and how do you red team an LLM application?</h2>
+        <p>
+            Red teaming is a structured process where specialists actively try to break or exploit an AI system by generating adversarial inputs that expose safety, robustness, or policy weaknesses. For an LLM application, you begin by mapping out potential risk areas such as harmful content, privacy leaks, jailbreaks, and misuse scenarios. Red teamers then craft prompts that push the system toward these boundaries, including indirect instructions, multi step attacks, and obfuscated queries. You log and categorize failures, identify patterns in how the model bypasses safeguards, and use these findings to refine safety policies, prompt defenses, and model training. Effective red teaming is iterative and collaborative, often involving domain experts in security, safety, and the application’s field, and it becomes part of the pre launch and ongoing evaluation process rather than a one time exercise.
+        </p>
+    </div>
+
+    <!-- 9 -->
+    <div class="question">
+        <h2>9. How do you detect and measure hallucinations in LLM outputs?</h2>
+        <p>
+            Detecting hallucinations requires comparing model outputs against trusted sources or ground truth and identifying statements that are unsupported, incorrect, or fabricated. One approach is to construct evaluation datasets where answers can be checked automatically, such as factual QA with known labels or code generation with executable tests. Another is to use retrieval augmented setups where the model’s output is cross checked against the retrieved documents, and any claims not grounded in those documents are flagged. You can also employ secondary models or classifiers trained to detect hallucination patterns, for example by scoring factual consistency or contradiction. Measurement involves computing rates of hallucination per task, per domain, and per prompt style, and analyzing which input types trigger the highest risk. These insights guide changes in system design, such as stronger retrieval, more conservative generation, or explicit uncertainty handling.
+        </p>
+    </div>
+
+    <!-- 10 -->
+    <div class="question">
+        <h2>10. What is adversarial testing for AI systems?</h2>
+        <p>
+            Adversarial testing is the practice of evaluating AI systems using inputs that are intentionally designed to cause failures, rather than relying only on typical user data. For LLMs, this includes prompts that exploit ambiguity, push safety boundaries, use obfuscated or multilingual content, or chain instructions in ways that bypass guardrails. In traditional ML, adversarial examples might involve small perturbations to images or signals that cause misclassification. The goal is to reveal vulnerabilities that would not appear under standard evaluation and to understand how the system behaves under stress. You build adversarial test suites, run them regularly, and treat discovered weaknesses as bugs that must be mitigated through model improvements, better preprocessing, or stronger safety layers.
+        </p>
+    </div>
+
+    <!-- 11 -->
+    <div class="question">
+        <h2>11. How do you build a regression test suite for AI applications?</h2>
+        <p>
+            A regression test suite for AI applications is a curated collection of inputs and expected behaviors that you run after every significant change to ensure that previously solved problems remain solved. You start by collecting examples from production incidents, red teaming, and past evaluations that represent important edge cases and typical user scenarios. For each item, you define acceptance criteria, which might be exact outputs, ranges of scores, or qualitative judgments encoded as labels. The suite is versioned and maintained as the application evolves, with new cases added when new failure modes are discovered. When you upgrade a model, change prompts, or modify system architecture, you run the regression suite and compare results to prior baselines. Any degradation triggers investigation before deployment, which stabilizes the product and builds confidence in iterative improvements.
+        </p>
+    </div>
+
+    <!-- 12 -->
+    <div class="question">
+        <h2>12. What are benchmark suites (MMLU, HumanEval, GSM8K), and how do you interpret them?</h2>
+        <p>
+            Benchmark suites like MMLU, HumanEval, and GSM8K are standardized collections of tasks designed to measure specific capabilities of language models. MMLU focuses on multi task language understanding across many academic and professional domains, using multiple choice questions to test knowledge and reasoning. HumanEval evaluates code generation by asking models to complete Python functions and then running unit tests to check correctness. GSM8K measures grade school math problem solving through free form answers that require multi step reasoning. When interpreting these benchmarks, you look at overall scores and per category breakdowns to understand strengths and weaknesses, but you also recognize that they represent narrow slices of real world usage. High benchmark performance suggests strong underlying capabilities, yet application specific evaluation is still necessary because deployment contexts often involve different distributions, constraints, and safety requirements.
+        </p>
+    </div>
+
+    <!-- 13 -->
+    <div class="question">
+        <h2>13. How do you evaluate a RAG system end-to-end?</h2>
+        <p>
+            Evaluating a retrieval augmented generation (RAG) system end to end requires assessing both the retrieval component and the generation component, as well as their interaction. You begin by measuring retrieval quality using metrics like recall at k, precision, and relevance judgments from humans or models, ensuring that the system surfaces documents that truly contain the needed information. Then you evaluate the generated answers for factual correctness, faithfulness to the retrieved context, and usefulness to the user. This often involves specialized metrics for groundedness, where you check whether each claim in the answer can be supported by the retrieved passages. You also test robustness to noisy or partially relevant retrieval results, latency under load, and behavior when retrieval fails. A comprehensive evaluation combines offline datasets with live traffic analysis so that you capture both controlled performance and real world behavior.
+        </p>
+    </div>
+
+    <!-- 14 -->
+    <div class="question">
+        <h2>14. How do you evaluate the quality of AI agents?</h2>
+        <p>
+            Evaluating AI agents involves measuring how well they achieve goals through sequences of actions, not just the quality of individual responses. You define tasks that require planning, tool use, and interaction with environments such as APIs, databases, or user interfaces. For each task, you track success rates, time to completion, number of steps, and error recovery behavior. You also examine qualitative aspects like whether the agent explains its actions, handles ambiguity gracefully, and respects safety and policy constraints while acting. Simulation environments and synthetic tasks can provide scalable evaluation, but you should also test agents on realistic workflows that mirror production usage. Over time, you build agent specific benchmarks and logs that reveal common failure patterns, which guide improvements in planning algorithms, tool integration, and prompt design.
+        </p>
+    </div>
+
+    <!-- 15 -->
+    <div class="question">
+        <h2>15. What is the difference between offline and online evaluation for AI systems?</h2>
+        <p>
+            Offline evaluation uses static datasets and controlled experiments to measure model performance before deployment or outside of live traffic. It allows reproducible comparisons between models and prompts, and it is essential for early development and safety checks. Online evaluation, by contrast, measures behavior on real user interactions or live simulations, often using metrics like click through rate, task completion, or user satisfaction. Online methods include A/B testing, interleaving, and bandit algorithms that compare variants in production. The key difference is that offline evaluation can be more precise and interpretable but may not fully capture real world distributions and user behavior, while online evaluation reflects actual impact but is noisier and subject to external factors. A mature AI system uses both, with offline evaluation gating changes and online evaluation validating them in practice.
+        </p>
+    </div>
+
+    <!-- 16 -->
+    <div class="question">
+        <h2>16. How do you measure factual consistency in LLM outputs?</h2>
+        <p>
+            Measuring factual consistency involves checking whether the statements in an LLM output align with trusted sources or provided context. In grounded generation, you can compare each claim against retrieved documents and mark it as supported, unsupported, or contradicted. Automated methods use information extraction and entailment models to detect contradictions or hallucinations relative to the source text. For open domain tasks, you may rely on curated knowledge bases or external search to verify facts, though this is more complex. Human annotators can also label outputs for factuality, especially in high stakes domains like medicine or law. Aggregating these judgments into metrics such as factual accuracy rate or hallucination rate gives you a quantitative view of consistency, which you track across model versions and prompt designs.
+        </p>
+    </div>
+
+    <!-- 17 -->
+    <div class="question">
+        <h2>17. How do you evaluate multi-turn conversation quality?</h2>
+        <p>
+            Evaluating multi turn conversation quality requires looking beyond single responses to the overall dialogue flow. You assess whether the system maintains context, remembers prior turns, and responds coherently to evolving user goals. Metrics can include turn level satisfaction, conversation length before dropout, and rates of misunderstandings or corrections. Human evaluators often rate conversations on dimensions such as helpfulness, empathy, clarity, and consistency, using transcripts that capture entire sessions. You also analyze specific phenomena like topic drift, repetition, and failure to follow up on user cues. For more automated approaches, you can use LLM judges that score conversations holistically, but these should be calibrated against human ratings. The goal is to ensure that the system behaves like a competent partner over time, not just a good single turn responder.
+        </p>
+    </div>
+
+    <!-- 18 -->
+    <div class="question">
+        <h2>18. What is the role of golden datasets in AI evaluation?</h2>
+        <p>
+            Golden datasets are carefully curated collections of examples with high quality labels or reference outputs that serve as authoritative benchmarks for evaluation. They are often created by domain experts and undergo multiple rounds of review to ensure correctness and coverage of important scenarios. In AI systems, golden sets are used to validate model changes, calibrate automatic metrics, and align LLM judge behavior with human expectations. Because they are stable and well understood, they provide a reliable baseline for tracking progress over time. However, they must be updated periodically to reflect new requirements and avoid overfitting, and they should be complemented by broader datasets that capture the diversity of real world usage.
+        </p>
+    </div>
+
+    <!-- 19 -->
+    <div class="question">
+        <h2>19. How do you implement continuous evaluation for production AI systems?</h2>
+        <p>
+            Continuous evaluation means integrating monitoring and testing into the production lifecycle so that model performance and safety are tracked over time. You set up pipelines that sample live traffic, anonymize and log interactions, and periodically run them through evaluation workflows. These workflows can include automatic metrics, LLM judges, and targeted human review for high risk segments. You also schedule regular runs of offline benchmarks and regression suites whenever you deploy new models or prompts. Dashboards and alerts help detect drifts in quality, changes in user behavior, or emerging failure modes. Continuous evaluation turns evaluation from a one off event into an ongoing process that supports rapid iteration while maintaining reliability.
+        </p>
+    </div>
+
+    <!-- 20 -->
+    <div class="question">
+        <h2>20. How do you evaluate bias in AI model outputs?</h2>
+        <p>
+            Evaluating bias involves measuring how model outputs differ across groups, attributes, or scenarios in ways that may be unfair or harmful. You design datasets that include diverse demographic attributes, linguistic varieties, and social contexts, then analyze metrics such as error rates, sentiment, or toxicity across subgroups. For classification tasks, you can compute fairness metrics like demographic parity, equalized odds, or equal opportunity. For generative models, you examine stereotypes, differential treatment, and representation quality in outputs. Human experts in ethics and affected communities often review samples to identify subtle forms of bias that metrics might miss. The results inform mitigation strategies such as data balancing, debiasing techniques, and policy filters, and they become part of regular audits for the system.
+        </p>
+    </div>
+
+    <!-- 21 -->
+    <div class="question">
+        <h2>21. How do you compare two models or prompts in a statistically rigorous way?</h2>
+        <p>
+            Comparing models or prompts rigorously requires controlled experiments and statistical tests that account for variance in performance. You run both variants on the same evaluation dataset or in the same online environment, ensuring that inputs are matched and conditions are identical. For offline metrics, you can use paired tests such as bootstrap resampling or significance tests on per item scores to determine whether observed differences are likely to be real rather than noise. In online A/B tests, you randomize users into buckets and track metrics like conversion or satisfaction, then apply statistical methods to estimate confidence intervals and p values. You also consider effect sizes and practical significance, not just statistical significance, to decide whether a change is worth deploying. This disciplined approach avoids overreacting to small or unstable differences.
+        </p>
+    </div>
+
+    <!-- 22 -->
+    <div class="question">
+        <h2>22. How do you evaluate the robustness of an LLM application across input variations?</h2>
+        <p>
+            Evaluating robustness means testing how the application behaves under a wide range of input variations, including paraphrases, typos, different languages, and adversarial prompts. You construct or generate datasets that systematically vary inputs while preserving underlying intent, then measure whether outputs remain correct, safe, and consistent. Techniques like data augmentation, fuzzing, and synthetic perturbations help explore the input space. You also analyze sensitivity to changes in context length, formatting, and user style. Robustness evaluation reveals brittle behaviors, such as over reliance on specific keywords or failure under noisy conditions, which you can address through better prompts, training data, or architectural changes like retrieval and tool use.
+        </p>
+    </div>
+
+    <!-- 23 -->
+    <div class="question">
+        <h2>23. What are the key differences between evaluating traditional ML vs LLM applications?</h2>
+        <p>
+            Traditional ML evaluation often focuses on well defined tasks with structured outputs, such as classification or regression, using metrics like accuracy, precision, recall, and mean squared error. Datasets are typically fixed, labels are clear, and performance can be summarized with a small set of numbers. LLM applications, in contrast, involve open ended generation, multi turn interaction, and complex safety considerations. Outputs may have many acceptable forms, and quality depends on semantics, style, and context. Evaluation therefore relies more on composite metrics, human judgments, and task specific criteria. Safety, bias, and hallucination become central concerns alongside raw capability. As a result, evaluation pipelines for LLMs are more elaborate and often include LLM judges, red teaming, and continuous monitoring in addition to traditional metrics.
+        </p>
+    </div>
+
+    <!-- 24 -->
+    <div class="question">
+        <h2>24. How do you set up an evaluation framework from scratch for a new LLM application?</h2>
+        <p>
+            Setting up an evaluation framework starts with clarifying the application’s goals, users, and risks. You define what success looks like in terms of correctness, usefulness, safety, and user experience, then translate these into measurable dimensions. Next, you collect or create datasets that represent typical and edge case scenarios, including golden sets for high confidence evaluation and broader sets for coverage. You choose metrics and methods for each dimension, combining automatic scores, LLM judges, and human review where appropriate. You implement tooling to run evaluations reproducibly, store results, and compare variants. Finally, you integrate the framework into the development workflow so that every change to models, prompts, or system design is evaluated before deployment and monitored afterward. Over time, you refine the framework as you learn more about real world behavior.
+        </p>
+    </div>
+
+    <!-- 25 -->
+    <div class="question">
+        <h2>25. Your model passes one fairness metric but fails another. How do you handle conflicting audit results?</h2>
+        <p>
+            Conflicting fairness metrics indicate that different definitions of fairness are in tension, which is common in practice. You begin by analyzing what each metric represents and which stakeholders or regulatory requirements it aligns with. For example, demographic parity and equalized odds may conflict when base rates differ across groups. You engage with legal, ethical, and domain experts to determine which fairness criteria are most appropriate for the application and context. Then you explore mitigation strategies that balance trade offs, such as adjusting thresholds, reweighting data, or using constrained optimization. You document the rationale for chosen metrics and decisions, communicate transparently with stakeholders, and continue monitoring multiple fairness dimensions over time rather than optimizing a single number.
+        </p>
+    </div>
+
+    <!-- 26 -->
+    <div class="question">
+        <h2>26. Your model was fair at deployment, but became biased 6 months later. How do you monitor continuously?</h2>
+        <p>
+            Bias drift over time can result from changes in user populations, input distributions, or external conditions. To monitor continuously, you set up pipelines that sample production data, infer or collect relevant attributes in privacy preserving ways, and compute fairness metrics regularly. You compare current metrics to historical baselines and trigger alerts when deviations exceed predefined thresholds. Periodic audits with human reviewers help validate automated signals and uncover subtle issues. When drift is detected, you investigate root causes, which may include data shifts, model updates, or changes in downstream usage. Mitigation can involve retraining with updated data, adjusting policies, or adding safeguards. Continuous monitoring ensures that fairness is treated as an ongoing responsibility rather than a one time certification.
+        </p>
+    </div>
+
+    <!-- 27 -->
+    <div class="question">
+        <h2>27. An external auditor cannot reproduce your model's results. How do you ensure audit reproducibility?</h2>
+        <p>
+            Ensuring audit reproducibility requires careful documentation and version control for models, data, and evaluation procedures. You provide auditors with detailed descriptions of training data sources, preprocessing steps, model architectures, and hyperparameters, as well as the exact versions used in deployment. Evaluation datasets and scripts should be shared or made accessible under appropriate governance, with clear instructions on how to run them. You also record random seeds, configuration files, and environment details so that stochastic elements can be controlled. If proprietary constraints limit full sharing, you can offer controlled environments or APIs where auditors can run tests and verify behavior. Transparent processes and technical rigor build trust and make it possible for independent parties to confirm your claims about performance and fairness.
+        </p>
+    </div>
+
+    <!-- 28 -->
+    <div class="question">
+        <h2>28. How do you structure red teaming for an LLM chatbot before launch?</h2>
+        <p>
+            Structuring red teaming for a chatbot starts with a risk assessment that identifies potential harms such as unsafe advice, harassment, privacy leaks, and policy violations. You define scenarios and personas that represent different user types, including malicious actors and vulnerable users. Red teamers then design campaigns of prompts that probe these risks, using both direct and indirect strategies, multilingual content, and long conversations. You organize the effort into phases, beginning with broad exploration and moving toward targeted testing of known weaknesses. Findings are logged in a structured way, with examples, severity ratings, and suggested mitigations. The chatbot’s safety mechanisms, prompts, and policies are iteratively improved based on these results, and a final red teaming pass is conducted before launch to verify that critical issues have been addressed.
+        </p>
+    </div>
+
+    <!-- 29 -->
+    <div class="question">
+        <h2>29. How do you red team a multimodal model where text-only safety tests miss cross-modal attacks?</h2>
+        <p>
+            Red teaming a multimodal model requires designing attacks that exploit interactions between modalities, such as images plus text or audio plus text. You consider scenarios where harmful content is hidden in one modality while the other appears benign, for example instructions embedded in images or adversarial perturbations that change model perception. Red teamers craft inputs that combine subtle visual cues with innocuous text, or vice versa, to see whether the model’s safety filters detect the composite risk. You also test how the model handles mismatched or conflicting information across modalities, which can lead to confusing or unsafe outputs. Evaluation pipelines must ingest and log all modalities, and safety policies should be extended to cover multimodal patterns. Insights from these tests inform improvements in multimodal encoders, cross modal consistency checks, and safety classifiers that operate on joint representations.
+        </p>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</body>
+</html>

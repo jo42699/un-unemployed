@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>AI Infrastructure and Scalability</title>
+<link rel="stylesheet" href="./nav.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.6;
+    }
+    .question {
+        background: #fff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-right: 70px;
+    }
+    h2 {
+        margin-top: 0;
+        font-size: 20px;
+        color: #333;
+    }
+    p {
+        margin: 10px 0 0;
+        color: #444;
+    }
+</style>
+</head>
+<body>
+
+
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="./1314004-Regular-Show-HD-Wallpaper.jpg" alt="Logo">
+        <span>Employed</span>
+    </a>
+
+</nav>
+<br>
+<br>
+<br>
+
+
+<h1 style="text-align: center;">AI Infrastructure and Scalability</h1>
+
+<!-- 1 -->
+<div class="question">
+    <h2>1. How do you improve inference speed in production LLM deployments?</h2>
+    <p>
+        Improving inference speed requires optimizing both the model architecture and the serving pipeline. At the model level, techniques such as quantization, pruning, and distillation reduce the number of active parameters and lower compute requirements, allowing faster forward passes. Kernel-level optimizations, including fused attention kernels and memory-efficient attention variants, reduce the number of memory-bound operations that typically dominate transformer inference. On the serving side, continuous batching ensures that GPUs remain saturated even under unpredictable traffic, while KV cache reuse eliminates redundant computation for previously processed tokens. Hardware selection also plays a major role: GPUs with high memory bandwidth and strong tensor core performance accelerate matrix multiplications, which are the dominant operation in transformer inference. End-to-end profiling helps identify bottlenecks such as slow token sampling, inefficient preprocessing, or network transfer delays, enabling targeted improvements across the entire inference stack.
+    </p>
+</div>
+
+<!-- 2 -->
+<div class="question">
+    <h2>2. LLM optimization techniques</h2>
+    <p>
+        LLM optimization spans multiple layers of the stack, from model design to runtime execution. Model-level optimization includes quantization, which reduces numerical precision to shrink memory usage and accelerate computation, and pruning, which removes redundant weights to streamline forward passes. Low-rank adaptation and weight factorization reduce the dimensionality of internal representations, improving efficiency without major quality loss. Kernel-level optimization focuses on improving the efficiency of core operations such as GEMM and attention, often through fused kernels that minimize memory transfers. System-level optimization includes batching strategies, KV cache management, parallelism, and specialized runtimes that reduce Python overhead and maximize GPU utilization. When combined, these techniques significantly reduce latency, improve throughput, and lower operational cost.
+    </p>
+</div>
+
+<!-- 3 -->
+<div class="question">
+    <h2>3. How do you select GPUs for LLM inference?</h2>
+    <p>
+        Selecting GPUs for LLM inference requires balancing memory capacity, compute throughput, and interconnect bandwidth. Large models often require 40–80 GB of VRAM to run efficiently without offloading, making GPUs such as the A100 or H100 suitable for high-end deployments. Memory bandwidth is critical because attention operations involve frequent movement of large tensors; GPUs with higher bandwidth reduce bottlenecks in these operations. Tensor core performance determines how quickly FP16, BF16, or INT8 matrix multiplications can be executed, directly affecting token generation speed. For quantized models, GPUs with strong support for low-precision arithmetic provide substantial speedups. Multi-GPU deployments require fast interconnects such as NVLink to avoid communication overhead during tensor parallelism or sharding. The final choice depends on workload characteristics, latency requirements, and budget constraints.
+    </p>
+</div>
+
+<!-- 4 -->
+<div class="question">
+    <h2>4. What is model parallelism vs data parallelism in distributed training?</h2>
+    <p>
+        Model parallelism divides different parts of a single model across multiple GPUs, allowing extremely large architectures to be trained or served even when they exceed the memory capacity of a single device. Each GPU processes a portion of the forward and backward pass, and intermediate activations are exchanged between devices. Data parallelism, by contrast, replicates the entire model across multiple GPUs and distributes different batches of data to each replica. After each training step, gradients are synchronized to ensure consistent parameter updates. Model parallelism solves memory limitations, while data parallelism increases throughput by processing more samples in parallel. In large-scale training, both techniques are often combined to achieve optimal performance.
+    </p>
+</div>
+
+<!-- 5 -->
+<div class="question">
+    <h2>5. What is tensor parallelism, and how does it help serve large models?</h2>
+    <p>
+        Tensor parallelism splits individual tensor operations across multiple GPUs. Instead of assigning entire layers to different devices, it divides matrix multiplications and attention computations so that each GPU handles a slice of the operation. This allows extremely large models to be served without exceeding per-GPU memory limits, since no single device must store full intermediate tensors. Synchronization occurs after each operation to combine partial results, requiring high-bandwidth interconnects to avoid communication bottlenecks. Tensor parallelism is widely used in serving architectures for models exceeding tens of billions of parameters, enabling efficient inference at scale.
+    </p>
+</div>
+
+<!-- 6 -->
+<div class="question">
+    <h2>6. What is pipeline parallelism?</h2>
+    <p>
+        Pipeline parallelism partitions a model into sequential stages, each hosted on a different GPU. Micro-batches flow through these stages so that multiple parts of the model operate concurrently, reducing idle time and increasing throughput. The challenge lies in minimizing pipeline bubbles, which occur when stages wait for data due to uneven micro-batch sizes or imbalanced stage workloads. Careful tuning of micro-batch size and stage boundaries is required to achieve optimal performance. Pipeline parallelism is particularly effective for extremely deep models where layer-level partitioning provides natural stage boundaries.
+    </p>
+</div>
+
+<!-- 7 -->
+<div class="question">
+    <h2>7. How does continuous batching improve LLM inference throughput?</h2>
+    <p>
+        Continuous batching dynamically merges incoming requests into active batches without waiting for fixed batch boundaries. As tokens are generated, new requests can join the batch, ensuring that GPU compute units remain fully utilized. This approach eliminates idle cycles that occur in static batching systems and significantly improves throughput under unpredictable traffic patterns. Continuous batching is especially effective for chat-style workloads, where request lengths vary widely and traditional batching strategies struggle to maintain high utilization.
+    </p>
+</div>
+
+<!-- 8 -->
+<div class="question">
+    <h2>8. What is speculative decoding, and how does it speed up inference?</h2>
+    <p>
+        Speculative decoding accelerates inference by using a smaller draft model to generate multiple candidate tokens quickly. The larger target model then verifies these tokens in parallel, accepting or rejecting them based on its own predictions. Because the draft model is faster, the overall token generation rate increases even though the target model still ensures output quality. This technique reduces the number of expensive forward passes required from the main model and is particularly effective when the draft model closely approximates the target model’s behavior.
+    </p>
+</div>
+
+<!-- 9 -->
+<div class="question">
+    <h2>9. What is KV cache, and how do you manage memory for it?</h2>
+    <p>
+        The KV cache stores key and value tensors generated during attention so they can be reused for subsequent tokens, eliminating the need to recompute attention over previously processed tokens. Managing KV cache memory requires allocating contiguous blocks to avoid fragmentation, evicting stale sequences when memory is constrained, and compressing cache entries when possible. Because cache size grows linearly with sequence length, long-context models must implement efficient eviction and paging strategies. Proper KV cache management is essential for maintaining low latency and supporting large numbers of concurrent sequences.
+    </p>
+</div>
+
+<!-- 10 -->
+<div class="question">
+    <h2>10. What is Paged Attention?</h2>
+    <p>
+        Paged Attention organizes KV cache memory into fixed-size pages, allowing the runtime to manage memory more efficiently. Instead of allocating large contiguous buffers, pages can be reused, swapped, or compacted as needed. This reduces fragmentation and enables serving many concurrent sequences without exhausting GPU memory. Paged Attention also improves locality of reference, reducing the overhead of accessing KV tensors during attention computation. It is a foundational technique in modern high-throughput inference engines.
+    </p>
+</div>
+
+<!-- 11 -->
+<div class="question">
+    <h2>11. How does GGUF work?</h2>
+    <p>
+        GGUF is a binary model format designed for efficient inference on CPU and GPU runtimes. It stores weights in compact quantized formats such as INT4 and INT8, reducing memory usage and improving load times. The format organizes tensors in a layout optimized for sequential reading, minimizing disk I/O overhead during initialization. GGUF also includes metadata for tokenizer configuration, architecture details, and quantization parameters, ensuring compatibility across runtimes. Its compact size and efficient structure make it ideal for edge devices and lightweight inference environments.
+    </p>
+</div>
+
+<!-- 12 -->
+<div class="question">
+    <h2>12. How do you optimize inference for edge and mobile deployment?</h2>
+    <p>
+        Optimizing inference for edge and mobile deployment requires minimizing model size and compute requirements. Techniques such as aggressive quantization, operator fusion, and pruning reduce the number of operations required per token. Mobile runtimes rely on specialized hardware accelerators such as NPUs and DSPs, so models must be converted into formats compatible with these units. Latency constraints require minimizing memory transfers and using lightweight attention mechanisms that reduce quadratic complexity. Careful profiling ensures that bottlenecks such as memory bandwidth limitations or inefficient kernel implementations are addressed.
+    </p>
+</div>
+
+<!-- 13 -->
+<div class="question">
+    <h2>13. What is model quantization (INT8, INT4, FP16, BF16), and how does it affect quality?</h2>
+    <p>
+        Quantization reduces numerical precision to shrink model size and accelerate computation. FP16 and BF16 maintain high accuracy while reducing memory usage, making them suitable for high-performance inference. INT8 provides strong speedups with minimal quality loss for most tasks, especially when combined with calibration techniques. INT4 offers significant compression but may degrade reasoning or factual accuracy due to reduced representational capacity. Quantization-aware training and advanced calibration methods help preserve quality by teaching the model to operate effectively under reduced precision.
+    </p>
+</div>
+
+<!-- 14 -->
+<div class="question">
+    <h2>14. How do you implement auto-scaling for AI workloads?</h2>
+    <p>
+        Auto-scaling monitors metrics such as request rate, GPU utilization, and queue length to determine when to add or remove compute instances. Horizontal scaling adds more replicas to handle increased traffic, while vertical scaling increases GPU power or memory capacity. Policies must consider warm-up time for model loading, which can be substantial for large models, and avoid oscillations caused by rapid scale changes. Predictive scaling uses historical traffic patterns to anticipate demand spikes, reducing latency during peak periods.
+    </p>
+</div>
+
+<!-- 15 -->
+<div class="question">
+    <h2>15. What is the role of load balancing in AI serving infrastructure?</h2>
+    <p>
+        Load balancing distributes incoming requests across multiple model replicas to prevent overload and ensure consistent performance. Strategies include round-robin, least-load, and cost-aware routing, each optimized for different workload characteristics. Effective load balancing reduces latency, improves reliability, and ensures that no single replica becomes a bottleneck. In multi-model deployments, load balancing also routes requests based on complexity, directing simple queries to lightweight models and complex queries to larger models.
+    </p>
+</div>
+
+<!-- 16 -->
+<div class="question">
+    <h2>16. How do you manage GPU memory for serving multiple models?</h2>
+    <p>
+        Managing GPU memory for multiple models requires careful partitioning and dynamic allocation strategies. Static allocation reserves fixed memory blocks for each model, ensuring predictable performance but reducing flexibility. Dynamic memory pools allow models to request memory as needed, improving utilization but requiring robust eviction policies. Offloading infrequently used models to CPU or disk frees GPU memory for high-demand workloads. KV cache sharing and model unloading policies help prevent memory exhaustion, especially in multi-tenant environments.
+    </p>
+</div>
+
+<!-- 17 -->
+<div class="question">
+    <h2>17. What is model sharding, and when would you use it?</h2>
+    <p>
+        Model sharding splits a model into multiple pieces stored across GPUs or nodes, enabling inference or training when the model exceeds the memory capacity of a single device. Sharding requires fast interconnects to synchronize intermediate results and avoid communication bottlenecks. It is commonly used for models above tens of billions of parameters, where tensor parallelism alone is insufficient. Sharding is also useful in distributed inference systems that must serve extremely large models with minimal latency.
+    </p>
+</div>
+
+<!-- 18 -->
+<div class="question">
+    <h2>18. How do you implement request queuing and priority scheduling for AI services?</h2>
+    <p>
+        Request queuing ensures that incoming requests are stored when system capacity is full, preventing overload and maintaining stability. Priority scheduling assigns different importance levels to requests, allowing critical tasks to bypass the queue. Implementations rely on token-based admission control, weighted queues, and deadline-aware scheduling to ensure fairness and responsiveness. These mechanisms stabilize performance during traffic spikes and allow service providers to meet strict latency requirements for high-priority workloads.
+    </p>
+</div>
+
+<!-- 19 -->
+<div class="question">
+    <h2>19. What are the cost trade-offs between self-hosted and API-based AI inference?</h2>
+    <p>
+        Self-hosted inference provides full control over performance, latency, and customization but requires significant upfront investment in GPUs, infrastructure, and ongoing maintenance. API-based inference reduces operational burden and scales automatically but may incur higher per-request costs, especially for high-volume workloads. The choice depends on traffic patterns, latency requirements, regulatory constraints, and budget. Hybrid approaches combine self-hosted inference for predictable workloads with API-based inference for burst capacity.
+    </p>
+</div>
+
+<!-- 20 -->
+<div class="question">
+    <h2>20. How do you handle cold start latency for serverless AI deployments?</h2>
+    <p>
+        Cold start latency occurs when a model instance must be initialized before serving a request, often resulting in delays of several seconds for large models. Mitigation strategies include maintaining warm pools of preloaded models, reducing model size through quantization, and using fast-loading formats such as GGUF. Predictive scaling pre-initializes instances based on traffic patterns, reducing latency during peak periods. Efficient containerization and optimized runtime initialization further reduce cold start overhead.
+    </p>
+</div>
+
+<!-- 21 -->
+<div class="question">
+    <h2>21. How do you implement model caching to reduce redundant computations?</h2>
+    <p>
+        Model caching stores frequently used models or intermediate results in memory to reduce redundant computation. For inference, caching KV tensors or partial forward pass results reduces repeated work for similar requests. Caching also applies to routing decisions, where previous results guide future model selection. Effective caching lowers latency, reduces compute cost, and improves throughput, especially in workloads with repeated queries or predictable patterns.
+    </p>
+</div>
+
+<!-- 22 -->
+<div class="question">
+    <h2>22. What is the difference between synchronous and asynchronous inference, and when do you use each?</h2>
+    <p>
+        Synchronous inference processes requests in real time, returning results immediately. It is suitable for interactive applications such as chatbots, where users expect rapid responses. Asynchronous inference queues requests and processes them later, allowing higher throughput and better batching. It is ideal for background tasks such as document processing or batch analytics. The choice depends on latency requirements, workload characteristics, and system architecture.
+    </p>
+</div>
+
+<!-- 23 -->
+<div class="question">
+    <h2>23. What is FSDP (Fully Sharded Data Parallel), and how does it differ from DeepSpeed ZeRO?</h2>
+    <p>
+        FSDP shards model parameters, gradients, and optimizer states across GPUs, significantly reducing memory usage and enabling training of extremely large models. DeepSpeed ZeRO provides similar benefits but offers multiple stages with different levels of sharding, allowing fine-grained control over memory optimization. FSDP integrates tightly with PyTorch and provides automatic wrapping of model components, while ZeRO includes additional optimizations such as CPU and NVMe offloading. Both techniques improve scalability, but their performance characteristics differ based on workload and hardware configuration.
+    </p>
+</div>
+
+<!-- 24 -->
+<div class="question">
+    <h2>24. How do you monitor and profile LLM inference in production (TTFT, inter-token latency, GPU utilization)?</h2>
+    <p>
+        Monitoring involves tracking metrics such as time-to-first-token, inter-token latency, GPU utilization, and memory consumption. Profiling tools identify bottlenecks in attention kernels, network transfer, and batching logic, enabling targeted optimization. Continuous monitoring ensures stable performance and helps detect regressions after model updates or infrastructure changes. Advanced profiling includes analyzing kernel-level execution traces, memory bandwidth usage, and cache hit rates to understand low-level performance characteristics.
+    </p>
+</div>
+
+<!-- 25 -->
+<div class="question">
+    <h2>25. What is model routing at the infrastructure level, and how do you route requests based on complexity and cost?</h2>
+    <p>
+        Model routing selects the appropriate model for each request based on complexity, latency requirements, and cost constraints. Lightweight models handle simple queries, while larger models handle reasoning-intensive tasks. Routing policies may use heuristics, classifiers, or semantic analysis to determine the best model for each request. This reduces cost while maintaining quality, ensuring that high-performance models are used only when necessary. Advanced routing systems incorporate feedback loops to refine routing decisions over time.
+    </p>
+</div>
+
+</body>
+
+</html>
